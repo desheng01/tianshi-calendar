@@ -1499,7 +1499,7 @@ function openReport(type){
     }
   }
   
-  let hexagram=getHexagram(info.dgS,info.dgB);
+  let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
   let isDeep=(type==='deep');
   
   let subtitle=isDeep?'周易深度择日报告':'标准择日报告';
@@ -1611,7 +1611,7 @@ function openReportFromDetail(){
       let parts=ds.split('-');
       let y=parseInt(parts[0]),m=parseInt(parts[1]),d=parseInt(parts[2]);
       let info=calcDay(y,m,d,'house');
-      let hexagram=getHexagram(info.dgS,info.dgB);
+      let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
       showReportContent(info,y,m,d,hexagram,false);
       return;
     }
@@ -1620,7 +1620,7 @@ function openReportFromDetail(){
   let today=getTodayAlmanac();
   let info=today.info;
   let n=new Date();
-  let hexagram=getHexagram(info.dgS,info.dgB);
+  let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
   showReportContent(info,n.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
 }
 
@@ -1721,7 +1721,7 @@ function showLuxuryReport(){
     y=parseInt(parts[0]);m=parseInt(parts[1]);d=parseInt(parts[2]);
   }
   let info=calcDay(y,m,d,'house');
-  let hexagram=getHexagram(info.dgS,info.dgB);
+  let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
   let shichen=calcShichen(y,m,d);
   
   document.getElementById('rpSubtitle').textContent=info.dateStr+' | 择吉豪华包';
