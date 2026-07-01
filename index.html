@@ -258,6 +258,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Pin
 @media(max-width:640px){.pt{grid-template-columns:1fr 1fr}}
 
 </style>
+<!-- Google Analytics (placeholder - replace G-XXXXXXXXXX with your GA4 ID) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXXXXXXX');
+</script>
 </head>
 <body>
 <header class="h"><div class="logo">天</div><span class="sn">天时</span><span class="st">择吉日 · 顺天时</span><span class="sub">Tianshi · Chinese Calendar &amp; BaZi</span></header>
@@ -1194,6 +1202,7 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 
 
+}catch(e){console.error('Report error:',e)}
 function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
 function copyText(t){
@@ -1543,7 +1552,7 @@ function openReportFromDetail(){
   showReportContent(info,n.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
 }
 
-function showReportContent(info,y,m,d,hexagram,isDeep){
+function showReportContent(info,y,m,d,hexagram,isDeep){try{
   let subtitle=isDeep?'周易深度择日报告':'标准择日报告';
   document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;
   
