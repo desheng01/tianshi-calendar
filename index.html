@@ -261,6 +261,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Pin
 <!-- Google Analytics (placeholder - replace G-XXXXXXXXXX with your GA4 ID) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
+// Global error handler for debugging
+window.onerror = function(msg, url, line, col, error) {
+    console.error("JS Error: " + msg + " at line " + line + ":" + col);
+    return false;
+};
+
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
@@ -386,6 +392,37 @@ gtag('config', 'G-XXXXXXXXXX');
 <div class="card">
 <div class="st">选择适合您的服务</div>
 <div class="pt">
+<div class="pc">
+<div class="pc-name">吉时精选</div>
+<div class="pc-price">$29.99</div>
+<div class="pc-period">一次性</div>
+<div class="pc-desc">在择日基础上，精确到当日最佳时辰。结婚拜堂、搬家入宅皆有讲究。</div>
+<ul class="pc-features">
+<li>最佳时辰推荐</li>
+<li>时辰吉凶详解</li>
+<li>方位择时分析</li>
+<li>PDF彩印</li>
+</ul>
+<button class="pc-btn pb-secondary" onclick="alert('Demo即将上线')">预览</button>
+<div class="pc-notice">支付即将开通</div>
+</div>
+
+<div class="pc">
+<div class="pc-name">全年择日包</div>
+<div class="pc-price">$99.99</div>
+<div class="pc-period">年度</div>
+<div class="pc-desc">一次性获取全年12个月的重要吉日推荐。适合企业、团队、以及经常需要择日的用户。</div>
+<ul class="pc-features">
+<li>12个月吉日清单</li>
+<li>每月最佳吉日</li>
+<li>多事项并行推荐</li>
+<li>邮件推送</li>
+<li>PDF年报</li>
+</ul>
+<button class="pc-btn pb-secondary" onclick="alert('Demo即将上线')">预览</button>
+<div class="pc-notice">支付即将开通</div>
+</div>
+
 <div class="pc pc-featured">
 <div class="pc-name">择日报告</div>
 <div class="pc-price">$9.99</div>
