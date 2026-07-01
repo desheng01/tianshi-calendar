@@ -1359,10 +1359,7 @@ function getHexagram(dayStem,dayBranch){
     if(HEXAGRAMS&&HEXAGRAMS[idx])return HEXAGRAMS[idx];
   }catch(e){}
   return {name:'--',num:'?',desc:'暂无卦象',yi:'--',ji:'--'};
-}
-
-
-// ---- Compatibility Analysis ----
+}// ---- Compatibility Analysis ----
 function computeBaziForDate(y,m,d,h){
   let yg=yGz(y);
   let mg=mGz(y,m,d);
