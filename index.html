@@ -263,7 +263,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Pin
 <script>
 // Global error handler for debugging
 window.onerror = function(msg, url, line, col, error) {
-    console.error("JS Error: " + msg + " at line " + line + ":" + col);
+    var banner = document.createElement('div');
+    banner.id = 'js-error-banner';
+    banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#AF2020;color:#fff;padding:10px 20px;font-size:13px;text-align:center;font-family:sans-serif;';
+    banner.innerHTML = '<strong>JS Error: </strong>' + msg + ' <span style="font-size:11px;opacity:0.8;">(line ' + line + ':' + col + ')</span> <button onclick="this.parentElement.remove()" style="margin-left:10px;background:transparent;border:1px solid rgba(255,255,255,0.5);color:#fff;border-radius:4px;padding:2px 8px;cursor:pointer;">X</button>';
+    if(document.body) document.body.prepend(banner);
+    console.error('JS Error:', msg, 'at', line + ':' + col);
     return false;
 };
 
