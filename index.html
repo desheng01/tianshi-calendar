@@ -1269,7 +1269,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 
-}catch(e){document.getElementById('rpContent').innerHTML='<p style=color:#AF2020>Error: '+e.message+'</p>';console.error(e)}function closeDP(){document.getElementById('dp').className='dp';}
+function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
 function copyText(t){
   navigator.clipboard.writeText('天时 '+t).catch(function(){});
@@ -1618,7 +1618,7 @@ function openReportFromDetail(){
   showReportContent(info,n.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
 }
 
-function showReportContent(info,y,m,d,hexagram,isDeep){try{
+function showReportContent(info,y,m,d,hexagram,isDeep){
   let subtitle=isDeep?'周易深度择日报告':'标准择日报告';
   document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;
   
