@@ -474,7 +474,7 @@ gtag('config', 'G-XXXXXXXXXX');
 <div class="pt">
 
 <div class="pc">
-<div class="pc-name">八字命理报告</div>
+<div class="pc-name">八字命理</div>
 <div class="pc-price">$19.99</div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">完整的八字命理深度分析报告，含五行旺衰、日主性格、事业财运感情解读。</div>
@@ -1779,13 +1779,13 @@ function showLuxuryReport(){
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ---- 八字命理报告预览 ----
+// ---- 八字命理预览 ----
 function showBaziPreview(){
   let n=new Date();
   let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
   let result=computeBazi(y,m,d,-1,'M');
   
-  document.getElementById('rpSubtitle').textContent=result.fourPillars.join(' ')+' | 八字命理报告';
+  document.getElementById('rpSubtitle').textContent=result.fourPillars.join(' ')+' | 八字命理';
   let html='';
   
   html+='<div class="rp-sec"><h2>八字排盘</h2><table><tr><th></th>';
