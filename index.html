@@ -403,10 +403,56 @@ gtag('config', 'G-XXXXXXXXXX');
 <!-- ===== Tab: 服务与价格 ===== -->
 <div class="tab-content" id="tab-price">
 <div class="card">
-<div class="st">择吉系列 &mdash; 选个好日子</div>
+<div class="st">选择适合您的服务</div>
 <div class="pt">
+<div class="pc">
+<div class="pc">
+<div class="pc-name">八字命理报告</div>
+<div class="pc-price">$19.99</div>
+<div class="pc-period">一次性</div>
+<div class="pc-desc">完整的八字命理深度分析报告，含五行旺衰、日主性格、事业财运感情解读。基于真实八字算法。</div>
+<ul class="pc-features">
+<li>完整八字排盘</li>
+<li>五行旺衰分析</li>
+<li>日主性格解读</li>
+<li>事业财运感情</li>
+<li>PDF导出</li>
+</ul>
+<button class="pc-btn pb-secondary" onclick="showTimeDetail()">预览</button>
+<div class="pc-notice">支付即将开通</div>
+</div>
+
+<div class="pc-name">吉时精选</div>
+<div class="pc-price">$29.99</div>
+<div class="pc-period">一次性</div>
+<div class="pc-desc">在择日基础上，精确到当日最佳时辰。结婚拜堂、搬家入宅皆有讲究。</div>
+<ul class="pc-features">
+<li>最佳时辰推荐</li>
+<li>时辰吉凶详解</li>
+<li>方位择时分析</li>
+<li>PDF彩印</li>
+</ul>
+<button class="pc-btn pb-secondary" onclick="showTimeDetail()">预览</button>
+<div class="pc-notice">支付即将开通</div>
+</div>
 
 <div class="pc">
+<div class="pc-name">全年择日包</div>
+<div class="pc-price">$99.99</div>
+<div class="pc-period">年度</div>
+<div class="pc-desc">一次性获取全年12个月的重要吉日推荐。适合企业、团队、以及经常需要择日的用户。</div>
+<ul class="pc-features">
+<li>12个月吉日清单</li>
+<li>每月最佳吉日</li>
+<li>多事项并行推荐</li>
+<li>邮件推送</li>
+<li>PDF年报</li>
+</ul>
+<button class="pc-btn pb-secondary" onclick="showTimeDetail()">预览</button>
+<div class="pc-notice">支付即将开通</div>
+</div>
+
+<div class="pc pc-featured">
 <div class="pc-name">择日报告</div>
 <div class="pc-price">$9.99</div>
 <div class="pc-period">一次性</div>
@@ -423,64 +469,10 @@ gtag('config', 'G-XXXXXXXXXX');
 </div>
 
 <div class="pc">
-<div class="pc-name">吉时精选</div>
-<div class="pc-price">$29.99</div>
-<div class="pc-period">一次性</div>
-<div class="pc-desc">在择日基础上，精确到当日最佳时辰。结婚拜堂、搬家入宅皆有讲究。</div>
-<ul class="pc-features">
-<li>最佳时辰推荐</li>
-<li>时辰吉凶详解</li>
-<li>方位择时分析</li>
-<li>PDF导出</li>
-</ul>
-<button class="pc-btn pb-secondary" onclick="alert('Demo即将上线')">预览</button>
-<div class="pc-notice">支付即将开通</div>
-</div>
-
-<div class="pc pc-featured">
-<div class="pc-name">择吉豪华包</div>
-<div class="pc-price">$88.88</div>
-<div class="pc-period">一次性</div>
-<div class="pc-desc">全套择吉服务，含择日报告+吉时精选+多日对比推荐，一步到位。</div>
-<ul class="pc-features">
-<li>全部择日报告内容</li>
-<li>最佳时辰推荐</li>
-<li>多日对比推荐</li>
-<li>冲煞方位详解</li>
-<li>PDF彩印报告</li>
-</ul>
-<button class="pc-btn pb-primary" onclick="alert('Demo即将上线')">免费预览</button>
-<div class="pc-notice">支付即将开通</div>
-</div>
-
-</div>
-</div>
-
-<div class="card">
-<div class="st">命理系列 &mdash; 了解你的命运</div>
-<div class="pt">
-
-<div class="pc">
-<div class="pc-name">八字命理报告</div>
-<div class="pc-price">$19.99</div>
-<div class="pc-period">一次性</div>
-<div class="pc-desc">完整的八字命理深度分析报告，含五行旺衰、日主性格、事业财运感情解读。</div>
-<ul class="pc-features">
-<li>完整八字排盘</li>
-<li>五行旺衰分析</li>
-<li>日主性格解读</li>
-<li>事业财运感情</li>
-<li>PDF导出</li>
-</ul>
-<button class="pc-btn pb-secondary" onclick="alert('Demo即将上线')">预览</button>
-<div class="pc-notice">支付即将开通</div>
-</div>
-
-<div class="pc pc-featured">
 <div class="pc-name">周易深度报告</div>
-<div class="pc-price">$66.66</div>
+<div class="pc-price">$49.99</div>
 <div class="pc-period">一次性</div>
-<div class="pc-desc">择日报告升级版，加入周易六十四卦当日卦象解读、五行生克推理、方位吉凶解析。</div>
+<div class="pc-desc">择日报告升级版。加入周易六十四卦当日卦象解读、五行生克推理、方位吉凶。</div>
 <ul class="pc-features">
 <li>全部择日报告内容</li>
 <li>周易当日卦象</li>
@@ -508,9 +500,10 @@ gtag('config', 'G-XXXXXXXXXX');
 <button class="pc-btn pb-secondary" onclick="document.getElementById('compatForm').classList.toggle('op')">免费预览</button>
 <div class="pc-notice">支付即将开通</div>
 </div>
+</div>
+</div>
+</div>
 
-</div>
-</div>
 <div class="rp" id="reportPage">
 <div class="rp-close"><button onclick="document.getElementById('reportPage').className='rp'">关闭</button> <button onclick="window.print()">打印 / PDF</button></div>
 <div class="rp-h"><h1>天时 · 择日报告</h1><p id="rpSubtitle">—</p></div>
@@ -1668,4 +1661,146 @@ function showReportContent(info,y,m,d,hexagram,isDeep){
   document.getElementById('rpContent').innerHTML=html;
   document.getElementById('reportPage').className='rp op';
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
-}</script>
+}
+
+// ---- 吉时精选预览 ----
+function showTimeDetail(){
+  let targetDate=new Date();
+  let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,d=targetDate.getDate();
+  let selTd=document.querySelector('#cb td.sel');
+  if(selTd&&selTd.dataset.ds){
+    let parts=selTd.dataset.ds.split('-');
+    y=parseInt(parts[0]);m=parseInt(parts[1]);d=parseInt(parts[2]);
+  }
+  let info=calcDay(y,m,d,'house');
+  let shichen=calcShichen(y,m,d);
+  
+  document.getElementById('rpSubtitle').textContent=info.dateStr+' | 吉时精选';
+  let html='<div class="rp-sec"><h2>基本信息</h2><table>';
+  html+='<tr><td>日期</td><td>'+info.dateStr+' 周'+info.dow+'</td></tr>';
+  html+='<tr><td>农历</td><td>'+info.fl+'</td></tr>';
+  html+='<tr><td>日柱</td><td>'+info.dg+'</td></tr>';
+  html+='<tr><td>建除</td><td>'+info.jc+'</td></tr>';
+  html+='<tr><td>冲煞</td><td>'+info.cs+'</td></tr>';
+  html+='<tr><td>综合</td><td>'+info.r+'('+info.sc+'分)</td></tr>';
+  html+='</table></div>';
+  
+  html+='<div class="rp-sec"><h2>十二时辰吉凶详解</h2><table><tr><th>时辰</th><th>时段</th><th>吉凶</th><th>推荐</th></tr>';
+  shichen.forEach(function(sh){
+    let gd=sh.grade;
+    html+='<tr><td>'+sh.text+'</td><td>'+sh.start+'-'+sh.end+'</td>';
+    html+='<td style="font-weight:600;color:'+(gd==='吉'?'#2A7A3A':'#888')+'">'+gd+'</td>';
+    html+='<td>'+(gd==='吉'?'宜重要活动':'宜休息')+'</td></tr>';
+  });
+  html+='</table><p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">时辰吉凶综合日主五行与地支关系推算。</p></div>';
+  
+  // Best times summary
+  let best=shichen.filter(function(sh){return sh.grade==='吉';});
+  if(best.length>0){
+    html+='<div class="rp-sec"><h2>推荐吉时</h2><p>本日最佳时辰为：'+best.map(function(sh){return sh.name;}).join('、')+'。宜将重要活动安排在这些时段。</p></div>';
+  }
+  
+  document.getElementById('rpContent').innerHTML=html;
+  document.getElementById('reportPage').className='rp op';
+  document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ---- 择吉豪华包预览 ----
+function showLuxuryReport(){
+  let targetDate=new Date();
+  let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,d=targetDate.getDate();
+  let selTd=document.querySelector('#cb td.sel');
+  if(selTd&&selTd.dataset.ds){
+    let parts=selTd.dataset.ds.split('-');
+    y=parseInt(parts[0]);m=parseInt(parts[1]);d=parseInt(parts[2]);
+  }
+  let info=calcDay(y,m,d,'house');
+  let hexagram=getHexagram(info.dgS,info.dgB);
+  let shichen=calcShichen(y,m,d);
+  
+  document.getElementById('rpSubtitle').textContent=info.dateStr+' | 择吉豪华包';
+  let html='';
+  
+  html+='<div class="rp-sec"><h2>基础信息</h2><table>';
+  html+='<tr><td>日期</td><td>'+info.dateStr+' 周'+info.dow+'</td></tr>';
+  html+='<tr><td>农历</td><td>'+info.fl+'</td></tr>';
+  html+='<tr><td>年柱</td><td>'+info.yg+'</td></tr>';
+  html+='<tr><td>月柱(节气)</td><td>'+info.mg+'</td></tr>';
+  html+='<tr><td>日柱</td><td>'+info.dg+'</td></tr>';
+  html+='<tr><td>生肖日</td><td>'+info.sx+'</td></tr>';
+  html+='<tr><td>建除</td><td>'+info.jc+'</td></tr>';
+  html+='<tr><td>廿八宿</td><td>'+info.xiu+'</td></tr>';
+  html+='<tr><td>冲煞</td><td>'+info.cs+'</td></tr>';
+  html+='<tr><td>综合评分</td><td style="font-weight:600;color:'+(info.r==='大吉'?'#AF2020':info.r==='吉'?'#D4A030':'#999')+'">'+info.r+'('+info.sc+'分)</td></tr>';
+  html+='</table></div>';
+  
+  html+='<div class="rp-sec"><h2>宜忌建议</h2><table>';
+  html+='<tr><td>宜</td><td>'+(info.yi.length?info.yi.join('、'):'尚无专属宜项')+'</td></tr>';
+  html+='<tr><td>忌</td><td>'+(info.ji.length?info.ji.join('、'):'尚无特别忌讳')+'</td></tr>';
+  html+='</table></div>';
+  
+  html+='<div class="rp-sec"><h2>十二时辰吉凶</h2><table><tr><th>时辰</th><th>时段</th><th>吉凶</th></tr>';
+  shichen.forEach(function(sh){
+    html+='<tr><td>'+sh.text+'</td><td>'+sh.start+'-'+sh.end+'</td>';
+    html+='<td style="font-weight:600;color:'+(sh.grade==='吉'?'#2A7A3A':'#888')+'">'+sh.grade+'</td></tr>';
+  });
+  html+='</table></div>';
+  
+  html+='<div class="rp-sec"><h2>周易卦象</h2><table>';
+  html+='<tr><td>卦名</td><td style="font-weight:600">'+hexagram.name+'('+hexagram.num+'卦)</td></tr>';
+  html+='<tr><td>卦辞</td><td>'+hexagram.desc+'</td></tr>';
+  html+='<tr><td>宜</td><td>'+hexagram.yi+'</td></tr>';
+  html+='<tr><td>忌</td><td>'+hexagram.ji+'</td></tr>';
+  html+='</table></div>';
+  
+  html+='<p style="font-size:0.72rem;color:#aaa;margin-top:0.5rem;">* 豪华版含择日+吉时+周易三合一完整报告。</p>';
+  
+  document.getElementById('rpContent').innerHTML=html;
+  document.getElementById('reportPage').className='rp op';
+  document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ---- 八字命理报告预览 ----
+function showBaziPreview(){
+  let n=new Date();
+  let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+  let result=computeBazi(y,m,d,-1,'M');
+  
+  document.getElementById('rpSubtitle').textContent=result.fourPillars.join(' ')+' | 八字命理报告';
+  let html='';
+  
+  html+='<div class="rp-sec"><h2>八字排盘</h2><table><tr><th></th>';
+  result.pillars.forEach(function(p){html+='<th>'+p.label+'</th>';});
+  html+='</tr><tr><td>天干</td>';
+  result.pillars.forEach(function(p){html+='<td style="font-weight:600;color:#AF2020">'+p.gan+'</td>';});
+  html+='</tr><tr><td>地支</td>';
+  result.pillars.forEach(function(p){html+='<td style="font-weight:600">'+p.zhi+'</td>';});
+  html+='</tr><tr><td>藏干</td>';
+  result.pillars.forEach(function(p){html+='<td style="font-size:0.72rem">'+p.cang+'</td>';});
+  html+='</tr></table></div>';
+  
+  html+='<div class="rp-sec"><h2>五行统计</h2><table>';
+  var wuxing=['金','木','水','火','土'];
+  var colors={'金':'#D4A030','木':'#2A7A3A','水':'#2A5A8A','火':'#AF2020','土':'#B08040'};
+  var maxCnt=1;
+  wuxing.forEach(function(k){var c=result.elemCount[k]||0;if(c>maxCnt)maxCnt=c;});
+  wuxing.forEach(function(k){
+    var cnt=result.elemCount[k]||0;
+    var pct=Math.round(cnt/maxCnt*80+10);
+    html+='<tr><td style="width:30px">'+k+'</td>';
+    html+='<td><div style="height:12px;width:'+pct+'%;background:'+colors[k]+';border-radius:4px;min-width:4px"></div></td>';
+    html+='<td style="width:24px;text-align:right">'+cnt+'</td></tr>';
+  });
+  html+='</table></div>';
+  
+  html+='<div class="rp-sec"><h2>命理简析</h2>';
+  html+='<p><b>日主：</b>'+result.dayMaster.gan+'属'+result.dayMaster.el+'，生于'+result.season+'月。</p>';
+  html+='<p>'+result.analysis+'</p>';
+  html+='</div>';
+  html+='<p style="font-size:0.7rem;color:#aaa;margin-top:0.3rem;">* 命理分析仅供文化参考。</p>';
+  
+  document.getElementById('rpContent').innerHTML=html;
+  document.getElementById('reportPage').className='rp op';
+  document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
