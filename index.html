@@ -1354,10 +1354,13 @@ const HEXAGRAMS = [
 ];
 
 function getHexagram(dayStem,dayBranch){
-  // Use gan-zhi index to select hexagram
-  let idx = (dayStem * 6 + dayBranch * 5 + 33) % 64;
-  return HEXAGRAMS[idx];
+  try{
+    let idx=(dayStem*6+dayBranch*5+33)%64;
+    if(HEXAGRAMS&&HEXAGRAMS[idx])return HEXAGRAMS[idx];
+  }catch(e){}
+  return {name:'--',num:'?',desc:'暂无卦象',yi:'--',ji:'--'};
 }
+
 
 // ---- Compatibility Analysis ----
 function computeBaziForDate(y,m,d,h){
