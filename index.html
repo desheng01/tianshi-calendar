@@ -1515,7 +1515,7 @@ function openReport(type){
   let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
   let isDeep=(type==='deep');
   
-  let subtitle=isDeep?'周易深度择日报告':'标准择日报告';
+  let subtitle=isDeep?'周易深度报告':'择日报告';
   document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;
   
   let html='';
@@ -1638,7 +1638,7 @@ function openReportFromDetail(){
 }
 
 function showReportContent(info,y,m,d,hexagram,isDeep){
-  let subtitle=isDeep?'周易深度择日报告':'标准择日报告';
+  let subtitle=isDeep?'周易深度报告':'择日报告';
   document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;
   
   let html='';
