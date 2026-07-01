@@ -869,7 +869,7 @@ function computeBazi(year,month,day,hour,gender){
 function getTodayAlmanac(){
   let n=new Date();
   let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
-  let info=calcDay(y,m,dayNum,'house');
+  let info=calcDay(y,m,d,'house');
   let shichen=calcShichen(y,m,d);
   let l=g2l(y,m,d);
   return{year:y,month:m,day:d,info,shichen,lunar:l};
@@ -932,7 +932,7 @@ document.addEventListener('DOMContentLoaded',function(){
     let days=[],stats={dj:0,j:0,p:0,x:0};
     
     for(let d=1;d<=total;d++){
-      let info=calcDay(y,m,dayNum,sel);
+      let info=calcDay(y,m,d,sel);
       days.push(info);
       if(info.r==='大吉')stats.dj++;
       else if(info.r==='吉')stats.j++;
@@ -1021,7 +1021,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   
   function showDetail(y,m,d){
-    let info=calcDay(y,m,dayNum,sel);
+    let info=calcDay(y,m,d,sel);
     let colors={'大吉':'#AF2020','吉':'#D4A030','平':'#B0A898','凶':'#999'};
     let c=colors[info.r]||'#999';
     
@@ -1460,11 +1460,11 @@ function computeCompat(){
 
 // ---- Report Generation ----
 function openReport(type){
-  let d=getTodayAlmanac();
-  let info=d.info;
-  let dt=d.info.dateStr;
+  let almanac=getTodayAlmanac();
+  let info=almanac.info;
+  let dt=almanac.info.dateStr;
   let targetDate=new Date();
-  let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,dayNum=targetDate.getDate();
+  let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,d=targetDate.getDate();
   
   // If user was looking at a specific date in the calendar, use that
   let selectedTd=document.querySelector('#cb td.sel');
@@ -1588,7 +1588,7 @@ function openReportFromDetail(){
     if(ds){
       let parts=ds.split('-');
       let y=parseInt(parts[0]),m=parseInt(parts[1]),d=parseInt(parts[2]);
-      let info=calcDay(y,m,dayNum,sel||'house');
+      let info=calcDay(y,m,d,sel||'house');
       let hexagram=getHexagram(info.dgS,info.dgB);
       showReportContent(info,y,m,d,hexagram,false);
       return;
