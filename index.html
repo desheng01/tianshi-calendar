@@ -406,6 +406,22 @@ gtag('config', 'G-XXXXXXXXXX');
 <div class="st">选择适合您的服务</div>
 <div class="pt">
 <div class="pc">
+<div class="pc">
+<div class="pc-name">八字命理报告</div>
+<div class="pc-price">$19.99</div>
+<div class="pc-period">一次性</div>
+<div class="pc-desc">完整的八字命理深度分析报告，含五行旺衰、日主性格、事业财运感情解读。基于真实八字算法。</div>
+<ul class="pc-features">
+<li>完整八字排盘</li>
+<li>五行旺衰分析</li>
+<li>日主性格解读</li>
+<li>事业财运感情</li>
+<li>PDF导出</li>
+</ul>
+<button class="pc-btn pb-secondary" onclick="alert('Demo即将上线')">预览</button>
+<div class="pc-notice">支付即将开通</div>
+</div>
+
 <div class="pc-name">吉时精选</div>
 <div class="pc-price">$29.99</div>
 <div class="pc-period">一次性</div>
@@ -1253,7 +1269,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 
-function closeDP(){document.getElementById('dp').className='dp';}
+}catch(e){document.getElementById('rpContent').innerHTML='<p style=color:#AF2020>Error: '+e.message+'</p>';console.error(e)}function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
 function copyText(t){
   navigator.clipboard.writeText('天时 '+t).catch(function(){});
@@ -1602,7 +1618,7 @@ function openReportFromDetail(){
   showReportContent(info,n.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
 }
 
-function showReportContent(info,y,m,d,hexagram,isDeep){
+function showReportContent(info,y,m,d,hexagram,isDeep){try{
   let subtitle=isDeep?'周易深度择日报告':'标准择日报告';
   document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;
   
