@@ -1473,7 +1473,7 @@ function openReport(type){
     if(ds){
       let parts=ds.split('-');
       y=parseInt(parts[0]);m=parseInt(parts[1]);d=parseInt(parts[2]);
-      info=calcDay(y,m,d,sel||'house');
+      info=calcDay(y,m,d,'house');
     }
   }
   
@@ -1588,7 +1588,7 @@ function openReportFromDetail(){
     if(ds){
       let parts=ds.split('-');
       let y=parseInt(parts[0]),m=parseInt(parts[1]),d=parseInt(parts[2]);
-      let info=calcDay(y,m,d,sel||'house');
+      let info=calcDay(y,m,d,'house');
       let hexagram=getHexagram(info.dgS,info.dgB);
       showReportContent(info,y,m,d,hexagram,false);
       return;
