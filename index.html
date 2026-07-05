@@ -31,7 +31,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Pin
 .tab{flex:1;padding:0.7rem 0.5rem;text-align:center;cursor:pointer;font-size:0.82rem;color:#888;transition:all 0.12s;border-bottom:3px solid transparent;user-select:none;font-family:inherit;background:transparent;border-top:none;border-left:none;border-right:none}
 .tab:hover{color:#AF2020;background:#FFF8F8}
 .tab.active{color:#AF2020;font-weight:600;border-bottom-color:#AF2020;background:#FFF5F5}
-.tab-content{display:none}
+.tab-content{display:none;animation:fadeIn 0.2s ease}.tab-content.active{display:block}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .tab-content.active{display:block}
 
 /* ===== Buttons ===== */
@@ -270,11 +270,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Pin
 .rp-h h1{font-size:1.2rem;color:#2E2E2E}
 .rp-h p{font-size:0.82rem;color:#888}
 
+
+.pc-old{text-decoration:line-through;color:#999;font-size:0.85rem;margin-right:0.3rem}
+.pc-promo{color:#AF2020;font-size:1.5rem;font-weight:800}
+.pc-discount{font-size:0.7rem;color:#AF2020;font-weight:600;margin-top:0.15rem;background:#FFF5F5;padding:0.1rem 0.3rem;border-radius:4px;display:inline-block}
+
 </style>
 <!-- Google Analytics (placeholder - replace G-XXXXXXXXXX with your GA4 ID) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
 // Global error handler for debugging
+
+// Register service worker for PWA
+if('serviceWorker'in navigator){
+  navigator.serviceWorker.register('/sw.js').catch(function(){});
+}
+
 window.onerror = function(msg, url, line, col, error) {
     var banner = document.createElement('div');
     banner.id = 'js-error-banner';
@@ -290,6 +301,11 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-XXXXXXXXXX');
 </script>
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#AF2020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="天时择吉">
 </head>
 <body>
 <header class="h"><div class="logo">天</div><span class="sn">天时</span><span class="st">择吉日 · 顺天时</span><span class="sub">Tianshi · Chinese Calendar &amp; BaZi</span></header>
@@ -421,7 +437,7 @@ gtag('config', 'G-XXXXXXXXXX');
 
 <div class="pc">
 <div class="pc-name">择日报告</div>
-<div class="pc-price">$9.99</div>
+<div class="pc-price"><span class="pc-old">$9.99</span><span class="pc-promo">$4.99</span></div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">完整日期的黄历全息报告，含时辰吉凶、详细宜忌、冲煞解读。可打印为PDF。</div>
 <ul class="pc-features">
@@ -432,12 +448,12 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>PDF导出</li>
 </ul>
 <button class="pc-btn pb-primary" onclick="openReport('basic')">免费预览</button>
-<div class="pc-notice">支付即将开通</div>
+<div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
 <div class="pc">
 <div class="pc-name">吉时精选</div>
-<div class="pc-price">$29.99</div>
+<div class="pc-price"><span class="pc-old">$29.99</span><span class="pc-promo">$14.99</span></div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">在择日基础上，精确到当日最佳时辰。结婚拜堂、搬家入宅皆有讲究。</div>
 <ul class="pc-features">
@@ -447,12 +463,12 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>PDF导出</li>
 </ul>
 <button class="pc-btn pb-secondary" onclick="showTimeDetail()">免费预览</button>
-<div class="pc-notice">支付即将开通</div>
+<div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
 <div class="pc pc-featured">
 <div class="pc-name">择吉豪华包</div>
-<div class="pc-price">$88.88</div>
+<div class="pc-price"><span class="pc-old">$88.88</span><span class="pc-promo">$44.44</span></div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">全套择吉服务，含择日报告+吉时精选+多日对比推荐，一步到位。</div>
 <ul class="pc-features">
@@ -463,7 +479,7 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>PDF彩印报告</li>
 </ul>
 <button class="pc-btn pb-primary" onclick="showLuxuryReport()">免费预览</button>
-<div class="pc-notice">支付即将开通</div>
+<div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
 </div>
@@ -475,7 +491,7 @@ gtag('config', 'G-XXXXXXXXXX');
 
 <div class="pc">
 <div class="pc-name">八字命理</div>
-<div class="pc-price">$19.99</div>
+<div class="pc-price"><span class="pc-old">$19.99</span><span class="pc-promo">$9.99</span></div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">完整的八字命理深度分析报告，含五行旺衰、日主性格、事业财运感情解读。</div>
 <ul class="pc-features">
@@ -486,12 +502,12 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>PDF导出</li>
 </ul>
 <button class="pc-btn pb-secondary" onclick="showBaziPreview()">免费预览</button>
-<div class="pc-notice">支付即将开通</div>
+<div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
 <div class="pc pc-featured">
 <div class="pc-name">周易深度报告</div>
-<div class="pc-price">$66.66</div>
+<div class="pc-price"><span class="pc-old">$66.66</span><span class="pc-promo">$33.33</span></div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">择日报告升级版，加入周易六十四卦当日卦象解读、五行生克推理、方位吉凶解析。</div>
 <ul class="pc-features">
@@ -502,12 +518,12 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>PDF彩印</li>
 </ul>
 <button class="pc-btn pb-secondary" onclick="openReport('deep')">免费预览</button>
-<div class="pc-notice">支付即将开通</div>
+<div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
 <div class="pc">
 <div class="pc-name">定制合盘服务</div>
-<div class="pc-price">$199</div>
+<div class="pc-price"><span class="pc-old">$199</span><span class="pc-promo">$99.99</span></div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">多人八字合盘+姓名五行分析。适合结婚合婚、入宅全家盘、开业团队盘。</div>
 <ul class="pc-features">
@@ -519,7 +535,7 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>PDF报告</li>
 </ul>
 <button class="pc-btn pb-secondary" onclick="document.getElementById('compatForm').classList.toggle('op')">免费预览</button>
-<div class="pc-notice">支付即将开通</div>
+<div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
 </div>
