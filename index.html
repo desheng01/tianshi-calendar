@@ -1308,6 +1308,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
 function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
+wrapPreview('showBaziPreview',showBaziPreview);
+wrapPreview('showTimeDetail',showTimeDetail);
+wrapPreview('showLuxuryReport',showLuxuryReport);
+wrapPreview('openReport',openReport);
 function copyText(t){
   navigator.clipboard.writeText('天时 '+t).catch(function(){});
 }
@@ -1840,4 +1844,48 @@ function showBaziPreview(){
   document.getElementById('reportPage').className='rp op';
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
-</script>
+// ---- 付费解锁功能 ----
+function getReportCount(){
+  try{return parseInt(localStorage.getItem('js_count'))||0}catch(e){return 0}
+}
+function setReportCount(n){
+  try{localStorage.setItem('js_count',n.toString())}catch(e){}
+}
+function isPaid(){
+  try{return localStorage.getItem('js_paid')==='true'}catch(e){return false}
+}
+function setPaid(){
+  try{localStorage.setItem('js_paid','true')}catch(e){}
+}
+
+var _origFuncs={};
+function wrapPreview(name,fn){
+  _origFuncs[name]=fn;
+  window[name]=function(){
+    if(isPaid()){
+      fn();return;
+    }
+    var c=getReportCount();
+    if(c<3){
+      setReportCount(c+1);
+      fn();
+    }else{
+      showPaywall();
+    }
+  };
+}
+
+function showPaywall(){
+  var html='<div id="paywall-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">'
+    +'<div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.2);">'
+    +'<div style="font-size:2rem;margin-bottom:0.5rem;">🔒</div>'
+    +'<h2 style="font-size:1.1rem;color:#2E2E2E;margin-bottom:0.5rem;">免费预览次数已用完</h2>'
+    +'<p style="font-size:0.85rem;color:#888;margin-bottom:1rem;">您已使用 3 次免费预览，支付后可继续使用所有报告功能。</p>'
+    +'<a href="https://paypal.me/jishinet" target="_blank" style="display:inline-block;padding:0.6rem 2rem;background:#0070BA;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-bottom:0.5rem;">PayPal 支付支持</a>'
+    +'<p style="font-size:0.75rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮解锁</p>'
+    +'<button onclick="setPaid();document.getElementById(\\'paywall-overlay\\').remove();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，解锁</button>'
+    +'</div></div>';
+  var d=document.createElement('div');
+  d.innerHTML=html;
+  document.body.appendChild(d.firstElementChild);
+}</script>
