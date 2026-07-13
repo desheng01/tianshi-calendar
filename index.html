@@ -1914,7 +1914,7 @@ function showPaywall(){
   document.body.appendChild(d.firstElementChild);
 }
 // ---- 周公解梦数据 ----
-const DREAM_DATA = [
+var DREAM_DATA = [
 {keyword:"水",t:"梦见水",d:"水主财，清澈的水象征财运亨通；浑浊的水预示财运有波折。大水象征大财，细流象征小财。梦见喝水预示健康。"},
 {keyword:"蛇",t:"梦见蛇",d:"蛇为小人，梦见蛇暗示身边有人对你不利。但蛇也象征智慧和转变，梦见蛇蜕皮预示新生和蜕变。梦见被蛇追表示有压力。"},
 {keyword:"飞",t:"梦见飞",d:"梦见飞翔象征志向远大，渴望自由。在天空中自由飞翔预示事业腾飞；低空飞行则需脚踏实地，不可好高骛远。"},
@@ -1967,7 +1967,7 @@ const DREAM_DATA = [
 {keyword:"雨伞",t:"梦见雨伞",d:"雨伞象征保护和防备。撑伞表示有防备；伞破表示保护不足。送伞有散之意，需结合情境。"},
 ];
 
-function searchDream(){
+function searchDream(){try{
   var q=document.getElementById('dreamSearch').value.trim();
   if(!q){document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">请输入梦境关键词</p>';return;}
   var results=DREAM_DATA.filter(function(item){
@@ -1981,7 +1981,7 @@ function searchDream(){
   results.forEach(function(item){
     html+='<div class="dr-item"><h3>'+item.t+'</h3><p>'+item.d+'</p></div>';
   });
-  document.getElementById('dreamResults').innerHTML=html;
+  document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
 
 // Enter key to search
