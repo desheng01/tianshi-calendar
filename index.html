@@ -433,32 +433,7 @@ gtag('config', 'G-XXXXXXXXXX');
 
 
 
-<div class="card" id="compatForm" class="card cpf">
-<div class="st">合盘预览 <span class="db">DEMO</span></div>
-<p style="font-size:0.78rem;color:#666;margin-bottom:0.5rem;">输入双方出生信息，预览八字合盘分析。* Demo仅供展示</p>
-<div class="cpf-row">
-<div><label>甲方 出生年份</label><select id="caY"><option value="1990">1990</option></select></div>
-<div><label>月份</label><select id="caM"><option value="1">1月</option></select></div>
-<div><label>日期</label><select id="caD"><option value="1">1日</option></select></div>
-<div><label>时辰</label><select id="caH"><option value="-1">未知</option></select></div>
-</div>
-<div class="cpf-row">
-<div><label>乙方 出生年份</label><select id="cbY"><option value="1990">1990</option></select></div>
-<div><label>月份</label><select id="cbM"><option value="1">1月</option></select></div>
-<div><label>日期</label><select id="cbD"><option value="1">1日</option></select></div>
-<div><label>时辰</label><select id="cbH"><option value="-1">未知</option></select></div>
-</div>
-<button class="btn btn-pri" onclick="computeCompat()" style="margin-top:0.25rem;padding:0.35rem 1.2rem;font-size:0.82rem">查看合盘</button>
-<div class="cpf-result" id="compatResult"></div>
-</div>
-<!-- ===== Tab: 服务与价格 ===== -->
-<div class="tab-content" id="tab-price">
-<div class="card">
-<div class="st">择吉系列 &mdash; 选个好日子</div>
-<div class="pt">
-
-<div class="pc">
-<div class="pc-name">择日报告 <small>Day Selection</small></div>
+<div class="card" 
 <div class="pc-price"><span class="pc-old">$9.99</span><span class="pc-promo">$4.99</span></div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">完整日期的黄历全息报告，含时辰吉凶、详细宜忌、冲煞解读。可打印为PDF。</div>
@@ -558,12 +533,38 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>3-5个推荐日</li>
 <li>PDF报告</li>
 </ul>
-<button class="pc-btn pb-primary" onclick="document.getElementById('compatForm').classList.toggle('op')">免费预览</button><a href="https://paypal.me/jishinet/50" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+<button class="pc-btn pb-primary" onclick="var cf=document.getElementById('compatForm');if(cf){cf.classList.toggle('op')}">免费预览</button><a href="https://paypal.me/jishinet/50" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
 </div>
-</div><div class="rp" id="reportPage">
+</div><div id="compatForm" class="card cpf">
+<div class="st">合盘预览 <span class="db">DEMO</span></div>
+<p style="font-size:0.78rem;color:#666;margin-bottom:0.5rem;">输入双方出生信息，预览八字合盘分析。* Demo仅供展示</p>
+<div class="cpf-row">
+<div><label>甲方 出生年份</label><select id="caY"><option value="1990">1990</option></select></div>
+<div><label>月份</label><select id="caM"><option value="1">1月</option></select></div>
+<div><label>日期</label><select id="caD"><option value="1">1日</option></select></div>
+<div><label>时辰</label><select id="caH"><option value="-1">未知</option></select></div>
+</div>
+<div class="cpf-row">
+<div><label>乙方 出生年份</label><select id="cbY"><option value="1990">1990</option></select></div>
+<div><label>月份</label><select id="cbM"><option value="1">1月</option></select></div>
+<div><label>日期</label><select id="cbD"><option value="1">1日</option></select></div>
+<div><label>时辰</label><select id="cbH"><option value="-1">未知</option></select></div>
+</div>
+<button class="btn btn-pri" onclick="computeCompat()" style="margin-top:0.25rem;padding:0.35rem 1.2rem;font-size:0.82rem">查看合盘</button>
+<div class="cpf-result" id="compatResult"></div>
+</div>
+<!-- ===== Tab: 服务与价格 ===== -->
+<div class="tab-content" id="tab-price">
+<div class="card">
+<div class="st">择吉系列 &mdash; 选个好日子</div>
+<div class="pt">
+
+<div class="pc">
+<div class="pc-name">择日报告 <small>Day Selection</small></div>
+class="rp" id="reportPage">
 <div class="rp-close"><button onclick="document.getElementById('reportPage').className='rp'">关闭</button> <button onclick="window.print()">打印 / PDF</button></div>
 <div class="rp-h"><h1>吉时网 · 报告</h1><p id="rpSubtitle">—</p></div>
 <div id="rpContent"></div>
