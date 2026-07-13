@@ -992,6 +992,11 @@ document.addEventListener('DOMContentLoaded',function(){
     b.classList.add('active');sel=b.dataset.p;
     try{localStorage.setItem('ts_purpose',sel);}catch(e){}
     render(vy,vm);
+// Auto-calculate today's BaZi on page load
+setTimeout(function(){
+  var calcBtn=document.getElementById('calcBazi');
+  if(calcBtn) calcBtn.click();
+}, 500);
   });
   let activeBtn=pg.querySelector('[data-p="'+sel+'"]');
   if(activeBtn)activeBtn.classList.add('active');
@@ -1129,6 +1134,11 @@ document.addEventListener('DOMContentLoaded',function(){
     // Navigate to correct month
     vy=y;vm=m;
     render(vy,vm);
+// Auto-calculate today's BaZi on page load
+setTimeout(function(){
+  var calcBtn=document.getElementById('calcBazi');
+  if(calcBtn) calcBtn.click();
+}, 500);
     // After render, find and click the day
     setTimeout(function(){
       let target=document.querySelector('td[data-ds="'+y+'-'+m+'-'+d+'"]');
@@ -1138,6 +1148,11 @@ document.addEventListener('DOMContentLoaded',function(){
   
   // Initial render
   render(vy,vm);
+// Auto-calculate today's BaZi on page load
+setTimeout(function(){
+  var calcBtn=document.getElementById('calcBazi');
+  if(calcBtn) calcBtn.click();
+}, 500);
 
   // ---- 今日黄历 ----
   function renderToday(){
