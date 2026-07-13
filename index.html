@@ -313,7 +313,6 @@ gtag('config', 'G-XXXXXXXXXX');
 <meta property="og:url" content="https://jishi.today">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="吉时网">
-<meta property="og:locale" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
@@ -440,7 +439,32 @@ gtag('config', 'G-XXXXXXXXXX');
 
 
 
-<div class="card" 
+<div class="card" id="compatForm" class="card cpf">
+<div class="st">合盘预览 <span class="db">DEMO</span></div>
+<p style="font-size:0.78rem;color:#666;margin-bottom:0.5rem;">输入双方出生信息，预览八字合盘分析。* Demo仅供展示</p>
+<div class="cpf-row">
+<div><label>甲方 出生年份</label><select id="caY"><option value="1990">1990</option></select></div>
+<div><label>月份</label><select id="caM"><option value="1">1月</option></select></div>
+<div><label>日期</label><select id="caD"><option value="1">1日</option></select></div>
+<div><label>时辰</label><select id="caH"><option value="-1">未知</option></select></div>
+</div>
+<div class="cpf-row">
+<div><label>乙方 出生年份</label><select id="cbY"><option value="1990">1990</option></select></div>
+<div><label>月份</label><select id="cbM"><option value="1">1月</option></select></div>
+<div><label>日期</label><select id="cbD"><option value="1">1日</option></select></div>
+<div><label>时辰</label><select id="cbH"><option value="-1">未知</option></select></div>
+</div>
+<button class="btn btn-pri" onclick="computeCompat()" style="margin-top:0.25rem;padding:0.35rem 1.2rem;font-size:0.82rem">查看合盘</button>
+<div class="cpf-result" id="compatResult"></div>
+</div>
+<!-- ===== Tab: 服务与价格 ===== -->
+<div class="tab-content" id="tab-price">
+<div class="card">
+<div class="st">择吉系列 &mdash; 选个好日子</div>
+<div class="pt">
+
+<div class="pc">
+<div class="pc-name">择日报告 <small>Day Selection</small></div>
 <div class="pc-price"><span class="pc-old">$9.99</span><span class="pc-promo">$4.99</span></div>
 <div class="pc-period">一次性</div>
 <div class="pc-desc">完整日期的黄历全息报告，含时辰吉凶、详细宜忌、冲煞解读。可打印为PDF。</div>
@@ -540,38 +564,12 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>3-5个推荐日</li>
 <li>PDF报告</li>
 </ul>
-<button class="pc-btn pb-primary" onclick="var cf=document.getElementById('compatForm');if(cf){cf.classList.toggle('op')}">免费预览</button><a href="https://paypal.me/jishinet/50" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+<button class="pc-btn pb-primary" onclick="document.getElementById('compatForm').classList.toggle('op')">免费预览</button><a href="https://paypal.me/jishinet/50" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
 </div>
-</div><div id="compatForm" class="card cpf">
-<div class="st">合盘预览 <span class="db">DEMO</span></div>
-<p style="font-size:0.78rem;color:#666;margin-bottom:0.5rem;">输入双方出生信息，预览八字合盘分析。* Demo仅供展示</p>
-<div class="cpf-row">
-<div><label>甲方 出生年份</label><select id="caY"><option value="1990">1990</option></select></div>
-<div><label>月份</label><select id="caM"><option value="1">1月</option></select></div>
-<div><label>日期</label><select id="caD"><option value="1">1日</option></select></div>
-<div><label>时辰</label><select id="caH"><option value="-1">未知</option></select></div>
-</div>
-<div class="cpf-row">
-<div><label>乙方 出生年份</label><select id="cbY"><option value="1990">1990</option></select></div>
-<div><label>月份</label><select id="cbM"><option value="1">1月</option></select></div>
-<div><label>日期</label><select id="cbD"><option value="1">1日</option></select></div>
-<div><label>时辰</label><select id="cbH"><option value="-1">未知</option></select></div>
-</div>
-<button class="btn btn-pri" onclick="computeCompat()" style="margin-top:0.25rem;padding:0.35rem 1.2rem;font-size:0.82rem">查看合盘</button>
-<div class="cpf-result" id="compatResult"></div>
-</div>
-<!-- ===== Tab: 服务与价格 ===== -->
-<div class="tab-content" id="tab-price">
-<div class="card">
-<div class="st">择吉系列 &mdash; 选个好日子</div>
-<div class="pt">
-
-<div class="pc">
-<div class="pc-name">择日报告 <small>Day Selection</small></div>
-class="rp" id="reportPage">
+</div><div class="rp" id="reportPage">
 <div class="rp-close"><button onclick="document.getElementById('reportPage').className='rp'">关闭</button> <button onclick="window.print()">打印 / PDF</button></div>
 <div class="rp-h"><h1>吉时网 · 报告</h1><p id="rpSubtitle">—</p></div>
 <div id="rpContent"></div>
@@ -951,7 +949,7 @@ function computeBazi(year,month,day,hour,gender){
 // ===== Today's Almanac =====
 function getTodayAlmanac(){
   let n=new Date();
-  let y=now.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+  let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
   let info=calcDay(y,m,d,'house');
   let shichen=calcShichen(y,m,d);
   let l=g2l(y,m,d);
@@ -989,7 +987,7 @@ document.addEventListener('DOMContentLoaded',function(){
   const mlist=document.getElementById('mlist');
   
   let sel='house',vy,vm,cache={};
-  let n=new Date();vy=now.getFullYear();vm=n.getMonth()+1;
+  let n=new Date();vy=n.getFullYear();vm=n.getMonth()+1;
   
   try{let s=localStorage.getItem('ts_purpose');if(s&&PURPOSE_NAMES[s])sel=s;}catch(e){}
   
@@ -999,11 +997,11 @@ document.addEventListener('DOMContentLoaded',function(){
     b.classList.add('active');sel=b.dataset.p;
     try{localStorage.setItem('ts_purpose',sel);}catch(e){}
     render(vy,vm);
-// Auto-calculate today's BaZi on page load
-setTimeout(function(){
-  var calcBtn=document.getElementById('calcBazi');
-  if(calcBtn) calcBtn.click();
-}, 500);
+  // Auto-calculate today's BaZi
+  setTimeout(function(){
+    var calcBtn=document.getElementById('calcBazi');
+    if(calcBtn) calcBtn.click();
+  }, 500);
   });
   let activeBtn=pg.querySelector('[data-p="'+sel+'"]');
   if(activeBtn)activeBtn.classList.add('active');
@@ -1141,11 +1139,11 @@ setTimeout(function(){
     // Navigate to correct month
     vy=y;vm=m;
     render(vy,vm);
-// Auto-calculate today's BaZi on page load
-setTimeout(function(){
-  var calcBtn=document.getElementById('calcBazi');
-  if(calcBtn) calcBtn.click();
-}, 500);
+  // Auto-calculate today's BaZi
+  setTimeout(function(){
+    var calcBtn=document.getElementById('calcBazi');
+    if(calcBtn) calcBtn.click();
+  }, 500);
     // After render, find and click the day
     setTimeout(function(){
       let target=document.querySelector('td[data-ds="'+y+'-'+m+'-'+d+'"]');
@@ -1155,11 +1153,11 @@ setTimeout(function(){
   
   // Initial render
   render(vy,vm);
-// Auto-calculate today's BaZi on page load
-setTimeout(function(){
-  var calcBtn=document.getElementById('calcBazi');
-  if(calcBtn) calcBtn.click();
-}, 500);
+  // Auto-calculate today's BaZi
+  setTimeout(function(){
+    var calcBtn=document.getElementById('calcBazi');
+    if(calcBtn) calcBtn.click();
+  }, 500);
 
   // ---- 今日黄历 ----
   function renderToday(){
@@ -1199,7 +1197,7 @@ setTimeout(function(){
   // ---- 生肖运势 ----
   function renderZodiac(){
     let n=new Date();
-    let y=now.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+    let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
     let dayInfo=calcDay(y,m,d,sel);
     let fortunes=getZodiacFortune(dayInfo.dgB);
     
@@ -1701,7 +1699,7 @@ function openReportFromDetail(){
   let info=today.info;
   let n=new Date();
   let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
-  showReportContent(info,now.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
+  showReportContent(info,n.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
 }
 
 function showReportContent(info,y,m,d,hexagram,isDeep){
@@ -1849,7 +1847,7 @@ function showLuxuryReport(){
 // ---- 八字命理预览 ----
 function showBaziPreview(){
   let n=new Date();
-  let y=now.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+  let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
   let result=computeBazi(y,m,d,-1,'M');
   
   document.getElementById('rpSubtitle').textContent=result.fourPillars.join(' ')+' | 八字命理';
@@ -1884,58 +1882,6 @@ function showBaziPreview(){
   html+='<p>'+result.analysis+'</p>';
   html+='</div>';
   html+='<p style="font-size:0.7rem;color:#aaa;margin-top:0.3rem;">* 命理分析仅供文化参考。</p>';
-    // ---- 流年运势(简版) ----
-  html+='<div class="rp-sec" style="margin-top:0.5rem">';
-  html+='<h2>流年运势 <span style="font-size:0.75rem;font-weight:400;color:#888">预览</span></h2>';
-  html+='<p style="font-size:0.82rem;color:#666;line-height:1.7;">八字命理中，流年运势根据日主五行与流年干支的生克制化推算。2026丙午年火旺，不同日主有不同运势走向。</p>';
-  html+='<p style="font-size:0.82rem;color:#AF2020;text-align:center;padding:0.5rem;background:#FFF5F5;border-radius:6px;margin-top:0.3rem;">📋 完整流年运势及深度命理分析<a href="#tab-price" onclick="document.querySelector(\'[data-tab=tab-price]\').click()" style="color:#AF2020;font-weight:600;text-decoration:underline;"> 查看服务与价格 →</a></p>';
-  html+='</div>';
-  html+='<div class="rp-sec" style="margin-top:0.5rem">';
-  html+='<h2>2026年运势 丙午年</h2>';
-  
-  var now=new Date();
-  var yearGz=yGz(now.getFullYear());
-  var dmEl=result.dayMaster.el;
-  var yrEl=ELEM_TG[yearGz.s];
-  
-  var ELM={'金':'金','木':'木','水':'水','火':'火','土':'土'};
-  var ygRel="";
-  if(yrEl===dmEl){ygRel="比肩之年，自我意识增强，适合展现个人能力，但需注意人际关系。";}
-  else if((yrEl==='木'&&dmEl==='火')||(yrEl==='火'&&dmEl==='土')||(yrEl==='土'&&dmEl==='金')||(yrEl==='金'&&dmEl==='水')||(yrEl==='水'&&dmEl==='木')){
-    ygRel="相生之年，得天时之助，事业顺利，贵人运佳。适合开拓进取。";
-  }else if((yrEl==='木'&&dmEl==='土')||(yrEl==='火'&&dmEl==='金')||(yrEl==='土'&&dmEl==='水')||(yrEl==='金'&&dmEl==='木')||(yrEl==='水'&&dmEl==='火')){
-    ygRel="相克之年，需注意健康和事业上的阻碍。宜稳扎稳打，不宜冒进。";
-  }else{
-    ygRel="平年，运势平稳，按计划行事即可。";
-  }
-  
-  // Branch analysis
-  var db=yearGz.b;
-  var dmB=result.pillars[2].zhi;
-  // Use dz index
-  var dzIdx=DZ.indexOf(dmB);
-  if(dzIdx>=0){
-    var conflict=(dzIdx+6)%12;
-    if(db===conflict){
-      ygRel+="本年与日柱相冲，变动较多，需注意情绪管理和重大决策。";
-    }
-    // Check harmony
-    var harmonyPairs=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
-    for(var h=0;h<harmonyPairs.length;h++){
-      if((harmonyPairs[h][0]===db&&harmonyPairs[h][1]===dzIdx)||(harmonyPairs[h][0]===dzIdx&&harmonyPairs[h][1]===db)){
-        ygRel+="本年与命主相合，人际关系和谐，合作运势佳。";
-        break;
-      }
-    }
-  }
-  
-  html+='<p style="font-size:0.82rem;color:#555;line-height:1.7;margin-bottom:0.3rem;">';
-  html+='<b>年柱：</b>'+yearGz.t+'年（'+yrEl+'）<br>';
-  html+='<b>日主：</b>'+result.dayMaster.gan+'属'+dmEl+'<br>';
-  html+='<b>运势：</b>'+ygRel;
-  html+='</p>';
-  html+='<p style="font-size:0.7rem;color:#aaa;">* 流年运势基于日主五行与流年干支关系推算，仅供文化参考。</p>';
-  html+='</div>';
   
   document.getElementById('rpContent').innerHTML=html;
   document.getElementById('reportPage').className='rp op';
