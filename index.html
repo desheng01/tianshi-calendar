@@ -1877,6 +1877,53 @@ function showBaziPreview(){
   html+='<p>'+result.analysis+'</p>';
   html+='</div>';
   html+='<p style="font-size:0.7rem;color:#aaa;margin-top:0.3rem;">* 命理分析仅供文化参考。</p>';
+  // ---- 流年运势分析 ----
+  html+='<div class="rp-sec" style="margin-top:0.5rem">';
+  html+='<h2>2026年运势 丙午年</h2>';
+  
+  var n=new Date();
+  var yearGz=yGz(n.getFullYear());
+  var dmEl=result.dayMaster.el;
+  var yrEl=ELEM_TG[yearGz.s];
+  
+  var ELM={'金':'金','木':'木','水':'水','火':'火','土':'土'};
+  var ygRel="";
+  if(yrEl===dmEl){ygRel="比肩之年，自我意识增强，适合展现个人能力，但需注意人际关系。";}
+  else if((yrEl==='木'&&dmEl==='火')||(yrEl==='火'&&dmEl==='土')||(yrEl==='土'&&dmEl==='金')||(yrEl==='金'&&dmEl==='水')||(yrEl==='水'&&dmEl==='木')){
+    ygRel="相生之年，得天时之助，事业顺利，贵人运佳。适合开拓进取。";
+  }else if((yrEl==='木'&&dmEl==='土')||(yrEl==='火'&&dmEl==='金')||(yrEl==='土'&&dmEl==='水')||(yrEl==='金'&&dmEl==='木')||(yrEl==='水'&&dmEl==='火')){
+    ygRel="相克之年，需注意健康和事业上的阻碍。宜稳扎稳打，不宜冒进。";
+  }else{
+    ygRel="平年，运势平稳，按计划行事即可。";
+  }
+  
+  // Branch analysis
+  var db=yearGz.b;
+  var dmB=result.pillars[2].zhi;
+  // Use dz index
+  var dzIdx=DZ.indexOf(dmB);
+  if(dzIdx>=0){
+    var conflict=(dzIdx+6)%12;
+    if(db===conflict){
+      ygRel+="本年与日柱相冲，变动较多，需注意情绪管理和重大决策。";
+    }
+    // Check harmony
+    var harmonyPairs=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
+    for(var h=0;h<harmonyPairs.length;h++){
+      if((harmonyPairs[h][0]===db&&harmonyPairs[h][1]===dzIdx)||(harmonyPairs[h][0]===dzIdx&&harmonyPairs[h][1]===db)){
+        ygRel+="本年与命主相合，人际关系和谐，合作运势佳。";
+        break;
+      }
+    }
+  }
+  
+  html+='<p style="font-size:0.82rem;color:#555;line-height:1.7;margin-bottom:0.3rem;">';
+  html+='<b>年柱：</b>'+yearGz.t+'年（'+yrEl+'）<br>';
+  html+='<b>日主：</b>'+result.dayMaster.gan+'属'+dmEl+'<br>';
+  html+='<b>运势：</b>'+ygRel;
+  html+='</p>';
+  html+='<p style="font-size:0.7rem;color:#aaa;">* 流年运势基于日主五行与流年干支关系推算，仅供文化参考。</p>';
+  html+='</div>';
   
   document.getElementById('rpContent').innerHTML=html;
   document.getElementById('reportPage').className='rp op';
