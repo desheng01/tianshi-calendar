@@ -951,7 +951,7 @@ function computeBazi(year,month,day,hour,gender){
 // ===== Today's Almanac =====
 function getTodayAlmanac(){
   let n=new Date();
-  let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+  let y=now.getFullYear(),m=n.getMonth()+1,d=n.getDate();
   let info=calcDay(y,m,d,'house');
   let shichen=calcShichen(y,m,d);
   let l=g2l(y,m,d);
@@ -989,7 +989,7 @@ document.addEventListener('DOMContentLoaded',function(){
   const mlist=document.getElementById('mlist');
   
   let sel='house',vy,vm,cache={};
-  let n=new Date();vy=n.getFullYear();vm=n.getMonth()+1;
+  let n=new Date();vy=now.getFullYear();vm=n.getMonth()+1;
   
   try{let s=localStorage.getItem('ts_purpose');if(s&&PURPOSE_NAMES[s])sel=s;}catch(e){}
   
@@ -1199,7 +1199,7 @@ setTimeout(function(){
   // ---- 生肖运势 ----
   function renderZodiac(){
     let n=new Date();
-    let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+    let y=now.getFullYear(),m=n.getMonth()+1,d=n.getDate();
     let dayInfo=calcDay(y,m,d,sel);
     let fortunes=getZodiacFortune(dayInfo.dgB);
     
@@ -1701,7 +1701,7 @@ function openReportFromDetail(){
   let info=today.info;
   let n=new Date();
   let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
-  showReportContent(info,n.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
+  showReportContent(info,now.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
 }
 
 function showReportContent(info,y,m,d,hexagram,isDeep){
@@ -1849,7 +1849,7 @@ function showLuxuryReport(){
 // ---- 八字命理预览 ----
 function showBaziPreview(){
   let n=new Date();
-  let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+  let y=now.getFullYear(),m=n.getMonth()+1,d=n.getDate();
   let result=computeBazi(y,m,d,-1,'M');
   
   document.getElementById('rpSubtitle').textContent=result.fourPillars.join(' ')+' | 八字命理';
@@ -1893,8 +1893,8 @@ function showBaziPreview(){
   html+='<div class="rp-sec" style="margin-top:0.5rem">';
   html+='<h2>2026年运势 丙午年</h2>';
   
-  var n=new Date();
-  var yearGz=yGz(n.getFullYear());
+  var now=new Date();
+  var yearGz=yGz(now.getFullYear());
   var dmEl=result.dayMaster.el;
   var yrEl=ELEM_TG[yearGz.s];
   
