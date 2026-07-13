@@ -318,6 +318,8 @@ gtag('config', 'G-XXXXXXXXXX');
 <button class="tab" data-tab="tab-zodiac">生肖运势<small>Zodiac Fortune</small></button>
 <button class="tab" data-tab="tab-bazi">八字排盘<small>BaZi Chart</small></button>
 <button class="tab" data-tab="tab-know">关于<small>About</small></button>
+<button class="tab" data-tab="tab-dream">周公解梦<small>Dream Dictionary</small></button>
+<button class="tab" data-tab="tab-name">起名<small>Name Suggestion</small></button>
 <button class="tab" data-tab="tab-price">服务与价格<small>Services & Pricing</small></button>
 </div>
 
@@ -385,7 +387,25 @@ gtag('config', 'G-XXXXXXXXXX');
 </div>
 
 <!-- ===== Tab: 关于 ===== -->
-<div class="tab-content" id="tab-know">
+<div class="tab-content" id="tab-dream">
+<div class="card">
+<div class="st">周公解梦 <small style="font-weight:400;color:#999;font-size:0.75rem">Dream Dictionary</small></div>
+<p style="font-size:0.82rem;color:#666;margin-bottom:0.75rem;">输入梦境关键词，查看传统周公解梦释义。</p>
+<div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+<input type="text" id="dreamSearch" placeholder="输入梦境关键词，如：蛇、水、飞…" style="flex:1;padding:0.55rem 0.75rem;border:1.5px solid #D6D0C8;border-radius:8px;font-size:0.9rem;font-family:inherit;background:#FCFAF7;color:#2E2E2E">
+<button onclick="searchDream()" style="padding:0.55rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;cursor:pointer;font-family:inherit">搜索</button>
+</div>
+<div id="dreamResults"></div>
+<p style="font-size:0.72rem;color:#aaa;margin-top:0.5rem;">* 解梦内容基于传统周公解梦典籍，仅供文化参考及娱乐用途。</p>
+</div>
+</div><div class="tab-content" id="tab-name">
+<div class="card" style="text-align:center;padding:3rem">
+<div style="font-size:3rem;margin-bottom:1rem">🚧</div>
+<h2 style="font-size:1.2rem;color:#2E2E2E;margin-bottom:0.5rem">起名功能正在建设中</h2>
+<p style="font-size:0.85rem;color:#888;margin-bottom:1rem">宝宝起名、公司起名、改名参考等功能即将上线，敬请期待。</p>
+<p style="font-size:0.78rem;color:#aaa">Name Suggestion — Coming Soon</p>
+</div>
+</div><div class="tab-content" id="tab-know">
 <div class="card kw">
 <div class="st">关于择吉</div>
 <p><b>建除十二神</b> &mdash; 黄历每日由十二位值日神轮流掌管：建、除、满、平、定、执、破、危、成、收、开、闭。其中除、定、危、成、开为吉；破、闭为凶。</p>
