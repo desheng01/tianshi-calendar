@@ -178,17 +178,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Pin
 
 /* ===== Disclaimer ===== */
 .disc{margin-top:1rem;padding:0.6rem 1rem;background:#FCFAF7;border-radius:10px;border:1px solid #E8E4DE;font-size:0.72rem;color:#aaa;line-height:1.6}
-
-/* ===== Guide Steps ===== */
-.guide-steps{display:flex;align-items:center;gap:0.3rem;padding:0.75rem 0.3rem;margin-bottom:0.5rem;background:#FFF8F8;border-radius:10px;border:1px solid #F0E0E0}
-.gs-item{display:flex;align-items:center;gap:0.4rem;flex:1}
-.gs-circle{width:28px;height:28px;border-radius:50%;background:#AF2020;color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;flex-shrink:0}
-.gs-body{line-height:1.3}
-.gs-title{font-size:0.8rem;font-weight:700;color:#2E2E2E}
-.gs-desc{font-size:0.65rem;color:#888}
-.gs-desc .d{display:inline-block;width:6px;height:6px;border-radius:2px;vertical-align:middle;margin-right:0.1rem}
-.gs-arrow{color:#D4A030;font-size:1rem;flex-shrink:0;opacity:0.6}
-@media(max-width:640px){.guide-steps{flex-wrap:wrap;gap:0.2rem;justify-content:center}.gs-arrow{display:none}.gs-item{flex:0 0 auto;width:auto}.gs-desc{display:none}}
 .disc b{color:#888}
 
 /* ===== Responsive ===== */
@@ -348,7 +337,27 @@ gtag('config', 'G-XXXXXXXXXX');
 <!-- ===== Tab: 择吉日 ===== -->
 <div class="tab-content active" id="tab-day">
 <div class="card">
-<div class="st">选择事项</div>
+<div class="st">使用方法</div>
+<div class="guide-steps">
+<div class="gs-item">
+  <div class="gs-circle">1</div>
+  <div class="gs-body"><div class="gs-title">选择事项</div><div class="gs-desc">点击上方按钮，选择要办的事</div></div>
+</div>
+<div class="gs-arrow">▶</div>
+<div class="gs-item">
+  <div class="gs-circle">2</div>
+  <div class="gs-body"><div class="gs-title">查看日历</div><div class="gs-desc">下方日历中，彩色日期为吉日</div></div>
+</div>
+<div class="gs-arrow">▶</div>
+<div class="gs-item">
+  <div class="gs-circle">3</div>
+  <div class="gs-body"><div class="gs-title">点击查看</div><div class="gs-desc">点击日期查看详细黄历，再点“查看完整报告”</div></div>
+</div>
+</div>
+<div class="clr-legend"><span class="d d1"></span>大吉 <span class="d d2"></span>吉 <span class="d d3"></span>平 <span class="d d4"></span>不宜 <span style="font-size:0.7rem;color:#aaa">（优先选红色、金色日期）</span></div>
+</div>
+
+<div class="card">
 <div class="pg" id="pg">
 <button class="pp" data-p="wedding">结婚</button>
 <button class="pp" data-p="move">搬家</button>
@@ -360,27 +369,143 @@ gtag('config', 'G-XXXXXXXXXX');
 <button class="pp" data-p="worship">祭祀</button>
 <button class="pp" data-p="burial">安葬</button>
 </div>
-<div class="guide-steps">
-<div class="gs-item">
-  <div class="gs-circle">1</div>
-  <div class="gs-body"><div class="gs-title">选择事项</div><div class="gs-desc">结婚、搬家、入宅…</div></div>
-</div>
-<div class="gs-arrow">▶</div>
-<div class="gs-item">
-  <div class="gs-circle">2</div>
-  <div class="gs-body"><div class="gs-title">查看日历</div><div class="gs-desc"><span class="d d1" style="display:inline-block;width:6px;height:6px;border-radius:2px;vertical-align:middle"></span>大吉 <span class="d d2" style="display:inline-block;width:6px;height:6px;border-radius:2px;vertical-align:middle"></span>吉 <span class="d d3" style="display:inline-block;width:6px;height:6px;border-radius:2px;vertical-align:middle"></span>平 <span class="d d4" style="display:inline-block;width:6px;height:6px;border-radius:2px;vertical-align:middle"></span>不宜</div></div>
-</div>
-<div class="gs-arrow">▶</div>
-<div class="gs-item">
-  <div class="gs-circle">3</div>
-  <div class="gs-body"><div class="gs-title">点击查看</div><div class="gs-desc">详细黄历+报告</div></div>
-</div>
-</div>
 </div>
 
 <div class="card" id="auspiciousCard">
 <div class="mn"><button id="pm">&lsaquo; 上月</button><span class="mt" id="mt">&mdash;</span><button id="nm">下月 &rsaquo;</button></div>
-<div class="lg"><span><span class="d d1"></span>大吉</span><span><span class="d d2"></span>吉</span><span><span class="d d3"></span>平</span><span><span class="d d4"></span>不宜</span></div>
+<table class="cl"><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody id="cb"></tbody></table>
+<div class="sb" id="sb"></div>
+<div class="dp" id="dp"></div>
+<div class="ml" id="mlist"></div>
+</div>
+</div>
+
+<!-- ===== Tab: 今日黄历 ===== -->
+<div class="tab-content" id="tab-today">
+<div class="card">
+<div class="ah" id="todayHeader"><span class="ad">—</span><span class="aw">—</span><span class="alunar">—</span></div>
+<div class="ac" id="todayGrid"></div>
+</div>
+</div>
+
+<!-- ===== Tab: 生肖运势 ===== -->
+<div class="tab-content" id="tab-zodiac">
+<div class="card">
+<div class="st">今日生肖运势</div>
+<p class="zd" id="zdTitle">—</p>
+<div class="zg" id="zodiacGrid"></div>
+<div class="zm" id="zodiacModal"></div>
+</div>
+</div>
+
+<!-- ===== Tab: 八字排盘 ===== -->
+<div class="tab-content" id="tab-bazi">
+<div class="card">
+<div class="st">八字排盘</div>
+<div class="bf">
+<div class="bfg"><label>出生年份</label><select id="baziYear"></select></div>
+<div class="bfg"><label>出生月份</label><select id="baziMonth"></select></div>
+<div class="bfg"><label>出生日期</label><select id="baziDay"></select></div>
+<div class="bfg"><label>出生时辰</label><select id="baziHour"><option value="-1">未知</option></select></div>
+</div>
+<div style="margin-bottom:0.5rem;"><label style="font-size:0.75rem;color:#888;font-weight:500;">性别</label>
+<div class="bg"><button class="bg-opt active" data-g="M">男</button><button class="bg-opt" data-g="F">女</button></div></div>
+<button class="btn btn-pri" id="calcBazi">开始排盘</button>
+<div class="br" id="baziResult"></div>
+<div class="disc" style="margin-top:0.75rem;"><b>免责声明</b>：八字命理分析仅供文化参考及娱乐用途。</div>
+</div>
+</div>
+
+<!-- ===== Tab: 关于 ===== -->
+<div class="tab-content" id="tab-dream">
+<div class="card">
+<div class="st">周公解梦 <small style="font-weight:400;color:#999;font-size:0.75rem">Dream Dictionary</small></div>
+<p style="font-size:0.82rem;color:#666;margin-bottom:0.75rem;">输入梦境关键词，查看传统周公解梦释义。</p>
+<div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+<input type="text" id="dreamSearch" placeholder="输入梦境关键词，如：蛇、水、飞…" style="flex:1;padding:0.55rem 0.75rem;border:1.5px solid #D6D0C8;border-radius:8px;font-size:0.9rem;font-family:inherit;background:#FCFAF7;color:#2E2E2E">
+<button onclick="searchDream()" style="padding:0.55rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;cursor:pointer;font-family:inherit">搜索</button>
+</div>
+<div id="dreamResults"></div>
+<p style="font-size:0.72rem;color:#aaa;margin-top:0.5rem;">* 解梦内容基于传统周公解梦典籍，仅供文化参考及娱乐用途。</p>
+</div>
+</div><div class="tab-content" id="tab-name">
+<div class="card" style="text-align:center;padding:3rem">
+<div style="font-size:3rem;margin-bottom:1rem">🚧</div>
+<h2 style="font-size:1.2rem;color:#2E2E2E;margin-bottom:0.5rem">起名功能正在建设中</h2>
+<p style="font-size:0.85rem;color:#888;margin-bottom:1rem">宝宝起名、公司起名、改名参考等功能即将上线，敬请期待。</p>
+<p style="font-size:0.78rem;color:#aaa">Name Suggestion — Coming Soon</p>
+</div>
+</div><div class="tab-content" id="tab-know">
+<div class="card kw">
+<div class="st">关于择吉</div>
+<p><b>建除十二神</b> &mdash; 黄历每日由十二位值日神轮流掌管：建、除、满、平、定、执、破、危、成、收、开、闭。其中除、定、危、成、开为吉；破、闭为凶。</p>
+<p><b>二十八宿</b> &mdash; 中国古代将黄道分为二十八星宿，每日轮值一宿，各宿有吉凶属性。</p>
+<p><b>冲煞</b> &mdash; 当日地支与某生肖相冲，该生肖者此日宜谨慎。</p>
+<p><b>评分体系</b> &mdash; 综合建除、二十八宿、日干支三大因素。大吉&ge;3分，吉&ge;1分，平&ge;-1分，不宜&lt;-1分。</p>
+<p class="kt">关于八字</p>
+<p><b>八字</b>(四柱命理)以出生年、月、日、时的天干地支组成八个字，通过分析五行生克制化来解读人的性格与运势趋势。</p>
+<p><b>日主</b> &mdash; 指出生日那天的天干，代表命主自身。日主的五行属性是八字分析的核心。</p>
+<p><b>五行</b> &mdash; 金、木、水、火、土五种元素，八字中每种元素的多少和强弱决定一个人的先天特质。</p>
+<p class="kt">计算说明</p>
+<p>月柱根据节气(立春、惊蛰等)精准计算。时柱根据日干用五鼠遁法推算。二十八宿以公历1900年1月1日为角宿起算。</p>
+<p>月柱根据节气(立春、惊蛰等)精准计算。时柱根据日干用五鼠遁法推算。二十八宿以公历1900年1月1日为角宿起算。</p>
+<p class="kt">关于解梦</p>
+<p><b>周公解梦</b> &mdash; 相传为周公旦所著，是中国古代最著名的梦文化典籍。梦境被视为人与天地沟通的桥梁，不同梦境元素对应不同的预兆与启示。</p>
+<p><b>常见梦境解析</b> &mdash; 梦见水象征财运；梦见飞代表志向远大；梦见故人表示思念；梦见蛇暗示小人。解梦需结合梦境细节和梦者现实情况，不可一概而论。</p>
+<p class="kt">关于命理</p>
+<p><b>紫微斗数</b> &mdash; 与八字齐名的传统命理体系，以命宫、身宫为核心，配合十二宫位和百余星曜解读人一生的轨迹。</p>
+<p><b>面相手相</b> &mdash; 相学认为面部和手掌纹路反映命运走向。额头看智慧、眼睛看心性、鼻子看财运、下巴看晚运。</p>
+<p class="kt">关于择吉</p>
+<p><b>择日学</b> &mdash; 古代称为选日或择吉，源远流长。黄历择日综合考虑建除、二十八宿、五行生克、冲煞回避等因素，为重要活动选定吉时吉日。</p></div>
+</div>
+
+
+
+<div class="card" id="compatForm" class="card cpf">
+<div class="st">合盘预览 <span class="db">DEMO</span></div>
+<p style="font-size:0.78rem;color:#666;margin-bottom:0.5rem;">输入双方出生信息，预览八字合盘分析。* Demo仅供展示</p>
+<div class="cpf-row">
+<div><label>甲方 出生年份</label><select id="caY"><option value="1990">1990</option></select></div>
+<div><label>月份</label><select id="caM"><option value="1">1月</option></select></div>
+<div><label>日期</label><select id="caD"><option value="1">1日</option></select></div>
+<div><label>时辰</label><select id="caH"><option value="-1">未知</option></select></div>
+</div>
+<div class="cpf-row">
+<div><label>乙方 出生年份</label><select id="cbY"><option value="1990">1990</option></select></div>
+<div><label>月份</label><select id="cbM"><option value="1">1月</option></select></div>
+<div><label>日期</label><select id="cbD"><option value="1">1日</option></select></div>
+<div><label>时辰</label><select id="cbH"><option value="-1">未知</option></select></div>
+</div>
+<button class="btn btn-pri" onclick="computeCompat()" style="margin-top:0.25rem;padding:0.35rem 1.2rem;font-size:0.82rem">查看合盘</button>
+<div class="cpf-result" id="compatResult"></div>
+</div>
+<!-- ===== Tab: 服务与价格 ===== -->
+<div class="tab-content" id="tab-price">
+<div class="card">
+<div class="st">择吉系列 &mdash; 选个好日子</div>
+<div class="pt">
+
+<div class="pc">
+<div class="pc-name">择日报告 <small>Day Selection</small></div>
+<div class="pc-price"><span class="pc-old">$9.99</span><span class="pc-promo">$4.99</span></div>
+<div class="pc-period">一次性</div>
+<div class="pc-desc">完整日期的黄历全息报告，含时辰吉凶、详细宜忌、冲煞解读。可打印为PDF。</div>
+<ul class="pc-features">
+<li>完整黄历信息</li>
+<li>时辰吉凶表</li>
+<li>宜忌详细解读</li>
+<li>冲煞方位</li>
+<li>PDF导出</li>
+</ul>
+<div class="pc-btn-wrap">
+<button class="pc-btn pb-primary" onclick="openReport('basic')">免费预览</button>
+<a href="https://paypal.me/jishinet/5" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+</div>
+<div class="pc-discount">开业特惠 · 限时 5 折</div>
+</div>
+
+<div class="card" id="auspiciousCard">
+<div class="mn"><button id="pm">&lsaquo; 上月</button><span class="mt" id="mt">&mdash;</span><button id="nm">下月 &rsaquo;</button></div>
 <table class="cl"><thead><tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr></thead><tbody id="cb"></tbody></table>
 <div class="sb" id="sb"></div>
 <div class="dp" id="dp"></div>
