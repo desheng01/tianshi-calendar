@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -256,6 +256,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Pin
 .nf-row input{padding:0.35rem 0.5rem;border:1.5px solid #D6D0C8;border-radius:6px;font-size:0.82rem;font-family:inherit;width:150px}
 .nf-row input:focus{border-color:#AF2020;outline:none}
 
+.pc .pc-btn-wrap{display:flex;gap:0.3rem;margin-top:auto}
+.pc .pc-btn-wrap .pc-btn{flex:1}
+.pc .pc-btn-wrap a.pc-btn{text-decoration:none;margin-left:0!important}
 @media print{.h,.tabs,.disc,.pc-btn,.rp-close{display:none!important}.rp{box-shadow:none;border:none;padding:0}.rp.op+.disc{display:none!important}}
 @media(max-width:640px){.pt{grid-template-columns:1fr 1fr}}
 
@@ -480,8 +483,10 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>冲煞方位</li>
 <li>PDF导出</li>
 </ul>
+<div class="pc-btn-wrap">
 <button class="pc-btn pb-primary" onclick="openReport('basic')">免费预览</button>
 <a href="https://paypal.me/jishinet/5" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+</div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
@@ -496,7 +501,9 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>方位择时分析</li>
 <li>PDF导出</li>
 </ul>
+<div class="pc-btn-wrap">
 <button class="pc-btn pb-primary" onclick="showTimeDetail()">免费预览</button><a href="https://paypal.me/jishinet/15" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+</div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
@@ -512,8 +519,10 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>冲煞方位详解</li>
 <li>PDF彩印报告</li>
 </ul>
+<div class="pc-btn-wrap">
 <button class="pc-btn pb-primary" onclick="showLuxuryReport()">免费预览</button>
 <a href="https://paypal.me/jishinet/44" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+</div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
@@ -536,7 +545,9 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>事业财运感情</li>
 <li>PDF导出</li>
 </ul>
+<div class="pc-btn-wrap">
 <button class="pc-btn pb-primary" onclick="showBaziPreview()">免费预览</button><a href="https://paypal.me/jishinet/10" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+</div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
@@ -552,7 +563,9 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>方位吉凶详解</li>
 <li>PDF彩印</li>
 </ul>
+<div class="pc-btn-wrap">
 <button class="pc-btn pb-primary" onclick="openReport('deep')">免费预览</button><a href="https://paypal.me/jishinet/33" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+</div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
@@ -569,7 +582,9 @@ gtag('config', 'G-XXXXXXXXXX');
 <li>3-5个推荐日</li>
 <li>PDF报告</li>
 </ul>
+<div class="pc-btn-wrap">
 <button class="pc-btn pb-primary" onclick="document.getElementById('compatForm').classList.toggle('op')">免费预览</button><a href="https://paypal.me/jishinet/50" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+</div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
 
@@ -953,8 +968,8 @@ function computeBazi(year,month,day,hour,gender){
 
 // ===== Today's Almanac =====
 function getTodayAlmanac(){
-  let n=new Date();
-  let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+  let now=new Date();
+  let y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
   let info=calcDay(y,m,d,'house');
   let shichen=calcShichen(y,m,d);
   let l=g2l(y,m,d);
@@ -992,7 +1007,7 @@ document.addEventListener('DOMContentLoaded',function(){
   const mlist=document.getElementById('mlist');
   
   let sel='house',vy,vm,cache={};
-  let n=new Date();vy=n.getFullYear();vm=n.getMonth()+1;
+  let now=new Date();vy=now.getFullYear();vm=now.getMonth()+1;
   
   try{let s=localStorage.getItem('ts_purpose');if(s&&PURPOSE_NAMES[s])sel=s;}catch(e){}
   
@@ -1201,8 +1216,8 @@ document.addEventListener('DOMContentLoaded',function(){
 
   // ---- 生肖运势 ----
   function renderZodiac(){
-    let n=new Date();
-    let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+    let now=new Date();
+    let y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
     let dayInfo=calcDay(y,m,d,sel);
     let fortunes=getZodiacFortune(dayInfo.dgB);
     
@@ -1702,9 +1717,9 @@ function openReportFromDetail(){
   // Fallback: use today
   let today=getTodayAlmanac();
   let info=today.info;
-  let n=new Date();
+  let now=new Date();
   let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
-  showReportContent(info,n.getFullYear(),n.getMonth()+1,n.getDate(),hexagram,false);
+  showReportContent(info,now.getFullYear(),now.getMonth()+1,now.getDate(),hexagram,false);
 }
 
 function showReportContent(info,y,m,d,hexagram,isDeep){
@@ -1851,8 +1866,8 @@ function showLuxuryReport(){
 
 // ---- 八字命理预览 ----
 function showBaziPreview(){
-  let n=new Date();
-  let y=n.getFullYear(),m=n.getMonth()+1,d=n.getDate();
+  let now=new Date();
+  let y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
   let result=computeBazi(y,m,d,-1,'M');
   
   document.getElementById('rpSubtitle').textContent=result.fourPillars.join(' ')+' | 八字命理';
