@@ -1030,7 +1030,7 @@ document.addEventListener('DOMContentLoaded',function(){
   
   function render(y,m){
     let key=y+'-'+m+'-'+sel;
-    if(cache[key]){renderCached(cache[key]);return;}
+    if(cache[key]){renderCached(cache[key]);}
     
     let first=new Date(y,m-1,1),last=new Date(y,m,0);
     let total=last.getDate(),fdow=first.getDay();
@@ -1375,7 +1375,17 @@ wrapPreview('showTimeDetail',showTimeDetail);
 wrapPreview('showLuxuryReport',showLuxuryReport);
 wrapPreview('openReport',openReport);
 function copyText(t){
-  navigator.clipboard.writeText('天时 '+t).catch(function(){});
+  navigator.clipboard.writeText('天时 '+t).catch(function(){
+  // Dream search Enter key
+  var dreamInp=document.getElementById('dreamSearch');
+  if(dreamInp){
+    dreamInp.addEventListener('keypress',function(e){
+      if(e.key==='Enter')searchDream();
+    });
+    dreamInp.addEventListener('input',function(){
+      if(this.value.trim())searchDream();
+    });
+  }});
 }
 
 // ============================================================
@@ -2025,7 +2035,4 @@ function searchDream(){try{
 }
 
 // Enter key to search
-document.addEventListener('DOMContentLoaded',function(){
-  var inp=document.getElementById('dreamSearch');
-  if(inp) inp.addEventListener('keyup',function(e){if(e.key==='Enter')searchDream();});
 });</script>
