@@ -22,7 +22,6 @@ gtag('js', new Date());
 gtag('config', 'G-XXXXXXXXXX');
 
 
-
 // ============================================================
 // 天时 · 核心算法
 // ============================================================
@@ -398,7 +397,6 @@ function getTodayAlmanac(){
   let l=g2l(y,m,d);
   return{year:y,month:m,day:d,info,shichen,lunar:l};
 }
-
 
 
 // ============================================================
@@ -1459,5 +1457,3 @@ function searchDream(){try{
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
 
-// Enter key to search
-});
