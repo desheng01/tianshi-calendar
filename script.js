@@ -526,22 +526,7 @@ document.addEventListener('DOMContentLoaded',function(){
       });
     });
     
-    // Auto-select
-    let tdy=cb.querySelector('.tdy');
-    if(tdy){
-      let p=tdy.dataset.ds.split('-');
-      showDetail(parseInt(p[0]),parseInt(p[1]),parseInt(p[2]));
-      tdy.classList.add('sel');
-    }else{
-      let fg=cb.querySelector('td[data-ds]');
-      if(fg){
-        let p=fg.dataset.ds.split('-');
-        showDetail(parseInt(p[0]),parseInt(p[1]),parseInt(p[2]));
-        fg.classList.add('sel');
-      }
-    }
-    
-    // Monthly auspicious list
+        // Monthly auspicious list
     renderMonthlyList(r);
   }
   
