@@ -1406,7 +1406,7 @@ function showPaywall(){
     +'<p style="font-size:0.85rem;color:#888;margin-bottom:1rem;">您已使用 3 次免费预览，支付后可继续使用所有报告功能。</p>'
     +'<a href="https://paypal.me/jishinet" target="_blank" style="display:inline-block;padding:0.6rem 2rem;background:#0070BA;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-bottom:0.5rem;">PayPal 支付支持</a>'
     +'<p style="font-size:0.75rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮解锁</p>'
-    +'<button onclick="setPaid();closePaywall();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，解锁</button>'
+    +'<button onclick="setPaid();closePaywall();location.reload();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，刷新页面</button>'
     +'</div></div>';
   var d=document.createElement('div');
   d.innerHTML=html;
