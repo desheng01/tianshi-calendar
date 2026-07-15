@@ -549,6 +549,9 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   
   function showDetail(y,m,d){
+  y=parseInt(y)||new Date().getFullYear();
+  m=parseInt(m)||new Date().getMonth()+1;
+  d=parseInt(d)||new Date().getDate();
     let info=calcDay(y,m,d,sel);
     let colors={'大吉':'#AF2020','吉':'#D4A030','平':'#B0A898','凶':'#999'};
     let c=colors[info.r]||'#999';
