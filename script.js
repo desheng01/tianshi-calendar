@@ -1,4 +1,4 @@
-
+﻿
 // Global error handler for debugging
 
 // Register service worker for PWA
@@ -793,6 +793,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
 function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
+var _origFuncs={};
 wrapPreview('showBaziPreview',showBaziPreview);
 wrapPreview('showTimeDetail',showTimeDetail);
 wrapPreview('showLuxuryReport',showLuxuryReport);
@@ -1353,7 +1354,6 @@ function setPaid(){
   try{localStorage.setItem('js_paid','true')}catch(e){}
 }
 
-var _origFuncs={};
 function wrapPreview(name,fn){
   _origFuncs[name]=fn;
   window[name]=function(){
