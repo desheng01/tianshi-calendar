@@ -574,7 +574,7 @@ document.addEventListener('DOMContentLoaded',function(){
       +(info.yi.length?info.yi.map(t=>'<span class="ty">宜 '+t+'</span>').join(''):'')
       +(info.ji.length?info.ji.map(t=>'<span class="tj">忌 '+t+'</span>').join(''):'')
       +'</div>'
-      +'<div class="dac"><button class="ab" onclick="openReportFromDetail()">完整报告</button><button class="ab" onclick="copyText('+"'"+info.dateStr+' | '+info.dg+' | '+info.r+"'"+')">复制</button></div>'
+      +'<div class="dac"><button class="ab" onclick="paidReportFromDetail()">完整报告</button><button class="ab" onclick="copyText('+"'"+info.dateStr+' | '+info.dg+' | '+info.r+"'"+')">复制</button></div>'
       +'</div>';
   }
   
@@ -1137,6 +1137,15 @@ function analyzeName(name){
 }
 
 function openReportFromDetail(){
+function paidReportFromDetail(){
+  if(isPaid()){
+    openReportFromDetail();
+  }else{
+    showPaywall();
+  }
+}
+window.paidReportFromDetail=paidReportFromDetail;
+
   // Find the currently selected date in the calendar
   let selTd=document.querySelector('#cb td.sel');
   if(selTd){
