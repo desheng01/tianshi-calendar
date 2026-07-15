@@ -1145,6 +1145,7 @@ function paidReportFromDetail(){
   }
 }
 window.paidReportFromDetail=paidReportFromDetail;
+  window.openReportFromDetail=openReportFromDetail;
 
   // Find the currently selected date in the calendar
   let selTd=document.querySelector('#cb td.sel');
@@ -1174,6 +1175,7 @@ window.paidReportFromDetail=paidReportFromDetail;
     }
   }
   window.paidReportFromDetail=paidReportFromDetail;
+  window.openReportFromDetail=openReportFromDetail;
 
 function showReportContent(info,y,m,d,hexagram,isDeep){
   let subtitle=isDeep?'周易深度报告':'择日报告';
