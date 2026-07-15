@@ -554,6 +554,7 @@ document.addEventListener('DOMContentLoaded',function(){
     let c=colors[info.r]||'#999';
     
     dp.className='dp op';
+    dp.scrollIntoView({behavior:'smooth',block:'nearest'});
     dp.innerHTML='<div class="dh">'
       +'<span class="dd">'+info.dateStr+' 周'+info.dow+'</span>'
       +'<span class="dr" style="background:'+c+'">'+info.r+' ('+info.sc+'分)</span>'
@@ -1438,6 +1439,11 @@ var DREAM_DATA = [
 {keyword:"车",t:"梦见车",d:"车象征事业和生活的前进方向。开车顺利表示事业顺遂；车坏在路上表示遇到阻碍。不同车代表不同身份。"},
 {keyword:"船",t:"梦见船",d:"船象征人生旅程。大船平稳预示顺遂；小船摇晃有波折。船在海上航行象征事业正在起航。轮船代表集体出行。"},
 {keyword:"雨伞",t:"梦见雨伞",d:"雨伞象征保护和防备。撑伞表示有防备；伞破表示保护不足。送伞有散之意，需结合情境。"},
+
+{keyword:"母亲",t:"梦见母亲",d:"母亲象征安全和家庭。梦见母亲健康安好表示家庭福祥；梦见母亲生病可能是自己对家人的担心。梦见和母亲说话预示有贵人相助。"},
+{keyword:"父亲",t:"梦见父亲",d:"父亲象征权威和保护。梦见父亲健在预示事业有成。梦见已故父亲是思念之情，预示家庭安宁。"},
+{keyword:"鬼",t:"梦见鬼",d:"梦见鬼往往是压力的反映。被鬼追表示有烦心事；打败鬼预示能克服困难。梦见鬼神也主财运，但需谨慎财物。"},
+{keyword:"老板",t:"梦见老板",d:"梦见老板可能反映了工作压力。老板嘉奖预示工作顺利；老板批评需注意人际关系。与老板合作预示事业新机遇。"},
 ];
 
 function searchDream(){try{
