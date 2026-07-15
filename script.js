@@ -1,4 +1,4 @@
-﻿
+
 // Global error handler for debugging
 
 // Register service worker for PWA
@@ -1152,8 +1152,8 @@ function paidReportFromDetail(){
     showPaywall();
   }
 }
-  window.paidReportFromDetail=paidReportFromDetail;Detail;
-  window.openReportFromDetail=openReportFromDetail;
+  window.paidReportFromDetail=paidReportFrom
+  window.openReportFromDetail=openReportFrom
 
   // Find the currently selected date in the calendar
   let selTd=document.querySelector('#cb td.sel');
@@ -1191,8 +1191,8 @@ function paidReportFromDetail(){
       showPaywall();
     }
   }
-  window.paidReportFromDetail=paidReportFromDetail;
-  window.openReportFromDetail=openReportFromDetail;
+  window.paidReportFromDetail=paidReportFrom
+  window.openReportFromDetail=openReportFrom
 
 function showReportContent(info,y,m,d,hexagram,isDeep){
   let subtitle=isDeep?'周易深度报告':'择日报告';
