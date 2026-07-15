@@ -1137,34 +1137,22 @@ function analyzeName(name){
 }
 
 function openReportFromDetail(){
-  console.error("DEBUG openReportFromDetail called");
+
   var _selTd=document.querySelector('#cb td.sel');
-  console.error("DEBUG selTd:",_selTd,_selTd?_selTd.dataset.ds:"none");
+
   var _rp=document.getElementById("reportPage");
-  console.error("DEBUG reportPage:",_rp,_rp?_rp.className:"none");
+
   var _rpContent=document.getElementById("rpContent");
-  console.error("DEBUG rpContent:",_rpContent);
+
+
 function paidReportFromDetail(){
-  console.error("DEBUG paidReportFromDetail called, isPaid="+isPaid());
   if(isPaid()){
-    var rp=document.getElementById("reportPage");
-    if(rp){
-      rp.className="rp op";
-      rp.scrollIntoView({behavior:"smooth"});
-      document.getElementById("rpContent").innerHTML="<p style=\"padding:2rem;text-align:center;color:#888\">\u52a0\u8f7d\u4e2d...</p>";
-    }
-  }
-  if(isPaid()){
-    try{openReportFromDetail();}catch(e){
-      console.error("Report error:",e);
-      var rp=document.getElementById("reportPage");
-      if(rp){rp.className="rp op";rp.scrollIntoView({behavior:"smooth"});}
-    }
+    openReportFromDetail();
   }else{
     showPaywall();
   }
 }
-window.paidReportFromDetail=paidReportFromDetail;
+  window.paidReportFromDetail=paidReportFromDetail;Detail;
   window.openReportFromDetail=openReportFromDetail;
 
   // Find the currently selected date in the calendar
@@ -1188,7 +1176,7 @@ window.paidReportFromDetail=paidReportFromDetail;
   showReportContent(info,now.getFullYear(),now.getMonth()+1,now.getDate(),hexagram,false);
 }
   function paidReportFromDetail(){
-  console.error("DEBUG paidReportFromDetail called, isPaid="+isPaid());
+
   if(isPaid()){
     var rp=document.getElementById("reportPage");
     if(rp){
@@ -1431,7 +1419,7 @@ function showPaywall(){
     +'<p style="font-size:0.85rem;color:#888;margin-bottom:1rem;">您已使用 3 次免费预览，支付后可继续使用所有报告功能。</p>'
     +'<a href="https://paypal.me/jishinet" target="_blank" style="display:inline-block;padding:0.6rem 2rem;background:#0070BA;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-bottom:0.5rem;">PayPal 支付支持</a>'
     +'<p style="font-size:0.75rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮解锁</p>'
-    +'<button onclick="setPaid();closePaywall();location.reload();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，刷新页面</button>'
+    +'<button onclick="setPaid();closePaywall();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，解锁</button>'
     +'</div></div>';
   var d=document.createElement('div');
   d.innerHTML=html;
