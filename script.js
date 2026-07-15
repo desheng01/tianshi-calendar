@@ -496,10 +496,10 @@ document.addEventListener('DOMContentLoaded',function(){
     let t=new Date();let ts=t.getFullYear()+'-'+(t.getMonth()+1)+'-'+t.getDate();
     
     r.days.forEach(function(day){
-      let d=day.date.getDate(),isT=day.dateStr===ts;
+      let d=day.date.getDate(),isT=r.y+'-'+r.m+'-'+d===ts;
       let cls=isT?'tdy':'',dc='cdr ';
       if(day.r==='大吉')dc+='d1';else if(day.r==='吉')dc+='d2';else if(day.r==='平')dc+='d3';else dc+='d4';
-      h+='<td class="'+cls+'" data-ds="'+day.dateStr+'" data-d="'+d+'" title="'+day.dg+' '+day.jc+' '+day.r+'">'
+      h+='<td class="'+cls+'" data-ds="'+r.y+'-'+r.m+'-'+d+'" data-d="'+d+'" title="'+day.dg+' '+day.jc+' '+day.r+'">'
         +'<div class="cdn">'+d+'</div><div class="cdl">'+(day.fl!=='—'?day.fl.slice(0,2):'-')+'</div><span class="'+dc+'"></span></td>';
       if((r.fdow+d)%7===0&&d<r.total)h+='</tr><tr>';
     });
