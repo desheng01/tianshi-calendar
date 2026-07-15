@@ -1139,7 +1139,11 @@ function analyzeName(name){
 function openReportFromDetail(){
 function paidReportFromDetail(){
   if(isPaid()){
-    openReportFromDetail();
+    try{openReportFromDetail();}catch(e){
+      console.error("Report error:",e);
+      var rp=document.getElementById("reportPage");
+      if(rp){rp.className="rp op";rp.scrollIntoView({behavior:"smooth"});}
+    }
   }else{
     showPaywall();
   }
