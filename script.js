@@ -470,7 +470,21 @@ document.addEventListener('DOMContentLoaded',function(){
     let result={days,y,m,total,fdow,stats};
     cache[key]=result;
     renderCached(result);
-  }
+  
+    // Attach click handlers
+    var _tds=document.querySelectorAll('#cb td');
+    for(var _i=0;_i<_tds.length;_i++){
+      _tds[_i].addEventListener('click',(function(td){
+        return function(){
+          var ds=td.dataset.ds;if(!ds)return;
+          var p=ds.split('-');
+          showDetail(parseInt(p[0]),parseInt(p[1]),parseInt(p[2]));
+          document.querySelectorAll('#cb td').forEach(function(t){t.classList.remove('sel');});
+          td.classList.add('sel');
+        };
+      })(_tds[_i]));
+    }
+}
   
   function renderCached(r){
     let li=g2l(r.y,r.m,1);
