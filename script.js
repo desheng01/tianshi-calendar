@@ -27,17 +27,17 @@ gtag('config', 'G-XXXXXXXXXX');
 // ============================================================
 
 // ---- Constants ----
-const TG = ['�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?];
-const DZ = ['�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?];
-const SX = ['�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?];
-const JC = ['�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'开','�?];
-const JC_S = {�?0,�?2,�?1,�?0,�?2,�?-1,�?-2,�?1,�?2,�?1,开:2,�?-1};
-const XIU = ['�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?,'�?];
-const XIU_J = {�?1,�?-1,�?1,�?1,�?-1,�?1,�?1,�?1,�?-1,�?-1,�?-1,�?1,�?1,�?1,�?1,�?1,�?1,�?-1,�?1,�?-1,�?1,�?1,�?-1,�?-1,�?1,�?1,�?-1,�?1};
-const ELEM = {0:'�?,1:'�?,2:'�?,3:'�?,4:'�?,5:'�?,6:'�?,7:'�?,8:'�?,9:'�?};
-const ELEM_DZ = {0:'�?,1:'�?,2:'�?,3:'�?,4:'�?,5:'�?,6:'�?,7:'�?,8:'�?,9:'�?,10:'�?,11:'�?};
-const ELEM_COLORS = {�?'#D4A030',�?'#2A7A3A',�?'#2A5A8A',�?'#AF2020',�?'#B08040'};
-const WU_XING = ['�?,'�?,'�?,'�?,'�?];
+const TG = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const DZ = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const SX = ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
+const JC = ['建','除','满','平','定','执','破','危','成','收','开','闭'];
+const JC_S = {建:0,除:2,满:1,平:0,定:2,执:-1,破:-2,危:1,成:2,收:1,开:2,闭:-1};
+const XIU = ['角','亢','氐','房','心','尾','箕','斗','牛','女','虚','危','室','壁','奎','娄','胃','昴','毕','觜','参','井','鬼','柳','星','张','翼','轸'];
+const XIU_J = {角:1,亢:-1,氐:1,房:1,心:-1,尾:1,箕:1,斗:1,牛:-1,女:-1,虚:-1,危:1,室:1,壁:1,奎:1,娄:1,胃:1,昴:-1,毕:1,觜:-1,参:1,井:1,鬼:-1,柳:-1,星:1,张:1,翼:-1,轸:1};
+const ELEM = {0:'水',1:'土',2:'木',3:'木',4:'火',5:'火',6:'土',7:'金',8:'金',9:'土'};
+const ELEM_DZ = {0:'水',1:'土',2:'木',3:'木',4:'火',5:'火',6:'火',7:'土',8:'金',9:'金',10:'土',11:'水'};
+const ELEM_COLORS = {金:'#D4A030',木:'#2A7A3A',水:'#2A5A8A',火:'#AF2020',土:'#B08040'};
+const WU_XING = ['金','木','水','火','土'];
 
 // Hidden stems (藏干) for each earthly branch
 const CANG_GAN = {
@@ -72,7 +72,7 @@ const LMN = ['','正月','二月','三月','四月','五月','六月','七月','
 const LDN = ['','初一','初二','初三','初四','初五','初六','初七','初八','初九','初十',
   '十一','十二','十三','十四','十五','十六','十七','十八','十九','二十',
   '廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
-const PURPOSE_NAMES = {wedding:'结婚',move:'搬家',house:'入宅',open:'开�?,travel:'出行',sign:'签约',ground:'动土',worship:'祭祀',burial:'安葬'};
+const PURPOSE_NAMES = {wedding:'结婚',move:'搬家',house:'入宅',open:'开业',travel:'出行',sign:'签约',ground:'动土',worship:'祭祀',burial:'安葬'};
 
 const SHICHEN = [
   {name:'子时',start:'23:00',end:'01:00',idx:0},
@@ -119,8 +119,8 @@ function g2l(year,month,day){
   return {year:ly,month:lm,day:ld,isLeap};
 }
 function fmtLunar(l){
-  if(!l)return '�?;
-  return (l.isLeap?'�?:'')+LMN[l.month]+LDN[l.day];
+  if(!l)return '—';
+  return (l.isLeap?'闰':'')+LMN[l.month]+LDN[l.day];
 }
 
 // ---- Solar-term month branch ----
@@ -157,7 +157,7 @@ function dGz(year,month,day){
   let idx=((d%60)+60+10)%60;
   return {s:idx%10,b:idx%12,idx,t:TG[idx%10]+DZ[idx%12]};
 }
-// Hour Gan-Zhi (五鼠�?
+// Hour Gan-Zhi (五鼠遁)
 function hGz(dayStem,hourBranch){
   if(hourBranch<0)return null;
   const startStem=[0,2,4,6,8]; // 甲己→甲,乙庚→丙,丙辛→戊,丁壬→庚,戊癸→壬
@@ -166,7 +166,8 @@ function hGz(dayStem,hourBranch){
 }
 function hourToBranch(hour){
   if(hour<0||hour>23)return -1;
-  if(hour===23||hour===0)return 0; // �?  return Math.floor((hour+1)/2)%12; // 1-2→丑[1], 3-4→寅[2], etc.
+  if(hour===23||hour===0)return 0; // 子
+  return Math.floor((hour+1)/2)%12; // 1-2→丑[1], 3-4→寅[2], etc.
 }
 
 // ---- JianChu ----
@@ -176,7 +177,7 @@ function jianChuInfo(year,month,day,dzB){
   let name=JC[off];
   return {idx:off,name,score:JC_S[name]||0};
 }
-function chongSha(db){let cb=(db+6)%12;return{text:'�?+SX[cb],zodiac:SX[cb]};}
+function chongSha(db){let cb=(db+6)%12;return{text:'冲'+SX[cb],zodiac:SX[cb]};}
 function getXiu(d){
   let ref=new Date(1900,0,1);
   let day=daysBetween(ref,d);
@@ -187,19 +188,19 @@ function getRating(jcScore,xiuJi,db){
   let score=jcScore+xiuJi;
   if(db===3||db===9)score+=1;
   if(score>=3)return['大吉',score];
-  if(score>=1)return['�?,score];
-  if(score>=-1)return['�?,score];
-  return['�?,score];
+  if(score>=1)return['吉',score];
+  if(score>=-1)return['平',score];
+  return['凶',score];
 }
 function getYiJi(purpose,jcName,rating){
-  const PMAP={wedding:['嫁娶','订婚'],move:['移徙','入宅'],house:['入宅','安床'],open:['开�?,'交易'],travel:['出行','赴任'],sign:['签约','交易'],ground:['动土','破土'],worship:['祭祀','祈福'],burial:['安葬','入殓']};
+  const PMAP={wedding:['嫁娶','订婚'],move:['移徙','入宅'],house:['入宅','安床'],open:['开市','交易'],travel:['出行','赴任'],sign:['签约','交易'],ground:['动土','破土'],worship:['祭祀','祈福'],burial:['安葬','入殓']};
   let items=PMAP[purpose]||PMAP.house;
-  let yi=(rating==='大吉'||rating==='�?)?[...items]:[];
+  let yi=(rating==='大吉'||rating==='吉')?[...items]:[];
   let ji=[];
-  if(jcName==='�?)ji.push('破日-诸事不宜');
-  if(jcName==='�?)ji.push('闭日-不宜大事');
-  if(rating==='�?)ji.push('凶日-宜静不宜�?);
-  if(ji.length===0)ji.push('无特别忌�?);
+  if(jcName==='破')ji.push('破日-诸事不宜');
+  if(jcName==='闭')ji.push('闭日-不宜大事');
+  if(rating==='凶')ji.push('凶日-宜静不宜动');
+  if(ji.length===0)ji.push('无特别忌讳');
   return {yi,ji};
 }
 
@@ -211,8 +212,8 @@ function calcDay(y,m,d,purpose){
   let jc=jianChuInfo(y,m,d,dg.b),cs=chongSha(dg.b),xiu=getXiu(date);
   let [r,sc]=getRating(jc.score,xiu.ji,dg.b);
   let yj=getYiJi(purpose,jc.name,r);
-  return{date,dateStr:y+'�?+m+'�?+d+'�?,dow:['�?,'一','�?,'�?,'�?,'�?,'�?][date.getDay()],
-    fl:l?fmtLunar(l):'�?,yg:yg.t,mg:mg.t,dg:dg.t,sx:SX[dg.b],jc:jc.name,cs:cs.text,xiu:xiu.name,r,sc,
+  return{date,dateStr:y+'年'+m+'月'+d+'日',dow:['日','一','二','三','四','五','六'][date.getDay()],
+    fl:l?fmtLunar(l):'—',yg:yg.t,mg:mg.t,dg:dg.t,sx:SX[dg.b],jc:jc.name,cs:cs.text,xiu:xiu.name,r,sc,
     yi:yj.yi,ji:yj.ji,dgB:dg.b,dgS:dg.s};
 }
 
@@ -223,11 +224,13 @@ function calcShichen(year,month,day){
     let hg=hGz(dg.s,sh.idx);
     let text=hg?hg.t+' '+sh.name:sh.name;
     // Simple scoring: 子午卯酉 slightly better; check element
-    let shScore=1; // default �?    let scEl=sh.idx%2===0?1:0; // even index: �? odd: �?    if(sh.idx===0||sh.idx===6)scEl=2; // 子午: �?
-    if(sh.idx===3||sh.idx===9)scEl=2; // 卯酉: �?
-    if(shScore+scEl>=3)return {...sh,text,grade:'�?,cls:'sh-ji'};
-    if(shScore+scEl>=1)return {...sh,text,grade:'�?,cls:'sh-ping'};
-    return {...sh,text,grade:'�?,cls:'sh-xiong'};
+    let shScore=1; // default 平
+    let scEl=sh.idx%2===0?1:0; // even index: 吉, odd: 平
+    if(sh.idx===0||sh.idx===6)scEl=2; // 子午: 吉+
+    if(sh.idx===3||sh.idx===9)scEl=2; // 卯酉: 吉+
+    if(shScore+scEl>=3)return {...sh,text,grade:'吉',cls:'sh-ji'};
+    if(shScore+scEl>=1)return {...sh,text,grade:'平',cls:'sh-ping'};
+    return {...sh,text,grade:'凶',cls:'sh-xiong'};
   });
 }
 
@@ -241,22 +244,22 @@ function getZodiacFortune(dayBranch){
   const xing=[[0,3],[1,1],[2,4],[4,2],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10],[11,11]];
   
   const FORTUNE_TEXTS_GOOD = [
-    '今日运势旺盛，贵人相助，诸事顺遂，宜把握良机�?,
-    '运势上扬，心想事成，人际关系和谐，适合社交活动�?,
-    '吉星高照，事业有进展，财运不错，可积极进取�?,
-    '贵人运佳，工作顺利，感情融洽，是愉快的一天�?
+    '今日运势旺盛，贵人相助，诸事顺遂，宜把握良机。',
+    '运势上扬，心想事成，人际关系和谐，适合社交活动。',
+    '吉星高照，事业有进展，财运不错，可积极进取。',
+    '贵人运佳，工作顺利，感情融洽，是愉快的一天。'
   ];
   const FORTUNE_TEXTS_MID = [
-    '运势平稳，无大喜大忧，按计划行事即可�?,
-    '平平淡淡，宜静不宜动，适合整理内务�?,
-    '小有波动，但无大碍，保持平常心即可�?,
-    '稍显平淡，建议多关注自身，少管闲事�?
+    '运势平稳，无大喜大忧，按计划行事即可。',
+    '平平淡淡，宜静不宜动，适合整理内务。',
+    '小有波动，但无大碍，保持平常心即可。',
+    '稍显平淡，建议多关注自身，少管闲事。'
   ];
   const FORTUNE_TEXTS_LOW = [
-    '今日运势欠佳，宜低调行事，谨言慎行�?,
-    '犯冲之日，注意口舌是非，不宜做重大决定�?,
-    '运势低迷，诸事不宜冒进，保守为上�?,
-    '星宿不利，建议放缓节奏，多些耐心�?
+    '今日运势欠佳，宜低调行事，谨言慎行。',
+    '犯冲之日，注意口舌是非，不宜做重大决定。',
+    '运势低迷，诸事不宜冒进，保守为上。',
+    '星宿不利，建议放缓节奏，多些耐心。'
   ];
   
   return SX.map(function(_,i){
@@ -276,17 +279,17 @@ function getZodiacFortune(dayBranch){
     let zodEl=ELEM_DZ[i];
     let elemScore=0;
     if(dayEl===zodEl)elemScore=1;
-    else if((dayEl==='�?&&zodEl==='�?)||(dayEl==='�?&&zodEl==='�?)||
-            (dayEl==='�?&&zodEl==='�?)||(dayEl==='�?&&zodEl==='�?)||
-            (dayEl==='�?&&zodEl==='�?))elemScore=1;
+    else if((dayEl==='木'&&zodEl==='水')||(dayEl==='火'&&zodEl==='木')||
+            (dayEl==='土'&&zodEl==='火')||(dayEl==='金'&&zodEl==='土')||
+            (dayEl==='水'&&zodEl==='金'))elemScore=1;
     score+=elemScore;
     
     let stars,grade,texts;
-    if(score>=5){stars='★★★★�?;grade='大吉';texts=FORTUNE_TEXTS_GOOD;}
-    else if(score>=4){stars='★★★★�?;grade='�?;texts=FORTUNE_TEXTS_GOOD;}
-    else if(score===3){stars='★★★☆�?;grade='�?;texts=FORTUNE_TEXTS_MID;}
-    else if(score===2){stars='★★☆☆�?;grade='�?;texts=FORTUNE_TEXTS_MID;}
-    else {stars='★☆☆☆�?;grade='�?;texts=FORTUNE_TEXTS_LOW;}
+    if(score>=5){stars='★★★★★';grade='大吉';texts=FORTUNE_TEXTS_GOOD;}
+    else if(score>=4){stars='★★★★☆';grade='吉';texts=FORTUNE_TEXTS_GOOD;}
+    else if(score===3){stars='★★★☆☆';grade='平';texts=FORTUNE_TEXTS_MID;}
+    else if(score===2){stars='★★☆☆☆';grade='平';texts=FORTUNE_TEXTS_MID;}
+    else {stars='★☆☆☆☆';grade='凶';texts=FORTUNE_TEXTS_LOW;}
     
     // Pick text based on zodiac index to get variety
     let tIdx=(i*7+dayBranch*3)%texts.length;
@@ -312,7 +315,7 @@ function computeBazi(year,month,day,hour,gender){
   function fmtCang(arr){return arr.map(i=>TG[i]).join('');}
   
   // Five element count from 8 characters
-  let elemCount={�?0,�?0,�?0,�?0,�?0};
+  let elemCount={金:0,木:0,水:0,火:0,土:0};
   function countElem(ganArr,zhiArr){
     for(let s of ganArr){let el=ELEM[s];if(el&&elemCount[el]!==undefined)elemCount[el]++;}
     for(let b of zhiArr){let el=ELEM_DZ[b];if(el&&elemCount[el]!==undefined)elemCount[el]++;}
@@ -338,50 +341,50 @@ function computeBazi(year,month,day,hour,gender){
   
   // Season based strength
   let monthBranch=mg.b;
-  const seasonEl={0:'�?,1:'�?,2:'�?,3:'�?,4:'�?,5:'�?,6:'�?,7:'�?,8:'�?,9:'�?,10:'�?,11:'�?};
+  const seasonEl={0:'水',1:'土',2:'木',3:'木',4:'火',5:'火',6:'土',7:'金',8:'金',9:'土',10:'土',11:'水'};
   // In which season is the day master born?
-  // 寅卯�?�?�?, 巳午�?�?�?, 申酉�?�?�?, 亥子�?�?�?
+  // 寅卯辰=春(木), 巳午未=夏(火), 申酉戌=秋(金), 亥子丑=冬(水)
   let season='';
-  if([2,3,4].includes(monthBranch))season='�?;
-  else if([5,6,7].includes(monthBranch))season='�?;
-  else if([8,9,10].includes(monthBranch))season='�?;
-  else season='�?;
+  if([2,3,4].includes(monthBranch))season='木';
+  else if([5,6,7].includes(monthBranch))season='火';
+  else if([8,9,10].includes(monthBranch))season='金';
+  else season='水';
   
   let dmStrong=false;
   // Day master is strong when born in its own season or when its element is most abundant
   if(dayMasterEl===season)dmStrong=true;
   if(elemCount[dayMasterEl]>=3)dmStrong=true;
   
-  let analysis='日主'+dayMaster+'�?+dayMasterEl+'�?;
-  if(dmStrong)analysis+='生于'+season+'月，日主偏旺，喜�?+WU_XING.filter(k=>k!==dayMasterEl)[0]+'�?+WU_XING.filter(k=>k!==dayMasterEl)[1]+'调和�?;
-  else analysis+='生于'+season+'月，日主偏弱，喜�?+dayMasterEl+'补益�?;
+  let analysis='日主'+dayMaster+'属'+dayMasterEl+'。';
+  if(dmStrong)analysis+='生于'+season+'月，日主偏旺，喜用'+WU_XING.filter(k=>k!==dayMasterEl)[0]+'、'+WU_XING.filter(k=>k!==dayMasterEl)[1]+'调和。';
+  else analysis+='生于'+season+'月，日主偏弱，喜用'+dayMasterEl+'补益。';
   
-  if(maxElName)analysis+='八字�?+maxElName+'最�?'+elemCount[maxElName]+'�?�?;
-  if(minElName)analysis+=''+minElName+'最�?'+elemCount[minElName]+'�?�?;
-  analysis+='五行'+(elemCount[dayMasterEl]>=2?'相对均衡�?:'略有偏颇，需后天补益�?);
+  if(maxElName)analysis+='八字中'+maxElName+'最旺('+elemCount[maxElName]+'个)，';
+  if(minElName)analysis+=''+minElName+'最弱('+elemCount[minElName]+'个)。';
+  analysis+='五行'+(elemCount[dayMasterEl]>=2?'相对均衡。':'略有偏颇，需后天补益。');
   
   // Personality traits based on day master element
   const PERSONALITY={
-    '�?:'刚毅果断、意志坚定，有领导力和执行力�?,
-    '�?:'仁慈宽厚、有进取心，善于规划和组织�?,
-    '�?:'智慧通达、善于变通，有艺术气质和洞察力�?,
-    '�?:'热情开朗、有感染力，行动力强、善于交际�?,
-    '�?:'稳重踏实、信守承诺，有包容心和耐心�?
+    '金':'刚毅果断、意志坚定，有领导力和执行力。',
+    '木':'仁慈宽厚、有进取心，善于规划和组织。',
+    '水':'智慧通达、善于变通，有艺术气质和洞察力。',
+    '火':'热情开朗、有感染力，行动力强、善于交际。',
+    '土':'稳重踏实、信守承诺，有包容心和耐心。'
   };
-  analysis+='性格倾向�?+dayMasterEl+'日主之人通常'+PERSONALITY[dayMasterEl];
+  analysis+='性格倾向：'+dayMasterEl+'日主之人通常'+PERSONALITY[dayMasterEl];
   
   return{
     pillars:[
       {label:'年柱',gan:yg.t,zhi:DZ[yg.b],cang:fmtCang(yCg),el:ELEM[yg.s],ganEl:ELEM[yg.s],zhiEl:ELEM_DZ[yg.b]},
       {label:'月柱',gan:mg.t,zhi:DZ[mg.b],cang:fmtCang(mCg),el:ELEM[mg.s],ganEl:ELEM[mg.s],zhiEl:ELEM_DZ[mg.b]},
       {label:'日柱',gan:dg.t,zhi:DZ[dg.b],cang:fmtCang(dCg),el:ELEM[dg.s],ganEl:ELEM[dg.s],zhiEl:ELEM_DZ[dg.b]},
-      {label:'时柱',gan:hg?hg.t:'�?,zhi:hg?DZ[hg.b]:'�?,cang:hg?fmtCang(hCg):'�?,el:hg?ELEM[hg.s]:'�?,ganEl:hg?ELEM[hg.s]:'�?,zhiEl:hg?ELEM_DZ[hg.b]:'�?}
+      {label:'时柱',gan:hg?hg.t:'—',zhi:hg?DZ[hg.b]:'—',cang:hg?fmtCang(hCg):'—',el:hg?ELEM[hg.s]:'—',ganEl:hg?ELEM[hg.s]:'—',zhiEl:hg?ELEM_DZ[hg.b]:'—'}
     ],
     dayMaster:{gan:dayMaster,el:dayMasterEl},
     elemCount,season,
     dmStrong,analysis,
     gender:gender||'M',
-    fourPillars:[yg.t,mg.t,dg.t,hg?hg.t:'�?]
+    fourPillars:[yg.t,mg.t,dg.t,hg?hg.t:'—']
   };
 }
 
@@ -415,7 +418,7 @@ document.addEventListener('DOMContentLoaded',function(){
     });
   });
 
-  // ---- 择吉�?----
+  // ---- 择吉日 ----
   const pg=document.getElementById('pg');
   const cb=document.getElementById('cb');
   const mt=document.getElementById('mt');
@@ -460,8 +463,8 @@ document.addEventListener('DOMContentLoaded',function(){
       let info=calcDay(y,m,d,sel);
       days.push(info);
       if(info.r==='大吉')stats.dj++;
-      else if(info.r==='�?)stats.j++;
-      else if(info.r==='�?)stats.p++;
+      else if(info.r==='吉')stats.j++;
+      else if(info.r==='平')stats.p++;
       else stats.x++;
     }
     let result={days,y,m,total,fdow,stats};
@@ -471,7 +474,7 @@ document.addEventListener('DOMContentLoaded',function(){
   
   function renderCached(r){
     let li=g2l(r.y,r.m,1);
-    mt.innerHTML=r.y+'�?+r.m+'�?+(li?' <small>'+LMN[li.month]+'</small>':'');
+    mt.innerHTML=r.y+'年'+r.m+'月'+(li?' <small>'+LMN[li.month]+'</small>':'');
     
     // Calendar grid
     let h='<tr>';
@@ -481,9 +484,9 @@ document.addEventListener('DOMContentLoaded',function(){
     r.days.forEach(function(day){
       let d=day.date.getDate(),isT=day.dateStr===ts;
       let cls=isT?'tdy':'',dc='cdr ';
-      if(day.r==='大吉')dc+='d1';else if(day.r==='�?)dc+='d2';else if(day.r==='�?)dc+='d3';else dc+='d4';
+      if(day.r==='大吉')dc+='d1';else if(day.r==='吉')dc+='d2';else if(day.r==='平')dc+='d3';else dc+='d4';
       h+='<td class="'+cls+'" data-ds="'+day.dateStr+'" data-d="'+d+'" title="'+day.dg+' '+day.jc+' '+day.r+'">'
-        +'<div class="cdn">'+d+'</div><div class="cdl">'+(day.fl!=='�??day.fl.slice(0,2):'-')+'</div><span class="'+dc+'"></span></td>';
+        +'<div class="cdn">'+d+'</div><div class="cdl">'+(day.fl!=='—'?day.fl.slice(0,2):'-')+'</div><span class="'+dc+'"></span></td>';
       if((r.fdow+d)%7===0&&d<r.total)h+='</tr><tr>';
     });
     let lc=(r.fdow+r.total)%7;
@@ -494,8 +497,8 @@ document.addEventListener('DOMContentLoaded',function(){
     // Summary
     let pn=PURPOSE_NAMES[sel]||sel;
     sb.innerHTML='<span><span class="d d1"></span>大吉 <b>'+r.stats.dj+'</b></span>'
-      +'<span><span class="d d2"></span>�?<b>'+r.stats.j+'</b></span>'
-      +'<span><span class="d d3"></span>�?<b>'+r.stats.p+'</b></span>'
+      +'<span><span class="d d2"></span>吉 <b>'+r.stats.j+'</b></span>'
+      +'<span><span class="d d3"></span>平 <b>'+r.stats.p+'</b></span>'
       +'<span><span class="d d4"></span>不宜 <b>'+r.stats.x+'</b></span>'
       +'<span style="margin-left:auto;color:#999;font-size:0.7rem;">'+pn+'</span>';
     
@@ -529,15 +532,15 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   
   function renderMonthlyList(r){
-    let goodDays=r.days.filter(d=>d.r==='大吉'||d.r==='�?);
+    let goodDays=r.days.filter(d=>d.r==='大吉'||d.r==='吉');
     if(goodDays.length===0){mlist.innerHTML='';return;}
     let pn=PURPOSE_NAMES[sel]||sel;
-    let html='<h4>'+pn+'吉日一�?/h4>';
+    let html='<h4>'+pn+'吉日一览</h4>';
     goodDays.forEach(function(d){
       let dotCls=d.r==='大吉'?'d1':'d2';
       html+='<div class="ml-item" onclick="switchToDay('+d.date.getFullYear()+','+(d.date.getMonth()+1)+','+d.date.getDate()+')">'
         +'<span class="ml-dot '+dotCls+'"></span>'
-        +'<span>'+d.dateStr+' �?+d.dow+'</span>'
+        +'<span>'+d.dateStr+' 周'+d.dow+'</span>'
         +'<span style="color:#999;font-size:0.72rem;">'+d.dg+' '+d.jc+'</span>'
         +'<span style="margin-left:auto;color:'+(d.r==='大吉'?'#AF2020':'#D4A030')+';font-weight:600;">'+d.r+'</span>'
         +'</div>';
@@ -547,26 +550,26 @@ document.addEventListener('DOMContentLoaded',function(){
   
   function showDetail(y,m,d){
     let info=calcDay(y,m,d,sel);
-    let colors={'大吉':'#AF2020','�?:'#D4A030','�?:'#B0A898','�?:'#999'};
+    let colors={'大吉':'#AF2020','吉':'#D4A030','平':'#B0A898','凶':'#999'};
     let c=colors[info.r]||'#999';
     
     dp.className='dp op';
     dp.innerHTML='<div class="dh">'
-      +'<span class="dd">'+info.dateStr+' �?+info.dow+'</span>'
-      +'<span class="dr" style="background:'+c+'">'+info.r+' ('+info.sc+'�?</span>'
+      +'<span class="dd">'+info.dateStr+' 周'+info.dow+'</span>'
+      +'<span class="dr" style="background:'+c+'">'+info.r+' ('+info.sc+'分)</span>'
       +'<button class="dc" onclick="closeDP()">X</button></div>'
       +'<div class="db">'
       +'<div class="drw"><span class="dl">农历</span><span>'+info.fl+'</span></div>'
       +'<div class="drw"><span class="dl">年柱</span><span>'+info.yg+'</span></div>'
       +'<div class="drw"><span class="dl">月柱(节气)</span><span>'+info.mg+'</span></div>'
       +'<div class="drw"><span class="dl">日柱</span><span>'+info.dg+'</span></div>'
-      +'<div class="drw"><span class="dl">生肖�?/span><span>'+info.sx+'</span></div>'
+      +'<div class="drw"><span class="dl">生肖日</span><span>'+info.sx+'</span></div>'
       +'<div class="drw"><span class="dl">建除</span><span>'+info.jc+'</span></div>'
-      +'<div class="drw"><span class="dl">廿八�?/span><span>'+info.xiu+'</span></div>'
+      +'<div class="drw"><span class="dl">廿八宿</span><span>'+info.xiu+'</span></div>'
       +'<div class="drw"><span class="dl">冲煞</span><span>'+info.cs+'</span></div>'
       +'<div class="dyj">'
-      +(info.yi.length?info.yi.map(t=>'<span class="ty">�?'+t+'</span>').join(''):'')
-      +(info.ji.length?info.ji.map(t=>'<span class="tj">�?'+t+'</span>').join(''):'')
+      +(info.yi.length?info.yi.map(t=>'<span class="ty">宜 '+t+'</span>').join(''):'')
+      +(info.ji.length?info.ji.map(t=>'<span class="tj">忌 '+t+'</span>').join(''):'')
       +'</div>'
       +'<div class="dac"><button class="ab" onclick="paidReportFromDetail()">完整报告</button><button class="ab" onclick="copyText('+"'"+info.dateStr+' | '+info.dg+' | '+info.r+"'"+')">复制</button></div>'
       +'</div>';
@@ -607,22 +610,22 @@ document.addEventListener('DOMContentLoaded',function(){
     
     header.innerHTML='<span class="ad">'+info.dateStr+'</span>'
       +'<span class="aw">星期'+info.dow+'</span>'
-      +'<span class="alunar">'+(data.lunar?fmtLunar(data.lunar):'�?)+'</span>';
+      +'<span class="alunar">'+(data.lunar?fmtLunar(data.lunar):'—')+'</span>';
     
-    let colors={'大吉':'#AF2020','�?:'#D4A030','�?:'#B0A898','�?:'#999'};
+    let colors={'大吉':'#AF2020','吉':'#D4A030','平':'#B0A898','凶':'#999'};
     let c=colors[info.r]||'#999';
     
     let html='<div class="ar"><span class="al">年柱</span><span>'+info.yg+'</span></div>'
       +'<div class="ar"><span class="al">月柱(节气)</span><span>'+info.mg+'</span></div>'
       +'<div class="ar"><span class="al">日柱</span><span>'+info.dg+'</span></div>'
-      +'<div class="ar"><span class="al">生肖�?/span><span>'+info.sx+'</span></div>'
+      +'<div class="ar"><span class="al">生肖日</span><span>'+info.sx+'</span></div>'
       +'<div class="ar"><span class="al">建除</span><span>'+info.jc+'</span></div>'
-      +'<div class="ar"><span class="al">廿八�?/span><span>'+info.xiu+'</span></div>'
+      +'<div class="ar"><span class="al">廿八宿</span><span>'+info.xiu+'</span></div>'
       +'<div class="ar"><span class="al">冲煞</span><span>'+info.cs+'</span></div>'
       +'<div class="ar"><span class="al">吉凶</span><span style="color:'+c+';font-weight:600;">'+info.r+'</span></div>'
       +'<div class="ayiji">'
-      +(info.yi.length?info.yi.map(t=>'<span class="ty">�?'+t+'</span>').join(''):'')
-      +(info.ji.length?info.ji.map(t=>'<span class="tj">�?'+t+'</span>').join(''):'')
+      +(info.yi.length?info.yi.map(t=>'<span class="ty">宜 '+t+'</span>').join(''):'')
+      +(info.ji.length?info.ji.map(t=>'<span class="tj">忌 '+t+'</span>').join(''):'')
       +'</div>'
       +'<div class="sh"><h4>时辰吉凶</h4><div class="sh-grid">'
       +data.shichen.map(function(sh){
@@ -641,7 +644,7 @@ document.addEventListener('DOMContentLoaded',function(){
     let fortunes=getZodiacFortune(dayInfo.dgB);
     
     let title=document.getElementById('zdTitle');
-    title.textContent=dayInfo.dateStr+'('+dayInfo.sx+'�?十二生肖今日运势';
+    title.textContent=dayInfo.dateStr+'('+dayInfo.sx+'日)十二生肖今日运势';
     
     let grid=document.getElementById('zodiacGrid');
     let html='';
@@ -673,10 +676,10 @@ document.addEventListener('DOMContentLoaded',function(){
       +'<span style="font-size:1.5rem;">'+icons[idx]+'</span>'
       +'<span style="font-size:1rem;font-weight:600;">'+SX[idx]+'</span>'
       +'<span style="margin-left:auto;color:#D4A030;font-weight:600;">'+f.stars+' '+f.grade+'</span>'
-      +'<button style="border:none;background:transparent;font-size:0.9rem;color:#999;cursor:pointer;" onclick="closeZM()">�?/button></div>'
+      +'<button style="border:none;background:transparent;font-size:0.9rem;color:#999;cursor:pointer;" onclick="closeZM()">✕</button></div>'
       +'<p>'+f.text+'</p>'
-      +'<p style="margin-top:0.4rem;font-size:0.75rem;color:#999;">本日'+dayInfo.dg+'日，�?+SX[idx]+'('+(f.score>=4?'相合':f.score<=2?'相冲':'无冲�?)+')，综合评�?+f.score+'分�?/p>'
-      +'<p style="margin-top:0.3rem;font-size:0.72rem;color:#aaa;">* 供娱乐参�?/p>';
+      +'<p style="margin-top:0.4rem;font-size:0.75rem;color:#999;">本日'+dayInfo.dg+'日，与'+SX[idx]+'('+(f.score>=4?'相合':f.score<=2?'相冲':'无冲合')+')，综合评分'+f.score+'分。</p>'
+      +'<p style="margin-top:0.3rem;font-size:0.72rem;color:#aaa;">* 供娱乐参考</p>';
   };
 
   // ---- 八字排盘 ----
@@ -689,7 +692,7 @@ document.addEventListener('DOMContentLoaded',function(){
     // Populate year: 1900-2030
     for(let y=2030;y>=1900;y--){
       let opt=document.createElement('option');
-      opt.value=y;opt.textContent=y+'�?;
+      opt.value=y;opt.textContent=y+'年';
       if(y===1990)opt.selected=true;
       yearSel.appendChild(opt);
     }
@@ -697,14 +700,14 @@ document.addEventListener('DOMContentLoaded',function(){
     // Month
     for(let m=1;m<=12;m++){
       let opt=document.createElement('option');
-      opt.value=m;opt.textContent=m+'�?;
+      opt.value=m;opt.textContent=m+'月';
       monthSel.appendChild(opt);
     }
     
     // Day
     for(let d=1;d<=31;d++){
       let opt=document.createElement('option');
-      opt.value=d;opt.textContent=d+'�?;
+      opt.value=d;opt.textContent=d+'日';
       daySel.appendChild(opt);
     }
     
@@ -734,7 +737,7 @@ document.addEventListener('DOMContentLoaded',function(){
       let d=parseInt(daySel.value);
       let h=parseInt(hourSel.value);
       
-      if(!y||!m||!d){alert('请选择完整的出生日�?);return;}
+      if(!y||!m||!d){alert('请选择完整的出生日期');return;}
       
       let result=computeBazi(y,m,d,h,gender);
       displayBazi(result);
@@ -770,10 +773,10 @@ document.addEventListener('DOMContentLoaded',function(){
     elemHtml+='</div>';
     
     // Analysis
-    let analysisHtml='<div class="ba"><p><b>日主�?/b>'+r.dayMaster.gan+'('+r.dayMaster.el+')生于'+r.season+'�?/p>'
-      +'<p><b>四柱�?/b>'+r.fourPillars.join(' ')+'</p>'
+    let analysisHtml='<div class="ba"><p><b>日主：</b>'+r.dayMaster.gan+'('+r.dayMaster.el+')生于'+r.season+'月</p>'
+      +'<p><b>四柱：</b>'+r.fourPillars.join(' ')+'</p>'
       +'<p>'+r.analysis+'</p>'
-      +'<p style="margin-top:0.4rem;font-size:0.72rem;color:#aaa;">* 本分析仅供文化参考，不构成命理建议�?/p></div>';
+      +'<p style="margin-top:0.4rem;font-size:0.72rem;color:#aaa;">* 本分析仅供文化参考，不构成命理建议。</p></div>';
     
     div.innerHTML=tableHtml+elemHtml+analysisHtml;
   }
@@ -814,70 +817,70 @@ function copyText(t){
 
 // ---- 六十四卦 (64 Hexagrams) ----
 const HEXAGRAMS = [
-  {num:1,name:"乾为�?,desc:"乾卦，天行健，君子以自强不息。刚健中正，自强不息�?,yi:"关键日，适合开创性大�?,ji:"不宜过分张扬"},
-  {num:2,name:"坤为�?,desc:"坤卦，地势坤，君子以厚德载物。柔顺包容，厚德载物�?,yi:"宜稳重保�?,ji:"不宜冒进"},
-  {num:3,name:"水雷�?,desc:"屯卦，刚柔始交而难生。初创艰难，宜守不宜攻�?,yi:"宜积蓄准�?,ji:"不宜急于求成"},
-  {num:4,name:"山水�?,desc:"蒙卦，山下有险，险而止。启蒙教育，不宜远行�?,yi:"宜学习静�?,ji:"不宜出行签约"},
-  {num:5,name:"水天需",desc:"需卦，需须也，险在前也。等待时机，不可冒进�?,yi:"宜等待观�?,ji:"不宜急进"},
-  {num:6,name:"天水�?,desc:"讼卦，上刚下险，险而健。争讼之象，宜和解�?,yi:"宜调解沟�?,ji:"不宜诉讼争斗"},
-  {num:7,name:"地水�?,desc:"师卦，众也。师出以律，统兵之道�?,yi:"宜团队协�?,ji:"不宜单打独斗"},
-  {num:8,name:"水地�?,desc:"比卦，亲辅也。亲比和睦，众人归附�?,yi:"宜社交联�?,ji:"不宜独处"},
-  {num:9,name:"风天小畜",desc:"小畜卦，柔得位而上下应之。小有积蓄，不宜大事�?,yi:"宜积累储�?,ji:"不宜大额投资"},
-  {num:10,name:"天泽�?,desc:"履卦，履虎尾，不咥人。谨慎行事，如履薄冰�?,yi:"宜按部就�?,ji:"不宜冒险"},
-  {num:11,name:"地天�?,desc:"泰卦，天地交而万物通。安泰亨通，万事如意�?,yi:"百事皆宜",ji:"�?},
-  {num:12,name:"天地�?,desc:"否卦，天地不交。闭塞不通，宜静不宜动�?,yi:"宜修身养�?,ji:"不宜开业出�?},
-  {num:13,name:"天火同人",desc:"同人卦，与人同也。同心协力，合作共赢�?,yi:"宜合作签�?,ji:"不宜独断专行"},
-  {num:14,name:"火天大有",desc:"大有卦，柔得尊位，大中而上下应之。丰收大有�?,yi:"宜开业签�?,ji:"宜适度节制"},
-  {num:15,name:"地山�?,desc:"谦卦，天道下济而光明。谦逊受益�?,yi:"宜谦虚学�?,ji:"不宜炫耀"},
-  {num:16,name:"雷地�?,desc:"豫卦，利建侯行师。安乐愉悦，顺势而为�?,yi:"宜娱乐社�?,ji:"不宜过度放纵"},
-  {num:17,name:"泽雷�?,desc:"随卦，刚来而下柔。随顺时机�?,yi:"宜随缘而行",ji:"不宜固执己见"},
-  {num:18,name:"山风�?,desc:"蛊卦，刚上而柔下。整顿治理�?,yi:"宜整改修�?,ji:"不宜因循守旧"},
-  {num:19,name:"地泽�?,desc:"临卦，刚浸而长。面临督导�?,yi:"宜监督检�?,ji:"不宜放任自流"},
-  {num:20,name:"风地�?,desc:"观卦，大观在上。观察审视�?,yi:"宜观察学�?,ji:"不宜轻举妄动"},
-  {num:21,name:"火雷噬嗑",desc:"噬嗑卦，颐中有物。排除障碍�?,yi:"宜解决问�?,ji:"不宜拖延"},
-  {num:22,name:"山火�?,desc:"贲卦，山下有火。文饰美化�?,yi:"宜装修布�?,ji:"不宜过度装饰"},
-  {num:23,name:"山地�?,desc:"剥卦，剥落也。剥极必复�?,yi:"宜整理清�?,ji:"不宜添置新物"},
-  {num:24,name:"地雷�?,desc:"复卦，七日来复。复兴回归�?,yi:"宜重新开�?,ji:"不宜半途而废"},
-  {num:25,name:"天雷无妄",desc:"无妄卦，刚自外来而为主于内。顺其自然�?,yi:"宜顺其自�?,ji:"不宜强求"},
-  {num:26,name:"山天大畜",desc:"大畜卦，刚健笃实辉光。积蓄力量�?,yi:"宜积蓄准�?,ji:"不宜急于表现"},
-  {num:27,name:"山雷�?,desc:"颐卦，养正也。养生修身�?,yi:"宜养生休�?,ji:"不宜过度操劳"},
-  {num:28,name:"泽风大过",desc:"大过卦，过也。过犹不及�?,yi:"宜适度中庸",ji:"不宜走极�?},
-  {num:29,name:"坎为�?,desc:"坎卦，习坎，重险也。面临险境�?,yi:"宜谨慎保�?,ji:"不宜涉险"},
-  {num:30,name:"离为�?,desc:"离卦，明两作。光明照耀�?,yi:"宜展示才�?,ji:"不宜骄傲自满"},
-  {num:31,name:"泽山�?,desc:"咸卦，感也。感应通灵�?,yi:"宜感情交�?,ji:"不宜冷漠"},
-  {num:32,name:"雷风�?,desc:"恒卦，久也。持之以恒�?,yi:"宜坚持不�?,ji:"不宜半途而废"},
-  {num:33,name:"天山�?,desc:"遁卦，退也。急流勇退�?,yi:"宜适时退�?,ji:"不宜恋战"},
-  {num:34,name:"雷天大壮",desc:"大壮卦，刚以动。势不可挡�?,yi:"宜大展宏�?,ji:"不宜鲁莽"},
-  {num:35,name:"火地�?,desc:"晋卦，明出地上。晋升进步�?,yi:"宜求职晋�?,ji:"不宜安于现状"},
-  {num:36,name:"地火明夷",desc:"明夷卦，明入地中。韬光养晦�?,yi:"宜低调隐�?,ji:"不宜出头"},
-  {num:37,name:"风火家人",desc:"家人卦，利女贞。家庭和睦�?,yi:"宜家庭团�?,ji:"不宜在外奔波"},
-  {num:38,name:"火泽�?,desc:"睽卦，乖也。求同存异�?,yi:"宜沟通协�?,ji:"不宜激化矛�?},
-  {num:39,name:"水山�?,desc:"蹇卦，难也。知难而进�?,yi:"宜知难而进",ji:"不宜退缩逃避"},
-  {num:40,name:"雷水�?,desc:"解卦，险以动。解脱困境�?,yi:"宜解决问�?,ji:"不宜制造新问题"},
-  {num:41,name:"山泽�?,desc:"损卦，损下益上。损有余补不足�?,yi:"宜精简节约",ji:"不宜铺张浪费"},
-  {num:42,name:"风雷�?,desc:"益卦，损上益下。增益进益�?,yi:"宜投资学�?,ji:"不宜投机取巧"},
-  {num:43,name:"泽天�?,desc:"夬卦，决也。果断决策�?,yi:"宜决断行�?,ji:"不宜犹豫不决"},
-  {num:44,name:"天风�?,desc:"姤卦，遇也。不期而遇�?,yi:"宜社交相�?,ji:"不宜刻意安排"},
-  {num:45,name:"泽地�?,desc:"萃卦，聚也。精英荟萃�?,yi:"宜聚会联�?,ji:"不宜分散精力"},
-  {num:46,name:"地风�?,desc:"升卦，柔以时升。步步高升�?,yi:"宜进取上�?,ji:"不宜固步自封"},
-  {num:47,name:"泽水�?,desc:"困卦，刚掩也。困顿守志�?,yi:"宜坚守待�?,ji:"不宜投机"},
-  {num:48,name:"水风�?,desc:"井卦，木上有水。养人利民�?,yi:"宜公益慈�?,ji:"不宜索取过度"},
-  {num:49,name:"泽火�?,desc:"革卦，去故也。变革创新�?,yi:"宜改革变�?,ji:"不宜守旧"},
-  {num:50,name:"火风�?,desc:"鼎卦，以木巽火。鼎新革故�?,yi:"宜创新立�?,ji:"不宜墨守成规"},
-  {num:51,name:"震为�?,desc:"震卦，震惊百里。临危不乱�?,yi:"宜临危不�?,ji:"不宜惊慌失措"},
-  {num:52,name:"艮为�?,desc:"艮卦，止也。适可而止�?,yi:"宜适时停止",ji:"不宜贪得无厌"},
-  {num:53,name:"风山�?,desc:"渐卦，女归吉。循序渐进�?,yi:"宜稳步前�?,ji:"不宜急于求成"},
-  {num:54,name:"雷泽归妹",desc:"归妹卦，征凶。归依归宿�?,yi:"宜回归本�?,ji:"不宜强求"},
-  {num:55,name:"雷火�?,desc:"丰卦，明以动。丰盛盈满�?,yi:"宜庆祝收�?,ji:"不宜得意忘形"},
-  {num:56,name:"火山�?,desc:"旅卦，柔得中乎外。旅行漂泊�?,yi:"宜出行旅�?,ji:"不宜久留"},
-  {num:57,name:"巽为�?,desc:"巽卦，申命行事。顺势而为�?,yi:"宜从善如�?,ji:"不宜刚愎自用"},
-  {num:58,name:"兑为�?,desc:"兑卦，说也。喜悦明快�?,yi:"宜交际言�?,ji:"不宜巧言令色"},
-  {num:59,name:"风水�?,desc:"涣卦，风行水上。涣散聚合�?,yi:"宜整理思绪",ji:"不宜散漫"},
-  {num:60,name:"水泽�?,desc:"节卦，苦节不可贞。节制有度�?,yi:"宜节制自�?,ji:"不宜过度"},
-  {num:61,name:"风泽中孚",desc:"中孚卦，信及豚鱼。诚信立身�?,yi:"宜守信承�?,ji:"不宜失信"},
-  {num:62,name:"雷山小过",desc:"小过卦，小者过而亨。小有过度�?,yi:"宜注重细�?,ji:"不宜因小失大"},
-  {num:63,name:"水火既济",desc:"既济卦，初吉终乱。事已成矣�?,yi:"宜收官总结",ji:"不宜开启新�?},
-  {num:64,name:"火水未济",desc:"未济卦，无位。事未成时�?,yi:"宜继续努�?,ji:"不宜放弃"}
+  {num:1,name:"乾为天",desc:"乾卦，天行健，君子以自强不息。刚健中正，自强不息。",yi:"关键日，适合开创性大事",ji:"不宜过分张扬"},
+  {num:2,name:"坤为地",desc:"坤卦，地势坤，君子以厚德载物。柔顺包容，厚德载物。",yi:"宜稳重保守",ji:"不宜冒进"},
+  {num:3,name:"水雷屯",desc:"屯卦，刚柔始交而难生。初创艰难，宜守不宜攻。",yi:"宜积蓄准备",ji:"不宜急于求成"},
+  {num:4,name:"山水蒙",desc:"蒙卦，山下有险，险而止。启蒙教育，不宜远行。",yi:"宜学习静思",ji:"不宜出行签约"},
+  {num:5,name:"水天需",desc:"需卦，需须也，险在前也。等待时机，不可冒进。",yi:"宜等待观望",ji:"不宜急进"},
+  {num:6,name:"天水讼",desc:"讼卦，上刚下险，险而健。争讼之象，宜和解。",yi:"宜调解沟通",ji:"不宜诉讼争斗"},
+  {num:7,name:"地水师",desc:"师卦，众也。师出以律，统兵之道。",yi:"宜团队协作",ji:"不宜单打独斗"},
+  {num:8,name:"水地比",desc:"比卦，亲辅也。亲比和睦，众人归附。",yi:"宜社交联谊",ji:"不宜独处"},
+  {num:9,name:"风天小畜",desc:"小畜卦，柔得位而上下应之。小有积蓄，不宜大事。",yi:"宜积累储蓄",ji:"不宜大额投资"},
+  {num:10,name:"天泽履",desc:"履卦，履虎尾，不咥人。谨慎行事，如履薄冰。",yi:"宜按部就班",ji:"不宜冒险"},
+  {num:11,name:"地天泰",desc:"泰卦，天地交而万物通。安泰亨通，万事如意。",yi:"百事皆宜",ji:"无"},
+  {num:12,name:"天地否",desc:"否卦，天地不交。闭塞不通，宜静不宜动。",yi:"宜修身养性",ji:"不宜开业出行"},
+  {num:13,name:"天火同人",desc:"同人卦，与人同也。同心协力，合作共赢。",yi:"宜合作签约",ji:"不宜独断专行"},
+  {num:14,name:"火天大有",desc:"大有卦，柔得尊位，大中而上下应之。丰收大有。",yi:"宜开业签约",ji:"宜适度节制"},
+  {num:15,name:"地山谦",desc:"谦卦，天道下济而光明。谦逊受益。",yi:"宜谦虚学习",ji:"不宜炫耀"},
+  {num:16,name:"雷地豫",desc:"豫卦，利建侯行师。安乐愉悦，顺势而为。",yi:"宜娱乐社交",ji:"不宜过度放纵"},
+  {num:17,name:"泽雷随",desc:"随卦，刚来而下柔。随顺时机。",yi:"宜随缘而行",ji:"不宜固执己见"},
+  {num:18,name:"山风蛊",desc:"蛊卦，刚上而柔下。整顿治理。",yi:"宜整改修缮",ji:"不宜因循守旧"},
+  {num:19,name:"地泽临",desc:"临卦，刚浸而长。面临督导。",yi:"宜监督检查",ji:"不宜放任自流"},
+  {num:20,name:"风地观",desc:"观卦，大观在上。观察审视。",yi:"宜观察学习",ji:"不宜轻举妄动"},
+  {num:21,name:"火雷噬嗑",desc:"噬嗑卦，颐中有物。排除障碍。",yi:"宜解决问题",ji:"不宜拖延"},
+  {num:22,name:"山火贲",desc:"贲卦，山下有火。文饰美化。",yi:"宜装修布置",ji:"不宜过度装饰"},
+  {num:23,name:"山地剥",desc:"剥卦，剥落也。剥极必复。",yi:"宜整理清理",ji:"不宜添置新物"},
+  {num:24,name:"地雷复",desc:"复卦，七日来复。复兴回归。",yi:"宜重新开始",ji:"不宜半途而废"},
+  {num:25,name:"天雷无妄",desc:"无妄卦，刚自外来而为主于内。顺其自然。",yi:"宜顺其自然",ji:"不宜强求"},
+  {num:26,name:"山天大畜",desc:"大畜卦，刚健笃实辉光。积蓄力量。",yi:"宜积蓄准备",ji:"不宜急于表现"},
+  {num:27,name:"山雷颐",desc:"颐卦，养正也。养生修身。",yi:"宜养生休息",ji:"不宜过度操劳"},
+  {num:28,name:"泽风大过",desc:"大过卦，过也。过犹不及。",yi:"宜适度中庸",ji:"不宜走极端"},
+  {num:29,name:"坎为水",desc:"坎卦，习坎，重险也。面临险境。",yi:"宜谨慎保守",ji:"不宜涉险"},
+  {num:30,name:"离为火",desc:"离卦，明两作。光明照耀。",yi:"宜展示才华",ji:"不宜骄傲自满"},
+  {num:31,name:"泽山咸",desc:"咸卦，感也。感应通灵。",yi:"宜感情交流",ji:"不宜冷漠"},
+  {num:32,name:"雷风恒",desc:"恒卦，久也。持之以恒。",yi:"宜坚持不懈",ji:"不宜半途而废"},
+  {num:33,name:"天山遁",desc:"遁卦，退也。急流勇退。",yi:"宜适时退让",ji:"不宜恋战"},
+  {num:34,name:"雷天大壮",desc:"大壮卦，刚以动。势不可挡。",yi:"宜大展宏图",ji:"不宜鲁莽"},
+  {num:35,name:"火地晋",desc:"晋卦，明出地上。晋升进步。",yi:"宜求职晋升",ji:"不宜安于现状"},
+  {num:36,name:"地火明夷",desc:"明夷卦，明入地中。韬光养晦。",yi:"宜低调隐忍",ji:"不宜出头"},
+  {num:37,name:"风火家人",desc:"家人卦，利女贞。家庭和睦。",yi:"宜家庭团聚",ji:"不宜在外奔波"},
+  {num:38,name:"火泽睽",desc:"睽卦，乖也。求同存异。",yi:"宜沟通协调",ji:"不宜激化矛盾"},
+  {num:39,name:"水山蹇",desc:"蹇卦，难也。知难而进。",yi:"宜知难而进",ji:"不宜退缩逃避"},
+  {num:40,name:"雷水解",desc:"解卦，险以动。解脱困境。",yi:"宜解决问题",ji:"不宜制造新问题"},
+  {num:41,name:"山泽损",desc:"损卦，损下益上。损有余补不足。",yi:"宜精简节约",ji:"不宜铺张浪费"},
+  {num:42,name:"风雷益",desc:"益卦，损上益下。增益进益。",yi:"宜投资学习",ji:"不宜投机取巧"},
+  {num:43,name:"泽天夬",desc:"夬卦，决也。果断决策。",yi:"宜决断行动",ji:"不宜犹豫不决"},
+  {num:44,name:"天风姤",desc:"姤卦，遇也。不期而遇。",yi:"宜社交相逢",ji:"不宜刻意安排"},
+  {num:45,name:"泽地萃",desc:"萃卦，聚也。精英荟萃。",yi:"宜聚会联合",ji:"不宜分散精力"},
+  {num:46,name:"地风升",desc:"升卦，柔以时升。步步高升。",yi:"宜进取上升",ji:"不宜固步自封"},
+  {num:47,name:"泽水困",desc:"困卦，刚掩也。困顿守志。",yi:"宜坚守待时",ji:"不宜投机"},
+  {num:48,name:"水风井",desc:"井卦，木上有水。养人利民。",yi:"宜公益慈善",ji:"不宜索取过度"},
+  {num:49,name:"泽火革",desc:"革卦，去故也。变革创新。",yi:"宜改革变化",ji:"不宜守旧"},
+  {num:50,name:"火风鼎",desc:"鼎卦，以木巽火。鼎新革故。",yi:"宜创新立新",ji:"不宜墨守成规"},
+  {num:51,name:"震为雷",desc:"震卦，震惊百里。临危不乱。",yi:"宜临危不乱",ji:"不宜惊慌失措"},
+  {num:52,name:"艮为山",desc:"艮卦，止也。适可而止。",yi:"宜适时停止",ji:"不宜贪得无厌"},
+  {num:53,name:"风山渐",desc:"渐卦，女归吉。循序渐进。",yi:"宜稳步前进",ji:"不宜急于求成"},
+  {num:54,name:"雷泽归妹",desc:"归妹卦，征凶。归依归宿。",yi:"宜回归本心",ji:"不宜强求"},
+  {num:55,name:"雷火丰",desc:"丰卦，明以动。丰盛盈满。",yi:"宜庆祝收获",ji:"不宜得意忘形"},
+  {num:56,name:"火山旅",desc:"旅卦，柔得中乎外。旅行漂泊。",yi:"宜出行旅游",ji:"不宜久留"},
+  {num:57,name:"巽为风",desc:"巽卦，申命行事。顺势而为。",yi:"宜从善如流",ji:"不宜刚愎自用"},
+  {num:58,name:"兑为泽",desc:"兑卦，说也。喜悦明快。",yi:"宜交际言谈",ji:"不宜巧言令色"},
+  {num:59,name:"风水涣",desc:"涣卦，风行水上。涣散聚合。",yi:"宜整理思绪",ji:"不宜散漫"},
+  {num:60,name:"水泽节",desc:"节卦，苦节不可贞。节制有度。",yi:"宜节制自律",ji:"不宜过度"},
+  {num:61,name:"风泽中孚",desc:"中孚卦，信及豚鱼。诚信立身。",yi:"宜守信承诺",ji:"不宜失信"},
+  {num:62,name:"雷山小过",desc:"小过卦，小者过而亨。小有过度。",yi:"宜注重细节",ji:"不宜因小失大"},
+  {num:63,name:"水火既济",desc:"既济卦，初吉终乱。事已成矣。",yi:"宜收官总结",ji:"不宜开启新程"},
+  {num:64,name:"火水未济",desc:"未济卦，无位。事未成时。",yi:"宜继续努力",ji:"不宜放弃"}
 ];
 
 function getHexagram(dayStem,dayBranch){
@@ -916,16 +919,16 @@ function computeCompat(){
   
   let elCompat=0;
   const EL_RELATIONS={
-    '�?:{�?'�?,�?'�?,被生:'�?,被克:'�?},
-    '�?:{�?'�?,�?'�?,被生:'�?,被克:'�?},
-    '�?:{�?'�?,�?'�?,被生:'�?,被克:'�?},
-    '�?:{�?'�?,�?'�?,被生:'�?,被克:'�?},
-    '�?:{�?'�?,�?'�?,被生:'�?,被克:'�?}
+    '金':{生:'水',克:'木',被生:'土',被克:'火'},
+    '木':{生:'火',克:'土',被生:'水',被克:'金'},
+    '水':{生:'木',克:'火',被生:'金',被克:'土'},
+    '火':{生:'土',克:'金',被生:'木',被克:'水'},
+    '土':{生:'金',克:'水',被生:'火',被克:'木'}
   };
   
   if(aEl===bEl)elCompat=70; // same element - harmonious
-  else if(EL_RELATIONS[aEl].�?==bEl||EL_RELATIONS[bEl].�?==aEl)elCompat=85; // mutual generation
-  else if(EL_RELATIONS[aEl].�?==bEl||EL_RELATIONS[bEl].�?==aEl)elCompat=40; // conflict
+  else if(EL_RELATIONS[aEl].生===bEl||EL_RELATIONS[bEl].生===aEl)elCompat=85; // mutual generation
+  else if(EL_RELATIONS[aEl].克===bEl||EL_RELATIONS[bEl].克===aEl)elCompat=40; // conflict
   else elCompat=55; // neutral
   
   // Year branch compatibility (六合三合)
@@ -950,21 +953,21 @@ function computeCompat(){
   let grade='';
   if(total>=85)grade='上等婚配';
   else if(total>=70)grade='中等婚配';
-  else if(total>=55)grade='一�?;
-  else grade='需要慎�?;
+  else if(total>=55)grade='一般';
+  else grade='需要慎重';
   
   let div=document.getElementById('compatResult');
   div.className='cpf-result op';
   div.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">'
-    +'<div><b>甲方�?/b>'+aData.yg.t+'�?'+aData.mg.t+'�?'+aData.dg.t+'�?+(aData.hg?(' '+aData.hg.t+'�?):'')+'</div>'
-    +'<div><b>乙方�?/b>'+bData.yg.t+'�?'+bData.mg.t+'�?'+bData.dg.t+'�?+(bData.hg?(' '+bData.hg.t+'�?):'')+'</div>'
+    +'<div><b>甲方：</b>'+aData.yg.t+'年 '+aData.mg.t+'月 '+aData.dg.t+'日'+(aData.hg?(' '+aData.hg.t+'时'):'')+'</div>'
+    +'<div><b>乙方：</b>'+bData.yg.t+'年 '+bData.mg.t+'月 '+bData.dg.t+'日'+(bData.hg?(' '+bData.hg.t+'时'):'')+'</div>'
     +'</div>'
     +'<div style="text-align:center;padding:0.5rem;background:'+(total>=70?'#EEF4EE':'#FFF5F0')+';border-radius:6px;margin:0.3rem 0;">'
-    +'<span style="font-size:1.2rem;font-weight:800;color:'+(total>=70?'#2A7A3A':'#B05020')+';">'+total+'�?/span>'
+    +'<span style="font-size:1.2rem;font-weight:800;color:'+(total>=70?'#2A7A3A':'#B05020')+';">'+total+'分</span>'
     +'<span style="margin-left:0.5rem;font-size:0.9rem;font-weight:600;">'+grade+'</span>'
     +'</div>'
-    +'<p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">* 基于日主五行'+aEl+'�?+bEl+'�?
-    +(aEl===bEl?'相同':(EL_RELATIONS[aEl].�?==bEl||EL_RELATIONS[bEl].�?==aEl)?'相生':'相克')+'关系</p>'
+    +'<p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">* 基于日主五行'+aEl+'与'+bEl+'的'
+    +(aEl===bEl?'相同':(EL_RELATIONS[aEl].生===bEl||EL_RELATIONS[bEl].生===aEl)?'相生':'相克')+'关系</p>'
     +'<p style="font-size:0.7rem;color:#aaa;">* Demo版本 · 完整版含姓名分析+详细冲煞</p>';
 }
 
@@ -978,7 +981,7 @@ function computeCompat(){
       el.innerHTML='';
       for(let y=2030;y>=1950;y--){
         let o=document.createElement('option');
-        o.value=y;o.textContent=y+'�?;
+        o.value=y;o.textContent=y+'年';
         if(y===1990||y===1992)o.selected=true;
         el.appendChild(o);
       }
@@ -986,14 +989,14 @@ function computeCompat(){
       el.innerHTML='';
       for(let m=1;m<=12;m++){
         let o=document.createElement('option');
-        o.value=m;o.textContent=m+'�?;
+        o.value=m;o.textContent=m+'月';
         el.appendChild(o);
       }
     }else if(s.endsWith('D')){
       el.innerHTML='';
       for(let d=1;d<=31;d++){
         let o=document.createElement('option');
-        o.value=d;o.textContent=d+'�?;
+        o.value=d;o.textContent=d+'日';
         el.appendChild(o);
       }
     }else if(s.endsWith('H')){
@@ -1041,42 +1044,42 @@ function openReport(type){
     +'<tr><td>年柱</td><td>'+info.yg+'</td></tr>'
     +'<tr><td>月柱</td><td>'+info.mg+'</td></tr>'
     +'<tr><td>日柱</td><td>'+info.dg+'</td></tr>'
-    +'<tr><td>生肖�?/td><td>'+info.sx+'</td></tr>'
+    +'<tr><td>生肖日</td><td>'+info.sx+'</td></tr>'
     +'<tr><td>建除</td><td>'+info.jc+'</td></tr>'
-    +'<tr><td>廿八�?/td><td>'+info.xiu+'</td></tr>'
+    +'<tr><td>廿八宿</td><td>'+info.xiu+'</td></tr>'
     +'<tr><td>冲煞</td><td>'+info.cs+'</td></tr>'
-    +'<tr><td>综合评分</td><td style="font-weight:600;color:'+(info.r==='大吉'?'#AF2020':info.r==='�??'#D4A030':'#999')+'">'+info.r+' ('+info.sc+'�?</td></tr>'
+    +'<tr><td>综合评分</td><td style="font-weight:600;color:'+(info.r==='大吉'?'#AF2020':info.r==='吉'?'#D4A030':'#999')+'">'+info.r+' ('+info.sc+'分)</td></tr>'
     +'</table></div>';
   
   // Section 2: YiJi
   html+='<div class="rp-sec"><h2>宜忌建议</h2><table>'
-    +'<tr><td>�?/td><td>'+(info.yi.length?info.yi.join('�?):'�?)+'</td></tr>'
-    +'<tr><td>�?/td><td>'+(info.ji.length?info.ji.join('�?):'�?)+'</td></tr>'
+    +'<tr><td>宜</td><td>'+(info.yi.length?info.yi.join('、'):'—')+'</td></tr>'
+    +'<tr><td>忌</td><td>'+(info.ji.length?info.ji.join('、'):'—')+'</td></tr>'
     +'</table></div>';
   
   // Section 3: Shichen
   let shichen=calcShichen(y,m,d);
   html+='<div class="rp-sec"><h2>时辰吉凶</h2><table>';
   shichen.forEach(function(sh){
-    html+='<tr><td>'+sh.name+'</td><td>'+sh.start+'-'+sh.end+'</td><td style="font-weight:600;color:'+(sh.grade==='�??'#2A7A3A':'#888')+'">'+sh.grade+'</td></tr>';
+    html+='<tr><td>'+sh.name+'</td><td>'+sh.start+'-'+sh.end+'</td><td style="font-weight:600;color:'+(sh.grade==='吉'?'#2A7A3A':'#888')+'">'+sh.grade+'</td></tr>';
   });
   html+='</table></div>';
   
   // Section 4: Hexagram (周易) - deep only
   if(isDeep){
     html+='<div class="rp-sec"><h2>周易卦象</h2><table>'
-      +'<tr><td>卦名</td><td style="font-weight:600;font-size:1.05rem">'+hexagram.name+' (�?+hexagram.num+'�?</td></tr>'
+      +'<tr><td>卦名</td><td style="font-weight:600;font-size:1.05rem">'+hexagram.name+' (第'+hexagram.num+'卦)</td></tr>'
       +'<tr><td>卦辞</td><td>'+hexagram.desc+'</td></tr>'
-      +'<tr><td>�?/td><td>'+hexagram.yi+'</td></tr>'
-      +'<tr><td>�?/td><td>'+hexagram.ji+'</td></tr>'
+      +'<tr><td>宜</td><td>'+hexagram.yi+'</td></tr>'
+      +'<tr><td>忌</td><td>'+hexagram.ji+'</td></tr>'
       +'</table>'
-      +'<p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">* 本日卦象基于日柱天干地支推算，结合当日五行气场�?/p></div>';
+      +'<p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">* 本日卦象基于日柱天干地支推算，结合当日五行气场。</p></div>';
     
     // Element analysis
     html+='<div class="rp-sec"><h2>五行生克推理</h2><table>'
       +'<tr><td>日主五行</td><td>'+ELEM[info.dgS]+'</td></tr>'
-      +'<tr><td>当日旺相</td><td>'+(info.r==='大吉'||info.r==='�??'五行调和，气场流�?:'五行相滞，宜静不宜动')+'</td></tr>'
-      +'<tr><td>建议方位</td><td>'+(info.dgB%2===0?'正东、正�?:'正西、正�?)+'</td></tr>'
+      +'<tr><td>当日旺相</td><td>'+(info.r==='大吉'||info.r==='吉'?'五行调和，气场流通':'五行相滞，宜静不宜动')+'</td></tr>'
+      +'<tr><td>建议方位</td><td>'+(info.dgB%2===0?'正东、正南':'正西、正北')+'</td></tr>'
       +'</table></div>';
   }
   
@@ -1114,17 +1117,17 @@ function analyzeName(name){
   // Map total strokes to 81-number theory (simplified)
   let numIndex=(totalStrokes-1)%81+1;
   const NUM_ELEMENTS={
-    odd:{�?'刚健',�?'生长',�?'流动',�?'热烈',�?'厚重'},
-    even:{�?'内敛',�?'柔韧',�?'深邃',�?'温暖',�?'包容'}
+    odd:{金:'刚健',木:'生长',水:'流动',火:'热烈',土:'厚重'},
+    even:{金:'内敛',木:'柔韧',水:'深邃',火:'温暖',土:'包容'}
   };
   
   // Determine element from number
   let elem='';
-  if([1,2,11,12,21,22,31,32,41,42,51,52,61,62,71,72,81].includes(numIndex))elem='�?;
-  else if([3,4,13,14,23,24,33,34,43,44,53,54,63,64,73,74].includes(numIndex))elem='�?;
-  else if([5,6,15,16,25,26,35,36,45,46,55,56,65,66,75,76].includes(numIndex))elem='�?;
-  else if([7,8,17,18,27,28,37,38,47,48,57,58,67,68,77,78].includes(numIndex))elem='�?;
-  else elem='�?;
+  if([1,2,11,12,21,22,31,32,41,42,51,52,61,62,71,72,81].includes(numIndex))elem='木';
+  else if([3,4,13,14,23,24,33,34,43,44,53,54,63,64,73,74].includes(numIndex))elem='火';
+  else if([5,6,15,16,25,26,35,36,45,46,55,56,65,66,75,76].includes(numIndex))elem='土';
+  else if([7,8,17,18,27,28,37,38,47,48,57,58,67,68,77,78].includes(numIndex))elem='金';
+  else elem='水';
   
   return {totalStrokes,numIndex,elem,charAnalysis};
 }
@@ -1171,33 +1174,33 @@ function showReportContent(info,y,m,d,hexagram,isDeep){
     +'<tr><td>年柱</td><td>'+info.yg+'</td></tr>'
     +'<tr><td>月柱</td><td>'+info.mg+'(节气校准)</td></tr>'
     +'<tr><td>日柱</td><td>'+info.dg+'</td></tr>'
-    +'<tr><td>生肖�?/td><td>'+info.sx+'</td></tr>'
+    +'<tr><td>生肖日</td><td>'+info.sx+'</td></tr>'
     +'<tr><td>建除</td><td>'+info.jc+'</td></tr>'
-    +'<tr><td>廿八�?/td><td>'+info.xiu+'</td></tr>'
+    +'<tr><td>廿八宿</td><td>'+info.xiu+'</td></tr>'
     +'<tr><td>冲煞</td><td>'+info.cs+'</td></tr>'
-    +'<tr><td>综合评分</td><td style="font-weight:600;color:'+(info.r==='大吉'?'#AF2020':info.r==='�??'#D4A030':'#999')+'">'+info.r+' ('+info.sc+'�?</td></tr>'
+    +'<tr><td>综合评分</td><td style="font-weight:600;color:'+(info.r==='大吉'?'#AF2020':info.r==='吉'?'#D4A030':'#999')+'">'+info.r+' ('+info.sc+'分)</td></tr>'
     +'</table></div>';
   
   html+='<div class="rp-sec"><h2>宜忌建议</h2><table>'
-    +'<tr><td>�?/td><td>'+(info.yi.length?info.yi.join('�?):'尚无专属宜项')+'</td></tr>'
-    +'<tr><td>�?/td><td>'+(info.ji.length?info.ji.join('�?):'尚无特别忌讳')+'</td></tr>'
+    +'<tr><td>宜</td><td>'+(info.yi.length?info.yi.join('、'):'尚无专属宜项')+'</td></tr>'
+    +'<tr><td>忌</td><td>'+(info.ji.length?info.ji.join('、'):'尚无特别忌讳')+'</td></tr>'
     +'</table></div>';
   
   let sc=calcShichen(y,m,d);
   html+='<div class="rp-sec"><h2>时辰吉凶</h2><table>';
   sc.forEach(function(sh){
-    html+='<tr><td>'+sh.name+'</td><td>'+sh.start+'-'+sh.end+'</td><td style="font-weight:600;color:'+(sh.grade==='�??'#2A7A3A':'#888')+'">'+sh.grade+'</td></tr>';
+    html+='<tr><td>'+sh.name+'</td><td>'+sh.start+'-'+sh.end+'</td><td style="font-weight:600;color:'+(sh.grade==='吉'?'#2A7A3A':'#888')+'">'+sh.grade+'</td></tr>';
   });
   html+='</table></div>';
   
   if(isDeep||true){
     html+='<div class="rp-sec"><h2>周易卦象</h2><table>'
-      +'<tr><td>卦名</td><td style="font-weight:600;font-size:1rem">'+hexagram.name+' (�?+hexagram.num+'�?</td></tr>'
+      +'<tr><td>卦名</td><td style="font-weight:600;font-size:1rem">'+hexagram.name+' (第'+hexagram.num+'卦)</td></tr>'
       +'<tr><td>卦辞</td><td>'+hexagram.desc+'</td></tr>'
-      +'<tr><td>�?/td><td>'+hexagram.yi+'</td></tr>'
-      +'<tr><td>�?/td><td>'+hexagram.ji+'</td></tr>'
+      +'<tr><td>宜</td><td>'+hexagram.yi+'</td></tr>'
+      +'<tr><td>忌</td><td>'+hexagram.ji+'</td></tr>'
       +'</table>'
-      +'<p style="font-size:0.72rem;color:#888;margin-top:0.25rem;">* 本日卦象基于日柱干支推算，结合整体气场�?/p></div>';
+      +'<p style="font-size:0.72rem;color:#888;margin-top:0.25rem;">* 本日卦象基于日柱干支推算，结合整体气场。</p></div>';
   }
   
   document.getElementById('rpContent').innerHTML=html;
@@ -1205,7 +1208,7 @@ function showReportContent(info,y,m,d,hexagram,isDeep){
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ---- 吉时精选预�?----
+// ---- 吉时精选预览 ----
 function showTimeDetail(){
   let targetDate=new Date();
   let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,d=targetDate.getDate();
@@ -1217,29 +1220,29 @@ function showTimeDetail(){
   let info=calcDay(y,m,d,'house');
   let shichen=calcShichen(y,m,d);
   
-  document.getElementById('rpSubtitle').textContent=info.dateStr+' | 吉时精�?;
+  document.getElementById('rpSubtitle').textContent=info.dateStr+' | 吉时精选';
   let html='<div class="rp-sec"><h2>基本信息</h2><table>';
-  html+='<tr><td>日期</td><td>'+info.dateStr+' �?+info.dow+'</td></tr>';
+  html+='<tr><td>日期</td><td>'+info.dateStr+' 周'+info.dow+'</td></tr>';
   html+='<tr><td>农历</td><td>'+info.fl+'</td></tr>';
   html+='<tr><td>日柱</td><td>'+info.dg+'</td></tr>';
   html+='<tr><td>建除</td><td>'+info.jc+'</td></tr>';
   html+='<tr><td>冲煞</td><td>'+info.cs+'</td></tr>';
-  html+='<tr><td>综合</td><td>'+info.r+'('+info.sc+'�?</td></tr>';
+  html+='<tr><td>综合</td><td>'+info.r+'('+info.sc+'分)</td></tr>';
   html+='</table></div>';
   
   html+='<div class="rp-sec"><h2>十二时辰吉凶详解</h2><table><tr><th>时辰</th><th>时段</th><th>吉凶</th><th>推荐</th></tr>';
   shichen.forEach(function(sh){
     let gd=sh.grade;
     html+='<tr><td>'+sh.text+'</td><td>'+sh.start+'-'+sh.end+'</td>';
-    html+='<td style="font-weight:600;color:'+(gd==='�??'#2A7A3A':'#888')+'">'+gd+'</td>';
-    html+='<td>'+(gd==='�??'宜重要活�?:'宜休�?)+'</td></tr>';
+    html+='<td style="font-weight:600;color:'+(gd==='吉'?'#2A7A3A':'#888')+'">'+gd+'</td>';
+    html+='<td>'+(gd==='吉'?'宜重要活动':'宜休息')+'</td></tr>';
   });
-  html+='</table><p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">时辰吉凶综合日主五行与地支关系推算�?/p></div>';
+  html+='</table><p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">时辰吉凶综合日主五行与地支关系推算。</p></div>';
   
   // Best times summary
-  let best=shichen.filter(function(sh){return sh.grade==='�?;});
+  let best=shichen.filter(function(sh){return sh.grade==='吉';});
   if(best.length>0){
-    html+='<div class="rp-sec"><h2>推荐吉时</h2><p>本日最佳时辰为�?+best.map(function(sh){return sh.name;}).join('�?)+'。宜将重要活动安排在这些时段�?/p></div>';
+    html+='<div class="rp-sec"><h2>推荐吉时</h2><p>本日最佳时辰为：'+best.map(function(sh){return sh.name;}).join('、')+'。宜将重要活动安排在这些时段。</p></div>';
   }
   
   document.getElementById('rpContent').innerHTML=html;
@@ -1247,7 +1250,7 @@ function showTimeDetail(){
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ---- 择吉豪华包预�?----
+// ---- 择吉豪华包预览 ----
 function showLuxuryReport(){
   let targetDate=new Date();
   let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,d=targetDate.getDate();
@@ -1260,42 +1263,42 @@ function showLuxuryReport(){
   let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
   let shichen=calcShichen(y,m,d);
   
-  document.getElementById('rpSubtitle').textContent=info.dateStr+' | 择吉豪华�?;
+  document.getElementById('rpSubtitle').textContent=info.dateStr+' | 择吉豪华包';
   let html='';
   
   html+='<div class="rp-sec"><h2>基础信息</h2><table>';
-  html+='<tr><td>日期</td><td>'+info.dateStr+' �?+info.dow+'</td></tr>';
+  html+='<tr><td>日期</td><td>'+info.dateStr+' 周'+info.dow+'</td></tr>';
   html+='<tr><td>农历</td><td>'+info.fl+'</td></tr>';
   html+='<tr><td>年柱</td><td>'+info.yg+'</td></tr>';
   html+='<tr><td>月柱(节气)</td><td>'+info.mg+'</td></tr>';
   html+='<tr><td>日柱</td><td>'+info.dg+'</td></tr>';
-  html+='<tr><td>生肖�?/td><td>'+info.sx+'</td></tr>';
+  html+='<tr><td>生肖日</td><td>'+info.sx+'</td></tr>';
   html+='<tr><td>建除</td><td>'+info.jc+'</td></tr>';
-  html+='<tr><td>廿八�?/td><td>'+info.xiu+'</td></tr>';
+  html+='<tr><td>廿八宿</td><td>'+info.xiu+'</td></tr>';
   html+='<tr><td>冲煞</td><td>'+info.cs+'</td></tr>';
-  html+='<tr><td>综合评分</td><td style="font-weight:600;color:'+(info.r==='大吉'?'#AF2020':info.r==='�??'#D4A030':'#999')+'">'+info.r+'('+info.sc+'�?</td></tr>';
+  html+='<tr><td>综合评分</td><td style="font-weight:600;color:'+(info.r==='大吉'?'#AF2020':info.r==='吉'?'#D4A030':'#999')+'">'+info.r+'('+info.sc+'分)</td></tr>';
   html+='</table></div>';
   
   html+='<div class="rp-sec"><h2>宜忌建议</h2><table>';
-  html+='<tr><td>�?/td><td>'+(info.yi.length?info.yi.join('�?):'尚无专属宜项')+'</td></tr>';
-  html+='<tr><td>�?/td><td>'+(info.ji.length?info.ji.join('�?):'尚无特别忌讳')+'</td></tr>';
+  html+='<tr><td>宜</td><td>'+(info.yi.length?info.yi.join('、'):'尚无专属宜项')+'</td></tr>';
+  html+='<tr><td>忌</td><td>'+(info.ji.length?info.ji.join('、'):'尚无特别忌讳')+'</td></tr>';
   html+='</table></div>';
   
   html+='<div class="rp-sec"><h2>十二时辰吉凶</h2><table><tr><th>时辰</th><th>时段</th><th>吉凶</th></tr>';
   shichen.forEach(function(sh){
     html+='<tr><td>'+sh.text+'</td><td>'+sh.start+'-'+sh.end+'</td>';
-    html+='<td style="font-weight:600;color:'+(sh.grade==='�??'#2A7A3A':'#888')+'">'+sh.grade+'</td></tr>';
+    html+='<td style="font-weight:600;color:'+(sh.grade==='吉'?'#2A7A3A':'#888')+'">'+sh.grade+'</td></tr>';
   });
   html+='</table></div>';
   
   html+='<div class="rp-sec"><h2>周易卦象</h2><table>';
-  html+='<tr><td>卦名</td><td style="font-weight:600">'+hexagram.name+'('+hexagram.num+'�?</td></tr>';
+  html+='<tr><td>卦名</td><td style="font-weight:600">'+hexagram.name+'('+hexagram.num+'卦)</td></tr>';
   html+='<tr><td>卦辞</td><td>'+hexagram.desc+'</td></tr>';
-  html+='<tr><td>�?/td><td>'+hexagram.yi+'</td></tr>';
-  html+='<tr><td>�?/td><td>'+hexagram.ji+'</td></tr>';
+  html+='<tr><td>宜</td><td>'+hexagram.yi+'</td></tr>';
+  html+='<tr><td>忌</td><td>'+hexagram.ji+'</td></tr>';
   html+='</table></div>';
   
-  html+='<p style="font-size:0.72rem;color:#aaa;margin-top:0.5rem;">* 豪华版含择日+吉时+周易三合一完整报告�?/p>';
+  html+='<p style="font-size:0.72rem;color:#aaa;margin-top:0.5rem;">* 豪华版含择日+吉时+周易三合一完整报告。</p>';
   
   document.getElementById('rpContent').innerHTML=html;
   document.getElementById('reportPage').className='rp op';
@@ -1322,8 +1325,8 @@ function showBaziPreview(){
   html+='</tr></table></div>';
   
   html+='<div class="rp-sec"><h2>五行统计</h2><table>';
-  var wuxing=['�?,'�?,'�?,'�?,'�?];
-  var colors={'�?:'#D4A030','�?:'#2A7A3A','�?:'#2A5A8A','�?:'#AF2020','�?:'#B08040'};
+  var wuxing=['金','木','水','火','土'];
+  var colors={'金':'#D4A030','木':'#2A7A3A','水':'#2A5A8A','火':'#AF2020','土':'#B08040'};
   var maxCnt=1;
   wuxing.forEach(function(k){var c=result.elemCount[k]||0;if(c>maxCnt)maxCnt=c;});
   wuxing.forEach(function(k){
@@ -1335,11 +1338,11 @@ function showBaziPreview(){
   });
   html+='</table></div>';
   
-  html+='<div class="rp-sec"><h2>命理简�?/h2>';
-  html+='<p><b>日主�?/b>'+result.dayMaster.gan+'�?+result.dayMaster.el+'，生�?+result.season+'月�?/p>';
+  html+='<div class="rp-sec"><h2>命理简析</h2>';
+  html+='<p><b>日主：</b>'+result.dayMaster.gan+'属'+result.dayMaster.el+'，生于'+result.season+'月。</p>';
   html+='<p>'+result.analysis+'</p>';
   html+='</div>';
-  html+='<p style="font-size:0.7rem;color:#aaa;margin-top:0.3rem;">* 命理分析仅供文化参考�?/p>';
+  html+='<p style="font-size:0.7rem;color:#aaa;margin-top:0.3rem;">* 命理分析仅供文化参考。</p>';
   
   document.getElementById('rpContent').innerHTML=html;
   document.getElementById('reportPage').className='rp op';
@@ -1377,18 +1380,18 @@ function wrapPreview(name,fn){
 }
 
 
-function onPaidAndUnlock(){setPaid();closePaywall();if(typeof _paywallAfterPaid==="function")try{_paywallAfterPaid()}catch(e){}}
+function onPaidAndUnlock(){setPaid();closePaywall();if(typeof _paywallAfterPaid==='function')try{_paywallAfterPaid()}catch(e){}}
 function closePaywall(){var el=document.getElementById("paywall-overlay");if(el)el.remove();}
 var _paywallAfterPaid=null;
 function showPaywall(afterPaid){_paywallAfterPaid=afterPaid||null;
   var html='<div id="paywall-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">'
     +'<div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.2);">'
     +'<div style="font-size:2rem;margin-bottom:0.5rem;">🔒</div>'
-    +'<h2 style="font-size:1.1rem;color:#2E2E2E;margin-bottom:0.5rem;">免费预览次数已用�?/h2>'
-    +'<p style="font-size:0.85rem;color:#888;margin-bottom:1rem;">您已使用 3 次免费预览，支付后可继续使用所有报告功能�?/p>'
+    +'<h2 style="font-size:1.1rem;color:#2E2E2E;margin-bottom:0.5rem;">免费预览次数已用完</h2>'
+    +'<p style="font-size:0.85rem;color:#888;margin-bottom:1rem;">您已使用 3 次免费预览，支付后可继续使用所有报告功能。</p>'
     +'<a href="https://paypal.me/jishinet" target="_blank" style="display:inline-block;padding:0.6rem 2rem;background:#0070BA;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-bottom:0.5rem;">PayPal 支付支持</a>'
-    +'<p style="font-size:0.75rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮解�?/p>'
-    +'<button onclick="onPaidAndUnlock();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，解�?/button>'
+    +'<p style="font-size:0.75rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮解锁</p>'
+    +'<button onclick="onPaidAndUnlock();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，解锁</button>'
     +'</div></div>';
   var d=document.createElement('div');
   d.innerHTML=html;
@@ -1396,56 +1399,56 @@ function showPaywall(afterPaid){_paywallAfterPaid=afterPaid||null;
 }
 // ---- 周公解梦数据 ----
 var DREAM_DATA = [
-{keyword:"�?,t:"梦见�?,d:"水主财，清澈的水象征财运亨通；浑浊的水预示财运有波折。大水象征大财，细流象征小财。梦见喝水预示健康�?},
-{keyword:"�?,t:"梦见�?,d:"蛇为小人，梦见蛇暗示身边有人对你不利。但蛇也象征智慧和转变，梦见蛇蜕皮预示新生和蜕变。梦见被蛇追表示有压力�?},
-{keyword:"�?,t:"梦见�?,d:"梦见飞翔象征志向远大，渴望自由。在天空中自由飞翔预示事业腾飞；低空飞行则需脚踏实地，不可好高骛远�?},
-{keyword:"掉牙",t:"梦见掉牙",d:"掉牙多与亲人健康有关。上牙代表长辈，下牙代表平辈。梦见牙齿脱落可能预示对亲人健康的担忧，或对衰老的恐惧�?},
-{keyword:"死人",t:"梦见死人",d:"梦见已故之人多因思念所致。有时死人复活象征事情有转机。梦见自己死亡预示新生或重大转变，并非凶兆�?},
-{keyword:"�?,t:"梦见�?,d:"鱼象征财富和机遇。梦见抓鱼预示将有好运；梦见鱼在水中游动表示财源广进；梦见鱼跃龙门象征事业突破�?},
-{keyword:"血",t:"梦见血",d:"梦见见血有双重含义。对商人而言血象征财运；对普通人而言可能预示身体需要注意。梦见自己流血表示付出�?},
-{keyword:"考试",t:"梦见考试",d:"梦见考试多因现实压力所致。考得好预示事情顺利；考不好也不必担心，只是潜意识的反映，提醒多做准备�?},
-{keyword:"�?,t:"梦见被追",d:"梦见被追赶表示你在逃避某些问题。被追但跑不动代表现实中有压力无法摆脱。正面面对问题可缓解此类梦境�?},
-{keyword:"�?,t:"梦见�?,d:"火有兴旺之意也有危险之意。大火熊熊象征事业兴旺；小火或火灾预示有损失。火也代表热情和能量�?},
-{keyword:"�?,t:"梦见�?,d:"雨象征滋润和贵人。细雨蒙蒙贵人相助；大雨滂沱可能有磨难但终将过去。雨过天晴预示困境会解决�?},
-{keyword:"�?,t:"梦见�?,d:"桥象征过渡和选择。顺利过桥预示事情顺利；桥断或过不去表示遇到阻碍需要另寻出路�?},
-{keyword:"�?,t:"梦见�?,d:"山既有阻碍之意又有靠山之意。爬山预示努力进取；翻过山岭表示克服困难；站在山顶象征成功�?},
-{keyword:"�?,t:"梦见�?,d:"花象征美好和喜事。花开富贵预示好事将近；花谢表示美好事物逝去。各种花有不同寓意，牡丹象征富贵�?},
-{keyword:"孩子",t:"梦见孩子",d:"孩子代表新生和希望。梦见小孩预示新开始；逗小孩玩表示心情愉悦；小孩哭闹可能有烦心事�?},
-{keyword:"坟墓",t:"梦见坟墓",d:"坟墓不一定为凶，梦中坟墓有时象征升官发财。坟墓完好表示根基稳固；坟墓破损需要留意�?},
-{keyword:"�?,t:"梦见�?,d:"龙象征贵人、权力和好运。梦见龙飞在天预示大吉大利；龙入水表示潜龙勿用，时机未到�?},
-{keyword:"老虎",t:"梦见老虎",d:"老虎代表权力和威严。梦见老虎但未被伤害表示有贵人相助；被老虎追表示有压力挑战。打虎象征克服困难�?},
-{keyword:"�?,t:"梦见�?,d:"狗象征朋友和忠诚。梦见温顺的狗表示朋友可靠；狗叫可能预示有口舌之争；被狗咬需注意人际关系�?},
-{keyword:"�?,t:"梦见�?,d:"猫有时代表小人或女性。温顺的猫表示生活安逸；野猫或猫叫暗示有人背后议论。黑猫象征神秘�?},
-{keyword:"�?,t:"梦见�?,d:"猪象征财富和福气。胖猪预示财运亨通；瘦猪表示财运一般。母猪带仔象征家庭和睦�?},
-{keyword:"�?,t:"梦见�?,d:"马象征事业和动力。骑马奔跑预示事业顺利；马停不前表示需要进取。白马象征好运，黑马预示意外之喜�?},
-{keyword:"�?,t:"梦见�?,d:"牛象征勤劳和踏实。梦见牛耕田预示辛勤会有回报；牛发怒需要留意工作中的矛盾。牛市象征股市上涨�?},
-{keyword:"�?,t:"梦见�?,d:"羊象征吉祥温顺。梦见羊群预示事业发展；羊羔跪乳象征孝道。羊也代表财运，羊大为美�?},
-{keyword:"猴子",t:"梦见猴子",d:"猴子象征聪明灵活。梦见猴子表示需要用智慧解决问题。猴子嬉戏预示喜事；猴子上树象征步步高升�?},
-{keyword:"�?,t:"梦见�?,d:"鸡象征机遇和勤劳。公鸡打鸣预示新的开始；母鸡孵蛋象征孕育和积累。梦见吃鸡表示有口福�?},
-{keyword:"�?,t:"梦见�?,d:"鸟象征自由和消息。鸟在天空飞翔表示心情愉悦；鸟入笼中表示受束缚。喜鹊报喜，乌鸦有警示之意�?},
-{keyword:"月亮",t:"梦见月亮",d:"月亮代表思念和情感。圆月象征团圆和美满；新月代表新的开始；乌云遮月预示感情上的困扰�?},
-{keyword:"太阳",t:"梦见太阳",d:"太阳象征光明和父亲。旭日东升预示事业蒸蒸日上；烈日当头有压力但也有成就；日落西山表示需要休息�?},
-{keyword:"星星",t:"梦见星星",d:"星星象征希望和远方。星光璀璨预示前途光明；流星划过表示有愿望可以实现。数星星代表对未来的期许�?},
-{keyword:"结婚",t:"梦见结婚",d:"结婚不一定意味着真结婚。梦见自己结婚预示人生新阶段；参加别人婚礼表示有喜事。结婚也象征结合与合作�?},
-{keyword:"怀�?,t:"梦见怀�?,d:"怀孕象征新思想和创造力的孕育。梦见自己怀孕预示新项目或新计划即将诞生。不一定是真的怀孕�?},
-{keyword:"落水",t:"梦见落水",d:"落水代表陷入困境。被人救起表示有人相助；自己游上来表示有能力解决问题。水清则浅，水浊则深�?},
-{keyword:"被咬",t:"梦见被咬",d:"被不同动物咬有不同的寓意。被蛇咬需防小人；被狗咬注意朋友关系；被虫咬表示小事烦恼�?},
-{keyword:"迷路",t:"梦见迷路",d:"迷路象征人生方向的迷茫。在陌生地方迷路表示对新环境的不适应；找到出路预示问题会解决�?},
-{keyword:"厕所",t:"梦见厕所",d:"厕所象征污秽和财运。有人认为梦见厕所是财运将至的征兆，因粪土古代被视为肥料和财富。现代解读更偏向排泄压力�?},
-{keyword:"坟墓2",t:"梦见上坟",d:"上坟祭祖表示不忘本，有祖先庇佑。坟墓整洁预示家族兴旺；坟墓荒凉需要注意家庭关系�?},
-{keyword:"棺材",t:"梦见棺材",d:"棺材谐音官和财。梦见棺材有升官发财之寓意。棺材完好无损大吉大利，棺材破损则需谨慎�?},
-{keyword:"黄金",t:"梦见黄金",d:"黄金象征财富和珍贵。捡到黄金预示意外之财；丢失黄金要注意财物安全。金子的多少代表财富的大小�?},
-{keyword:"宝石",t:"梦见宝石",d:"宝石象征珍贵的东西。找到宝石预示有好事；宝石发光表示才华被发现。红宝石热情，蓝宝石理智�?},
-{keyword:"数字",t:"梦见数字",d:"数字在梦中有特殊含义。一代表开始，二代表选择，三代表稳定，六代表顺利，八代表发财，九代表长久�?},
-{keyword:"学校",t:"梦见学校",d:"学校象征学习和成长。回到学校表示需要补充知识；考试则是压力的体现。教室代表规则和秩序�?},
-{keyword:"医院",t:"梦见医院",d:"医院代表健康和疗愈。自己去医院表示关注健康；看望病人表示关心他人。白色的医院象征新生�?},
-{keyword:"警察",t:"梦见警察",d:"警察代表规则和权威。被警察抓表示内心有愧疚感；警察帮助表示需要寻求帮助。警车鸣笛表示警告�?},
-{keyword:"�?,t:"梦见�?,d:"钱直接代表财富。捡到钱预示财运来临；丢钱要留意支出。钱币的多少代表财富的多少。旧币象征过去的财富�?},
-{keyword:"食物",t:"梦见食物",d:"食物象征满足和滋养。丰盛的食物表示生活富足；寻找食物表示某种缺乏。腐烂的食物需留意健康�?},
-{keyword:"电话",t:"梦见电话",d:"电话代表沟通和信息。接不到电话表示错过机会；电话打不通表示沟通有障碍。老式电话可能代表怀旧�?},
-{keyword:"�?,t:"梦见�?,d:"车象征事业和生活的前进方向。开车顺利表示事业顺遂；车坏在路上表示遇到阻碍。不同车代表不同身份�?},
-{keyword:"�?,t:"梦见�?,d:"船象征人生旅程。大船平稳预示顺遂；小船摇晃有波折。船在海上航行象征事业正在起航。轮船代表集体出行�?},
-{keyword:"雨伞",t:"梦见雨伞",d:"雨伞象征保护和防备。撑伞表示有防备；伞破表示保护不足。送伞有散之意，需结合情境�?},
+{keyword:"水",t:"梦见水",d:"水主财，清澈的水象征财运亨通；浑浊的水预示财运有波折。大水象征大财，细流象征小财。梦见喝水预示健康。"},
+{keyword:"蛇",t:"梦见蛇",d:"蛇为小人，梦见蛇暗示身边有人对你不利。但蛇也象征智慧和转变，梦见蛇蜕皮预示新生和蜕变。梦见被蛇追表示有压力。"},
+{keyword:"飞",t:"梦见飞",d:"梦见飞翔象征志向远大，渴望自由。在天空中自由飞翔预示事业腾飞；低空飞行则需脚踏实地，不可好高骛远。"},
+{keyword:"掉牙",t:"梦见掉牙",d:"掉牙多与亲人健康有关。上牙代表长辈，下牙代表平辈。梦见牙齿脱落可能预示对亲人健康的担忧，或对衰老的恐惧。"},
+{keyword:"死人",t:"梦见死人",d:"梦见已故之人多因思念所致。有时死人复活象征事情有转机。梦见自己死亡预示新生或重大转变，并非凶兆。"},
+{keyword:"鱼",t:"梦见鱼",d:"鱼象征财富和机遇。梦见抓鱼预示将有好运；梦见鱼在水中游动表示财源广进；梦见鱼跃龙门象征事业突破。"},
+{keyword:"血",t:"梦见血",d:"梦见见血有双重含义。对商人而言血象征财运；对普通人而言可能预示身体需要注意。梦见自己流血表示付出。"},
+{keyword:"考试",t:"梦见考试",d:"梦见考试多因现实压力所致。考得好预示事情顺利；考不好也不必担心，只是潜意识的反映，提醒多做准备。"},
+{keyword:"追",t:"梦见被追",d:"梦见被追赶表示你在逃避某些问题。被追但跑不动代表现实中有压力无法摆脱。正面面对问题可缓解此类梦境。"},
+{keyword:"火",t:"梦见火",d:"火有兴旺之意也有危险之意。大火熊熊象征事业兴旺；小火或火灾预示有损失。火也代表热情和能量。"},
+{keyword:"雨",t:"梦见雨",d:"雨象征滋润和贵人。细雨蒙蒙贵人相助；大雨滂沱可能有磨难但终将过去。雨过天晴预示困境会解决。"},
+{keyword:"桥",t:"梦见桥",d:"桥象征过渡和选择。顺利过桥预示事情顺利；桥断或过不去表示遇到阻碍需要另寻出路。"},
+{keyword:"山",t:"梦见山",d:"山既有阻碍之意又有靠山之意。爬山预示努力进取；翻过山岭表示克服困难；站在山顶象征成功。"},
+{keyword:"花",t:"梦见花",d:"花象征美好和喜事。花开富贵预示好事将近；花谢表示美好事物逝去。各种花有不同寓意，牡丹象征富贵。"},
+{keyword:"孩子",t:"梦见孩子",d:"孩子代表新生和希望。梦见小孩预示新开始；逗小孩玩表示心情愉悦；小孩哭闹可能有烦心事。"},
+{keyword:"坟墓",t:"梦见坟墓",d:"坟墓不一定为凶，梦中坟墓有时象征升官发财。坟墓完好表示根基稳固；坟墓破损需要留意。"},
+{keyword:"龙",t:"梦见龙",d:"龙象征贵人、权力和好运。梦见龙飞在天预示大吉大利；龙入水表示潜龙勿用，时机未到。"},
+{keyword:"老虎",t:"梦见老虎",d:"老虎代表权力和威严。梦见老虎但未被伤害表示有贵人相助；被老虎追表示有压力挑战。打虎象征克服困难。"},
+{keyword:"狗",t:"梦见狗",d:"狗象征朋友和忠诚。梦见温顺的狗表示朋友可靠；狗叫可能预示有口舌之争；被狗咬需注意人际关系。"},
+{keyword:"猫",t:"梦见猫",d:"猫有时代表小人或女性。温顺的猫表示生活安逸；野猫或猫叫暗示有人背后议论。黑猫象征神秘。"},
+{keyword:"猪",t:"梦见猪",d:"猪象征财富和福气。胖猪预示财运亨通；瘦猪表示财运一般。母猪带仔象征家庭和睦。"},
+{keyword:"马",t:"梦见马",d:"马象征事业和动力。骑马奔跑预示事业顺利；马停不前表示需要进取。白马象征好运，黑马预示意外之喜。"},
+{keyword:"牛",t:"梦见牛",d:"牛象征勤劳和踏实。梦见牛耕田预示辛勤会有回报；牛发怒需要留意工作中的矛盾。牛市象征股市上涨。"},
+{keyword:"羊",t:"梦见羊",d:"羊象征吉祥温顺。梦见羊群预示事业发展；羊羔跪乳象征孝道。羊也代表财运，羊大为美。"},
+{keyword:"猴子",t:"梦见猴子",d:"猴子象征聪明灵活。梦见猴子表示需要用智慧解决问题。猴子嬉戏预示喜事；猴子上树象征步步高升。"},
+{keyword:"鸡",t:"梦见鸡",d:"鸡象征机遇和勤劳。公鸡打鸣预示新的开始；母鸡孵蛋象征孕育和积累。梦见吃鸡表示有口福。"},
+{keyword:"鸟",t:"梦见鸟",d:"鸟象征自由和消息。鸟在天空飞翔表示心情愉悦；鸟入笼中表示受束缚。喜鹊报喜，乌鸦有警示之意。"},
+{keyword:"月亮",t:"梦见月亮",d:"月亮代表思念和情感。圆月象征团圆和美满；新月代表新的开始；乌云遮月预示感情上的困扰。"},
+{keyword:"太阳",t:"梦见太阳",d:"太阳象征光明和父亲。旭日东升预示事业蒸蒸日上；烈日当头有压力但也有成就；日落西山表示需要休息。"},
+{keyword:"星星",t:"梦见星星",d:"星星象征希望和远方。星光璀璨预示前途光明；流星划过表示有愿望可以实现。数星星代表对未来的期许。"},
+{keyword:"结婚",t:"梦见结婚",d:"结婚不一定意味着真结婚。梦见自己结婚预示人生新阶段；参加别人婚礼表示有喜事。结婚也象征结合与合作。"},
+{keyword:"怀孕",t:"梦见怀孕",d:"怀孕象征新思想和创造力的孕育。梦见自己怀孕预示新项目或新计划即将诞生。不一定是真的怀孕。"},
+{keyword:"落水",t:"梦见落水",d:"落水代表陷入困境。被人救起表示有人相助；自己游上来表示有能力解决问题。水清则浅，水浊则深。"},
+{keyword:"被咬",t:"梦见被咬",d:"被不同动物咬有不同的寓意。被蛇咬需防小人；被狗咬注意朋友关系；被虫咬表示小事烦恼。"},
+{keyword:"迷路",t:"梦见迷路",d:"迷路象征人生方向的迷茫。在陌生地方迷路表示对新环境的不适应；找到出路预示问题会解决。"},
+{keyword:"厕所",t:"梦见厕所",d:"厕所象征污秽和财运。有人认为梦见厕所是财运将至的征兆，因粪土古代被视为肥料和财富。现代解读更偏向排泄压力。"},
+{keyword:"坟墓2",t:"梦见上坟",d:"上坟祭祖表示不忘本，有祖先庇佑。坟墓整洁预示家族兴旺；坟墓荒凉需要注意家庭关系。"},
+{keyword:"棺材",t:"梦见棺材",d:"棺材谐音官和财。梦见棺材有升官发财之寓意。棺材完好无损大吉大利，棺材破损则需谨慎。"},
+{keyword:"黄金",t:"梦见黄金",d:"黄金象征财富和珍贵。捡到黄金预示意外之财；丢失黄金要注意财物安全。金子的多少代表财富的大小。"},
+{keyword:"宝石",t:"梦见宝石",d:"宝石象征珍贵的东西。找到宝石预示有好事；宝石发光表示才华被发现。红宝石热情，蓝宝石理智。"},
+{keyword:"数字",t:"梦见数字",d:"数字在梦中有特殊含义。一代表开始，二代表选择，三代表稳定，六代表顺利，八代表发财，九代表长久。"},
+{keyword:"学校",t:"梦见学校",d:"学校象征学习和成长。回到学校表示需要补充知识；考试则是压力的体现。教室代表规则和秩序。"},
+{keyword:"医院",t:"梦见医院",d:"医院代表健康和疗愈。自己去医院表示关注健康；看望病人表示关心他人。白色的医院象征新生。"},
+{keyword:"警察",t:"梦见警察",d:"警察代表规则和权威。被警察抓表示内心有愧疚感；警察帮助表示需要寻求帮助。警车鸣笛表示警告。"},
+{keyword:"钱",t:"梦见钱",d:"钱直接代表财富。捡到钱预示财运来临；丢钱要留意支出。钱币的多少代表财富的多少。旧币象征过去的财富。"},
+{keyword:"食物",t:"梦见食物",d:"食物象征满足和滋养。丰盛的食物表示生活富足；寻找食物表示某种缺乏。腐烂的食物需留意健康。"},
+{keyword:"电话",t:"梦见电话",d:"电话代表沟通和信息。接不到电话表示错过机会；电话打不通表示沟通有障碍。老式电话可能代表怀旧。"},
+{keyword:"车",t:"梦见车",d:"车象征事业和生活的前进方向。开车顺利表示事业顺遂；车坏在路上表示遇到阻碍。不同车代表不同身份。"},
+{keyword:"船",t:"梦见船",d:"船象征人生旅程。大船平稳预示顺遂；小船摇晃有波折。船在海上航行象征事业正在起航。轮船代表集体出行。"},
+{keyword:"雨伞",t:"梦见雨伞",d:"雨伞象征保护和防备。撑伞表示有防备；伞破表示保护不足。送伞有散之意，需结合情境。"},
 ];
 
 function searchDream(){try{
@@ -1455,7 +1458,7 @@ function searchDream(){try{
     return item.t.indexOf(q)>=0||item.keyword.indexOf(q)>=0||item.d.indexOf(q)>=0;
   });
   if(results.length===0){
-    document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">未找到相关梦境，试试其他关键�?/p>';
+    document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">未找到相关梦境，试试其他关键词</p>';
     return;
   }
   var html='';
@@ -1464,4 +1467,3 @@ function searchDream(){try{
   });
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
-
