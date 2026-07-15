@@ -793,23 +793,28 @@ document.addEventListener('DOMContentLoaded',function(){
 
 function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
+var _origFuncs={};
 wrapPreview('showBaziPreview',showBaziPreview);
 wrapPreview('showTimeDetail',showTimeDetail);
 wrapPreview('showLuxuryReport',showLuxuryReport);
 wrapPreview('openReport',openReport);
 function copyText(t){
-  navigator.clipboard.writeText('天时 '+t).catch(function(){
-  // Dream search Enter key
-  var dreamInp=document.getElementById('dreamSearch');
+  navigator.clipboard.writeText("天时 "+t).catch(function(){});
+}
+
+// Dream search init (separate from copyText to ensure it runs)
+function initDreamSearch(){
+  var dreamInp=document.getElementById("dreamSearch");
   if(dreamInp){
-    dreamInp.addEventListener('keypress',function(e){
-      if(e.key==='Enter')searchDream();
+    dreamInp.addEventListener("keypress",function(e){
+      if(e.key==="Enter")searchDream();
     });
-    dreamInp.addEventListener('input',function(){
+    dreamInp.addEventListener("input",function(){
       if(this.value.trim())searchDream();
     });
-  }});
+  }
 }
+initDreamSearch();
 
 // ============================================================
 // 天时 · 高级功能 (周易 · 合盘 · 姓名 · 报告)
@@ -1361,8 +1366,7 @@ function isPaid(){
 function setPaid(){
   try{localStorage.setItem('js_paid','true')}catch(e){}
 }
-
-var _origFuncs={};
+
 function wrapPreview(name,fn){
   _origFuncs[name]=fn;
   window[name]=function(){
