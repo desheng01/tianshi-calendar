@@ -470,21 +470,7 @@ document.addEventListener('DOMContentLoaded',function(){
     let result={days,y,m,total,fdow,stats};
     cache[key]=result;
     renderCached(result);
-  
-    // Attach click handlers
-    var _tds=document.querySelectorAll('#cb td');
-    for(var _i=0;_i<_tds.length;_i++){
-      _tds[_i].addEventListener('click',(function(td){
-        return function(){
-          var ds=td.dataset.ds;if(!ds)return;
-          var p=ds.split('-');
-          showDetail(parseInt(p[0]),parseInt(p[1]),parseInt(p[2]));
-          document.querySelectorAll('#cb td').forEach(function(t){t.classList.remove('sel');});
-          td.classList.add('sel');
-        };
-      })(_tds[_i]));
-    }
-}
+  }
   
   function renderCached(r){
     let li=g2l(r.y,r.m,1);
@@ -496,10 +482,10 @@ document.addEventListener('DOMContentLoaded',function(){
     let t=new Date();let ts=t.getFullYear()+'-'+(t.getMonth()+1)+'-'+t.getDate();
     
     r.days.forEach(function(day){
-      let d=day.date.getDate(),isT=r.y+'-'+r.m+'-'+d===ts;
+      let d=day.date.getDate(),isT=day.dateStr===ts;
       let cls=isT?'tdy':'',dc='cdr ';
       if(day.r==='大吉')dc+='d1';else if(day.r==='吉')dc+='d2';else if(day.r==='平')dc+='d3';else dc+='d4';
-      h+='<td class="'+cls+'" data-ds="'+r.y+'-'+r.m+'-'+d+'" data-d="'+d+'" title="'+day.dg+' '+day.jc+' '+day.r+'">'
+      h+='<td class="'+cls+'" data-ds="'+day.dateStr+'" data-d="'+d+'" title="'+day.dg+' '+day.jc+' '+day.r+'">'
         +'<div class="cdn">'+d+'</div><div class="cdl">'+(day.fl!=='—'?day.fl.slice(0,2):'-')+'</div><span class="'+dc+'"></span></td>';
       if((r.fdow+d)%7===0&&d<r.total)h+='</tr><tr>';
     });
@@ -526,7 +512,22 @@ document.addEventListener('DOMContentLoaded',function(){
       });
     });
     
-        // Monthly auspicious list
+    // Auto-select
+    let tdy=cb.querySelector('.tdy');
+    if(tdy){
+      let p=tdy.dataset.ds.split('-');
+      showDetail(parseInt(p[0]),parseInt(p[1]),parseInt(p[2]));
+      tdy.classList.add('sel');
+    }else{
+      let fg=cb.querySelector('td[data-ds]');
+      if(fg){
+        let p=fg.dataset.ds.split('-');
+        showDetail(parseInt(p[0]),parseInt(p[1]),parseInt(p[2]));
+        fg.classList.add('sel');
+      }
+    }
+    
+    // Monthly auspicious list
     renderMonthlyList(r);
   }
   
@@ -548,15 +549,11 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   
   function showDetail(y,m,d){
-  y=parseInt(y)||new Date().getFullYear();
-  m=parseInt(m)||new Date().getMonth()+1;
-  d=parseInt(d)||new Date().getDate();
     let info=calcDay(y,m,d,sel);
     let colors={'大吉':'#AF2020','吉':'#D4A030','平':'#B0A898','凶':'#999'};
     let c=colors[info.r]||'#999';
     
     dp.className='dp op';
-    dp.scrollIntoView({behavior:'smooth',block:'nearest'});
     dp.innerHTML='<div class="dh">'
       +'<span class="dd">'+info.dateStr+' 周'+info.dow+'</span>'
       +'<span class="dr" style="background:'+c+'">'+info.r+' ('+info.sc+'分)</span>'
@@ -796,7 +793,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
 function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
-var _origFuncs={};
 wrapPreview('showBaziPreview',showBaziPreview);
 wrapPreview('showTimeDetail',showTimeDetail);
 wrapPreview('showLuxuryReport',showLuxuryReport);
@@ -1137,36 +1133,6 @@ function analyzeName(name){
 }
 
 function openReportFromDetail(){
-  console.error("DEBUG openReportFromDetail called");
-  var _selTd=document.querySelector('#cb td.sel');
-  console.error("DEBUG selTd:",_selTd,_selTd?_selTd.dataset.ds:"none");
-  var _rp=document.getElementById("reportPage");
-  console.error("DEBUG reportPage:",_rp,_rp?_rp.className:"none");
-  var _rpContent=document.getElementById("rpContent");
-  console.error("DEBUG rpContent:",_rpContent);
-function paidReportFromDetail(){
-  console.error("DEBUG paidReportFromDetail called, isPaid="+isPaid());
-  if(isPaid()){
-    var rp=document.getElementById("reportPage");
-    if(rp){
-      rp.className="rp op";
-      rp.scrollIntoView({behavior:"smooth"});
-      document.getElementById("rpContent").innerHTML="<p style=\"padding:2rem;text-align:center;color:#888\">\u52a0\u8f7d\u4e2d...</p>";
-    }
-  }
-  if(isPaid()){
-    try{openReportFromDetail();}catch(e){
-      console.error("Report error:",e);
-      var rp=document.getElementById("reportPage");
-      if(rp){rp.className="rp op";rp.scrollIntoView({behavior:"smooth"});}
-    }
-  }else{
-    showPaywall();
-  }
-}
-window.paidReportFromDetail=paidReportFromDetail;
-  window.openReportFromDetail=openReportFromDetail;
-
   // Find the currently selected date in the calendar
   let selTd=document.querySelector('#cb td.sel');
   if(selTd){
@@ -1188,15 +1154,6 @@ window.paidReportFromDetail=paidReportFromDetail;
   showReportContent(info,now.getFullYear(),now.getMonth()+1,now.getDate(),hexagram,false);
 }
   function paidReportFromDetail(){
-  console.error("DEBUG paidReportFromDetail called, isPaid="+isPaid());
-  if(isPaid()){
-    var rp=document.getElementById("reportPage");
-    if(rp){
-      rp.className="rp op";
-      rp.scrollIntoView({behavior:"smooth"});
-      document.getElementById("rpContent").innerHTML="<p style=\"padding:2rem;text-align:center;color:#888\">\u52a0\u8f7d\u4e2d...</p>";
-    }
-  }
     if(isPaid()){
       openReportFromDetail();
     }else{
@@ -1405,6 +1362,7 @@ function setPaid(){
   try{localStorage.setItem('js_paid','true')}catch(e){}
 }
 
+var _origFuncs={};
 function wrapPreview(name,fn){
   _origFuncs[name]=fn;
   window[name]=function(){
@@ -1431,7 +1389,7 @@ function showPaywall(){
     +'<p style="font-size:0.85rem;color:#888;margin-bottom:1rem;">您已使用 3 次免费预览，支付后可继续使用所有报告功能。</p>'
     +'<a href="https://paypal.me/jishinet" target="_blank" style="display:inline-block;padding:0.6rem 2rem;background:#0070BA;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;margin-bottom:0.5rem;">PayPal 支付支持</a>'
     +'<p style="font-size:0.75rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮解锁</p>'
-    +'<button onclick="setPaid();closePaywall();location.reload();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，刷新页面</button>'
+    +'<button onclick="setPaid();closePaywall();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，解锁</button>'
     +'</div></div>';
   var d=document.createElement('div');
   d.innerHTML=html;
@@ -1489,11 +1447,6 @@ var DREAM_DATA = [
 {keyword:"车",t:"梦见车",d:"车象征事业和生活的前进方向。开车顺利表示事业顺遂；车坏在路上表示遇到阻碍。不同车代表不同身份。"},
 {keyword:"船",t:"梦见船",d:"船象征人生旅程。大船平稳预示顺遂；小船摇晃有波折。船在海上航行象征事业正在起航。轮船代表集体出行。"},
 {keyword:"雨伞",t:"梦见雨伞",d:"雨伞象征保护和防备。撑伞表示有防备；伞破表示保护不足。送伞有散之意，需结合情境。"},
-
-{keyword:"母亲",t:"梦见母亲",d:"母亲象征安全和家庭。梦见母亲健康安好表示家庭福祥；梦见母亲生病可能是自己对家人的担心。梦见和母亲说话预示有贵人相助。"},
-{keyword:"父亲",t:"梦见父亲",d:"父亲象征权威和保护。梦见父亲健在预示事业有成。梦见已故父亲是思念之情，预示家庭安宁。"},
-{keyword:"鬼",t:"梦见鬼",d:"梦见鬼往往是压力的反映。被鬼追表示有烦心事；打败鬼预示能克服困难。梦见鬼神也主财运，但需谨慎财物。"},
-{keyword:"老板",t:"梦见老板",d:"梦见老板可能反映了工作压力。老板嘉奖预示工作顺利；老板批评需注意人际关系。与老板合作预示事业新机遇。"},
 ];
 
 function searchDream(){try{
@@ -1513,3 +1466,5 @@ function searchDream(){try{
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
 
+// Enter key to search
+);
