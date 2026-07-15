@@ -1466,5 +1466,3 @@ function searchDream(){try{
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
 
-// Enter key to search
-);
