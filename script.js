@@ -1137,7 +1137,23 @@ function analyzeName(name){
 }
 
 function openReportFromDetail(){
+  console.error("DEBUG openReportFromDetail called");
+  var _selTd=document.querySelector('#cb td.sel');
+  console.error("DEBUG selTd:",_selTd,_selTd?_selTd.dataset.ds:"none");
+  var _rp=document.getElementById("reportPage");
+  console.error("DEBUG reportPage:",_rp,_rp?_rp.className:"none");
+  var _rpContent=document.getElementById("rpContent");
+  console.error("DEBUG rpContent:",_rpContent);
 function paidReportFromDetail(){
+  console.error("DEBUG paidReportFromDetail called, isPaid="+isPaid());
+  if(isPaid()){
+    var rp=document.getElementById("reportPage");
+    if(rp){
+      rp.className="rp op";
+      rp.scrollIntoView({behavior:"smooth"});
+      document.getElementById("rpContent").innerHTML="<p style=\"padding:2rem;text-align:center;color:#888\">\u52a0\u8f7d\u4e2d...</p>";
+    }
+  }
   if(isPaid()){
     try{openReportFromDetail();}catch(e){
       console.error("Report error:",e);
@@ -1172,6 +1188,15 @@ window.paidReportFromDetail=paidReportFromDetail;
   showReportContent(info,now.getFullYear(),now.getMonth()+1,now.getDate(),hexagram,false);
 }
   function paidReportFromDetail(){
+  console.error("DEBUG paidReportFromDetail called, isPaid="+isPaid());
+  if(isPaid()){
+    var rp=document.getElementById("reportPage");
+    if(rp){
+      rp.className="rp op";
+      rp.scrollIntoView({behavior:"smooth"});
+      document.getElementById("rpContent").innerHTML="<p style=\"padding:2rem;text-align:center;color:#888\">\u52a0\u8f7d\u4e2d...</p>";
+    }
+  }
     if(isPaid()){
       openReportFromDetail();
     }else{
