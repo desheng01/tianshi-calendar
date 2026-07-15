@@ -1162,7 +1162,7 @@ function openReportFromDetail(){
     if(isPaid()){
       openReportFromDetail();
     }else{
-      showPaywall(openReportFromDetail);
+      showReportPayment();
     }
   }
   window.paidReportFromDetail=paidReportFromDetail;
@@ -1379,7 +1379,7 @@ function wrapPreview(name,fn){
       setReportCount(c+1);
       fn();
     }else{
-      showPaywall(openReportFromDetail);
+      showReportPayment();
     }
   };
 }
