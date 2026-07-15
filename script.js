@@ -1166,6 +1166,14 @@ window.paidReportFromDetail=paidReportFromDetail;
   let hexagram=getHexagram(info.dgS,info.dgB); if(!hexagram)hexagram={name:'--',num:'?',desc:'--',yi:'--',ji:'--'};
   showReportContent(info,now.getFullYear(),now.getMonth()+1,now.getDate(),hexagram,false);
 }
+  function paidReportFromDetail(){
+    if(isPaid()){
+      openReportFromDetail();
+    }else{
+      showPaywall();
+    }
+  }
+  window.paidReportFromDetail=paidReportFromDetail;
 
 function showReportContent(info,y,m,d,hexagram,isDeep){
   let subtitle=isDeep?'周易深度报告':'择日报告';
