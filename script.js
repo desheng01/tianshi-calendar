@@ -1371,11 +1371,6 @@ function wrapPreview(name,fn){
   window[name]=function(){
     if(isPaid()){
       fn();return;
-    }
-    var c=getReportCount();
-    if(c<3){
-      setReportCount(c+1);
-      fn();
     }else{
       showReportPayment(fn);
     }
@@ -1457,7 +1452,7 @@ var DREAM_DATA = [
 {keyword:"雨伞",t:"梦见雨伞",d:"雨伞象征保护和防备。撑伞表示有防备；伞破表示保护不足。送伞有散之意，需结合情境。"},
 ];
 
-function searchDream(){try{var dc=0;try{dc=parseInt(localStorage.getItem('js_dream'))||0}catch(e){}if(!isPaid()&&dc>=3){showReportPayment(function(){searchDream();});return;}
+function searchDream(){try{if(!isPaid()){showReportPayment(function(){searchDream();});return;}
   var q=document.getElementById('dreamSearch').value.trim();
   if(!q){document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">请输入梦境关键词</p>';return;}
   var results=DREAM_DATA.filter(function(item){
@@ -1471,5 +1466,5 @@ function searchDream(){try{var dc=0;try{dc=parseInt(localStorage.getItem('js_dre
   results.forEach(function(item){
     html+='<div class="dr-item"><h3>'+item.t+'</h3><p>'+item.d+'</p></div>';
   });
-  document.getElementById('dreamResults').innerHTML=html;try{localStorage.setItem('js_dream',(dc+1).toString())}catch(e){}}catch(e){console.error('Dream search error:',e)}
+  document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
