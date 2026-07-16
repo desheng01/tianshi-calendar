@@ -1389,6 +1389,7 @@ function onPaidAndUnlock(){setPaid();closePaywall();if(typeof _paywallAfterPaid=
 function closePaywall(){var el=document.getElementById("paywall-overlay");if(el)el.remove();}
 var _paywallAfterPaid=null;
 
+window.showReportPayment=showReportPayment;
 function showReportPayment(){
   var prices=[
     {name:'基础报告',price:'9.99',desc:'吉凶评分、宜忌建议、时辰吉凶',paypal:'https://paypal.me/jishinet/9.99'},
