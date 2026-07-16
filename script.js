@@ -32,7 +32,7 @@ function searchDream(){try{
   results.forEach(function(item){
     html+='<div class="dr-item"><h3>'+item.t+'</h3><p>'+item.d+'</p></div>';
   });
-  html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">想了解更多梦境解读？</p><button onclick="showReportPayment();_paywallAfterPaid=null;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">付费获取专业解梦报告</button></div>';
+  html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">想了解更多梦境解读？</p><button href="https://paypal.me/jishinet/6.66" target="_blank" style="display:inline-block;padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">付费查看完整解梦</a></div>';
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
 function gtag(){dataLayer.push(arguments);}
@@ -796,7 +796,7 @@ document.addEventListener('DOMContentLoaded',function(){
       +'<p>'+r.analysis+'</p>'
       +'<p style="margin-top:0.4rem;font-size:0.72rem;color:#aaa;">* 本分析仅供文化参考，不构成命理建议。</p></div>';
     
-    var payBtn='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><button onclick="showReportPayment();_paywallAfterPaid=null;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">完整报告 · 付费解锁</button></div>';
+    var payBtn='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><button href="https://paypal.me/jishinet/6.66" target="_blank" style="display:inline-block;padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">完整报告 · 付费解锁</button></div>';
 div.innerHTML=tableHtml+elemHtml+analysisHtml+payBtn;
   }
 
@@ -1483,7 +1483,7 @@ var DREAM_DATA = [
   results.forEach(function(item){
     html+='<div class="dr-item"><h3>'+item.t+'</h3><p>'+item.d+'</p></div>';
   });
-  var payHtml='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">想了解更多梦境解读？</p><button onclick="showReportPayment();_paywallAfterPaid=null;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">付费获取专业解梦报告</button></div>';
+  var payHtml='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">想了解更多梦境解读？</p><button href="https://paypal.me/jishinet/6.66" target="_blank" style="display:inline-block;padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border-radius:6px;text-decoration:none;font-size:0.85rem;font-weight:600;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">付费查看完整解梦</a></div>';
   html+=payHtml;
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
