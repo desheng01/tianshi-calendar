@@ -1391,6 +1391,7 @@ var _paywallAfterPaid=null;
 
 window.showReportPayment=showReportPayment;
 function showReportPayment(){
+  _paywallAfterPaid=openReportFromDetail;
   var prices=[
     {name:'基础报告',price:'9.99',desc:'吉凶评分、宜忌建议、时辰吉凶',paypal:'https://paypal.me/jishinet/9.99'},
     {name:'专业报告',price:'29.99',desc:'基础+周易卦象、五行分析、详细冲煞',paypal:'https://paypal.me/jishinet/29.99'},
