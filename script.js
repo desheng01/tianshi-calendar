@@ -1452,7 +1452,7 @@ var DREAM_DATA = [
 {keyword:"雨伞",t:"梦见雨伞",d:"雨伞象征保护和防备。撑伞表示有防备；伞破表示保护不足。送伞有散之意，需结合情境。"},
 ];
 
-function searchDream(){try{if(!isPaid()){showReportPayment(function(){searchDream();});return;}
+function searchDream(){try{showReportPayment();_paywallAfterPaid=null;return;
   var q=document.getElementById('dreamSearch').value.trim();
   if(!q){document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">请输入梦境关键词</p>';return;}
   var results=DREAM_DATA.filter(function(item){
