@@ -17,6 +17,24 @@ window.onerror = function(msg, url, line, col, error) {
 };
 
 window.dataLayer = window.dataLayer || [];
+
+function searchDream(){try{
+  var q=document.getElementById('dreamSearch').value.trim();
+  if(!q){document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">请输入梦境关键词</p>';return;}
+  var results=DREAM_DATA.filter(function(item){
+    return item.t.indexOf(q)>=0||item.keyword.indexOf(q)>=0||item.d.indexOf(q)>=0;
+  });
+  if(results.length===0){
+    document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">未找到相关梦境。</p>';
+    return;
+  }
+  var html='';
+  results.forEach(function(item){
+    html+='<div class="dr-item"><h3>'+item.t+'</h3><p>'+item.d+'</p></div>';
+  });
+  html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">想了解更多梦境解读？</p><button onclick="showReportPayment();_paywallAfterPaid=null;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">付费获取专业解梦报告</button></div>';
+  document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
+}
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-XXXXXXXXXX');
@@ -778,7 +796,8 @@ document.addEventListener('DOMContentLoaded',function(){
       +'<p>'+r.analysis+'</p>'
       +'<p style="margin-top:0.4rem;font-size:0.72rem;color:#aaa;">* 本分析仅供文化参考，不构成命理建议。</p></div>';
     
-    div.innerHTML=tableHtml+elemHtml+analysisHtml;
+    var payBtn='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><button onclick="showReportPayment();_paywallAfterPaid=null;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">完整报告 · 付费解锁</button></div>';
+div.innerHTML=tableHtml+elemHtml+analysisHtml+payBtn;
   }
 
   // ---- Init today's tab (load when first shown) ----
@@ -1450,21 +1469,21 @@ var DREAM_DATA = [
 {keyword:"车",t:"梦见车",d:"车象征事业和生活的前进方向。开车顺利表示事业顺遂；车坏在路上表示遇到阻碍。不同车代表不同身份。"},
 {keyword:"船",t:"梦见船",d:"船象征人生旅程。大船平稳预示顺遂；小船摇晃有波折。船在海上航行象征事业正在起航。轮船代表集体出行。"},
 {keyword:"雨伞",t:"梦见雨伞",d:"雨伞象征保护和防备。撑伞表示有防备；伞破表示保护不足。送伞有散之意，需结合情境。"},
-];
-
-function searchDream(){try{showReportPayment();_paywallAfterPaid=null;return;
+];function searchDream(){try{
   var q=document.getElementById('dreamSearch').value.trim();
   if(!q){document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">请输入梦境关键词</p>';return;}
   var results=DREAM_DATA.filter(function(item){
     return item.t.indexOf(q)>=0||item.keyword.indexOf(q)>=0||item.d.indexOf(q)>=0;
   });
   if(results.length===0){
-    document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">未找到相关梦境，试试其他关键词</p>';
+    document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">未找到相关梦境。</p>';
     return;
   }
   var html='';
   results.forEach(function(item){
     html+='<div class="dr-item"><h3>'+item.t+'</h3><p>'+item.d+'</p></div>';
   });
+  var payHtml='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">想了解更多梦境解读？</p><button onclick="showReportPayment();_paywallAfterPaid=null;" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">付费获取专业解梦报告</button></div>';
+  html+=payHtml;
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 }
