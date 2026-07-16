@@ -794,7 +794,7 @@ document.addEventListener('DOMContentLoaded',function(){
 function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
 var _origFuncs={};
-wrapPreview('showBaziPreview',showBaziPreview);
+// wrapPreview('showBaziPreview',showBaziPreview);
 wrapPreview('showTimeDetail',showTimeDetail);
 wrapPreview('showLuxuryReport',showLuxuryReport);
 wrapPreview('openReport',openReport);
