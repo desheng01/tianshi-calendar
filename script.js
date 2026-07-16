@@ -1159,12 +1159,10 @@ function openReportFromDetail(){
   showReportContent(info,now.getFullYear(),now.getMonth()+1,now.getDate(),hexagram,false);
 }
   function paidReportFromDetail(){
-    if(isPaid()){
-      openReportFromDetail();
-    }else{
-      showReportPayment();
-    }
+    // Always show payment popup
+    showReportPayment();
   }
+
   window.paidReportFromDetail=paidReportFromDetail;
   window.openReportFromDetail=openReportFromDetail;
 
@@ -1389,37 +1387,8 @@ function onPaidAndUnlock(){setPaid();closePaywall();if(typeof _paywallAfterPaid=
 function closePaywall(){var el=document.getElementById("paywall-overlay");if(el)el.remove();}
 var _paywallAfterPaid=null;
 
-window.showReportPayment=showReportPayment;
-function showReportPayment(){
-  _paywallAfterPaid=openReportFromDetail;
-  var prices=[
-    {name:'基础报告',price:'9.99',desc:'吉凶评分、宜忌建议、时辰吉凶',paypal:'https://paypal.me/jishinet/9.99'},
-    {name:'专业报告',price:'29.99',desc:'基础+周易卦象、五行分析、详细冲煞',paypal:'https://paypal.me/jishinet/29.99'},
-    {name:'豪华报告',price:'49.99',desc:'专业+深度五行推理、吉时推荐、全方位报告',paypal:'https://paypal.me/jishinet/49.99'}
-  ];
-  var html='<div id="paywall-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">'
-    +'<div style="background:#fff;border-radius:12px;padding:1.5rem;max-width:520px;width:90%;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.2);">'
-    +'<div style="font-size:1.5rem;margin-bottom:0.3rem;">📋</div>'
-    +'<h2 style="font-size:1.1rem;color:#2E2E2E;margin-bottom:0.5rem;">选择报告套餐</h2>'
-    +'<p style="font-size:0.8rem;color:#888;margin-bottom:1rem;">购买后即可查看本日完整报告</p>'
-    +'<div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;">';
-  prices.forEach(function(p,i){
-    var colors=['#2A7A3A','#AF2020','#2E2E2E'];
-    html+='<div style="flex:1;min-width:130px;border:2px solid '+(i===1?colors[1]:'#ddd')+';border-radius:10px;padding:0.8rem;text-align:center;">'
-      +'<div style="font-size:0.85rem;font-weight:600;color:'+colors[i]+';margin-bottom:0.3rem;">'+p.name+'</div>'
-      +'<div style="font-size:1.3rem;font-weight:800;color:'+colors[i]+';margin-bottom:0.2rem;">$'+p.price+'</div>'
-      +'<div style="font-size:0.7rem;color:#888;margin-bottom:0.5rem;line-height:1.3;">'+p.desc+'</div>'
-      +'<a href="'+p.paypal+'" target="_blank" style="display:inline-block;padding:0.35rem 1rem;background:'+colors[i]+';color:#fff;border-radius:6px;text-decoration:none;font-size:0.8rem;font-weight:600;">选择并支付</a>'
-      +'</div>';
-  });
-  html+='</div>'
-    +'<p style="font-size:0.7rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮查看报告</p>'
-    +'<button onclick="onPaidAndUnlock();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，查看报告</button>'
-    +'</div></div>';
-  var d=document.createElement('div');
-  d.innerHTML=html;
-  document.body.appendChild(d.firstElementChild);
-}
+
+function showReportPayment(){_paywallAfterPaid=openReportFromDetail;var prices=[{n:"基础报告",r:"9.99",d:"吉凶评分、宜忌建议、时辰吉凶",u:"https://paypal.me/jishinet/9.99"},{n:"专业报告",r:"29.99",d:"基础+周易卦象、五行分析、详细冲煞",u:"https://paypal.me/jishinet/29.99"},{n:"豪华报告",r:"49.99",d:"专业+深度五行推理、吉时推荐、全方位报告",u:"https://paypal.me/jishinet/49.99"}];var html='<div id="paywall-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;"><div style="background:#fff;border-radius:12px;padding:1.5rem;max-width:520px;width:90%;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.2);"><div style="font-size:1.5rem;margin-bottom:0.3rem;">📋</div><h2 style="font-size:1.1rem;color:#2E2E2E;margin-bottom:0.5rem;">选择报告套餐</h2><p style="font-size:0.8rem;color:#888;margin-bottom:1rem;">购买后即可查看本日完整报告</p><div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;">';prices.forEach(function(x,i){var c=["#2A7A3A","#AF2020","#2E2E2E"];html+='<div style="flex:1;min-width:130px;border:2px solid '+(i===1?c[1]:"#ddd")+';border-radius:10px;padding:0.8rem;text-align:center;"><div style="font-size:0.85rem;font-weight:600;color:'+c[i]+';margin-bottom:0.3rem;">'+x.n+'</div><div style="font-size:1.3rem;font-weight:800;color:'+c[i]+';margin-bottom:0.2rem;">$'+x.r+'</div><div style="font-size:0.7rem;color:#888;margin-bottom:0.5rem;line-height:1.3;">'+x.d+'</div><a href="'+x.u+'" target="_blank" style="display:inline-block;padding:0.35rem 1rem;background:'+c[i]+';color:#fff;border-radius:6px;text-decoration:none;font-size:0.8rem;font-weight:600;">选择并支付</a></div>';});html+='</div><p style="font-size:0.7rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮查看报告</p><button onclick="onPaidAndUnlock();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，查看报告</button></div></div>';var d=document.createElement("div");d.innerHTML=html;document.body.appendChild(d.firstElementChild);}
 function showPaywall(afterPaid){_paywallAfterPaid=afterPaid||null;
   var html='<div id="paywall-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;">'
     +'<div style="background:#fff;border-radius:12px;padding:2rem;max-width:400px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.2);">'
