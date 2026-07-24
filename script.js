@@ -1,7 +1,5 @@
 ﻿
-// Global error handler for debugging
 
-// Register service worker for PWA
 if('serviceWorker'in navigator){
   navigator.serviceWorker.register('/sw.js').catch(function(){});
 }
@@ -39,12 +37,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-XXXXXXXXXX');
 
-
-// ============================================================
-// 天时 · 核心算法
-// ============================================================
-
-// ---- Constants ----
 const TG = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
 const DZ = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
 const SX = ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
@@ -57,13 +49,11 @@ const ELEM_DZ = {0:'水',1:'土',2:'木',3:'木',4:'火',5:'火',6:'火',7:'土'
 const ELEM_COLORS = {金:'#D4A030',木:'#2A7A3A',水:'#2A5A8A',火:'#AF2020',土:'#B08040'};
 const WU_XING = ['金','木','水','火','土'];
 
-// Hidden stems (藏干) for each earthly branch
 const CANG_GAN = {
   0:[9],1:[7,9,1],2:[2,4,7],3:[3],4:[7,3,9],5:[4,7,6],
   6:[4,7],7:[7,4,3],8:[8,9,7],9:[8],10:[7,8,4],11:[9,2]
 };
 
-// Lunar data 1900-2100
 const LD = [0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
 0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
 0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
@@ -107,10 +97,8 @@ const SHICHEN = [
   {name:'亥时',start:'21:00',end:'23:00',idx:11}
 ];
 
-// ---- Utility ----
 function daysBetween(a,b){return Math.round((b-a)/86400000);}
 
-// ---- Lunar ----
 function g2l(year,month,day){
   if(year<1900||year>2100)return null;
   let base=new Date(1900,0,31);
@@ -141,7 +129,6 @@ function fmtLunar(l){
   return (l.isLeap?'闰':'')+LMN[l.month]+LDN[l.day];
 }
 
-// ---- Solar-term month branch ----
 function getMonthBranch(y,m,d){
   const cutoff=[
     {m:2,d:4,b:2},{m:3,d:6,b:3},{m:4,d:5,b:4},{m:5,d:6,b:5},
@@ -154,7 +141,6 @@ function getMonthBranch(y,m,d){
   return fb;
 }
 
-// ---- Gan-Zhi ----
 function yGz(year){
   let s=(year-4)%10;if(s<0)s+=10;
   let b=(year-4)%12;if(b<0)b+=12;
@@ -175,7 +161,7 @@ function dGz(year,month,day){
   let idx=((d%60)+60+10)%60;
   return {s:idx%10,b:idx%12,idx,t:TG[idx%10]+DZ[idx%12]};
 }
-// Hour Gan-Zhi (五鼠遁)
+
 function hGz(dayStem,hourBranch){
   if(hourBranch<0)return null;
   const startStem=[0,2,4,6,8]; // 甲己→甲,乙庚→丙,丙辛→戊,丁壬→庚,戊癸→壬
@@ -188,7 +174,6 @@ function hourToBranch(hour){
   return Math.floor((hour+1)/2)%12; // 1-2→丑[1], 3-4→寅[2], etc.
 }
 
-// ---- JianChu ----
 function jianChuInfo(year,month,day,dzB){
   let mb=getMonthBranch(year,month,day);
   let off=(dzB-mb+12)%12;
@@ -222,7 +207,6 @@ function getYiJi(purpose,jcName,rating){
   return {yi,ji};
 }
 
-// ---- Full Day Calc ----
 function calcDay(y,m,d,purpose){
   let date=new Date(y,m-1,d);
   let l=g2l(y,m,d);
@@ -235,13 +219,12 @@ function calcDay(y,m,d,purpose){
     yi:yj.yi,ji:yj.ji,dgB:dg.b,dgS:dg.s};
 }
 
-// ---- Shichen (hourly periods) for a day ----
 function calcShichen(year,month,day){
   let dg=dGz(year,month,day);
   return SHICHEN.map(function(sh){
     let hg=hGz(dg.s,sh.idx);
     let text=hg?hg.t+' '+sh.name:sh.name;
-    // Simple scoring: 子午卯酉 slightly better; check element
+
     let shScore=1; // default 平
     let scEl=sh.idx%2===0?1:0; // even index: 吉, odd: 平
     if(sh.idx===0||sh.idx===6)scEl=2; // 子午: 吉+
@@ -252,13 +235,12 @@ function calcShichen(year,month,day){
   });
 }
 
-// ---- Zodiac Fortune ----
 function getZodiacFortune(dayBranch){
-  // Six harmonies (六合): [0,1],[2,11],[3,10],[4,9],[5,8],[6,7]
+
   const liuHe=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
-  // Three harmonies groups (三合)
+
   const sanHe=[[0,4,8],[1,5,9],[2,6,10],[3,7,11]];
-  // Punishments (相刑) simplified
+
   const xing=[[0,3],[1,1],[2,4],[4,2],[5,5],[6,6],[7,7],[8,8],[9,9],[10,10],[11,11]];
   
   const FORTUNE_TEXTS_GOOD = [
@@ -282,17 +264,16 @@ function getZodiacFortune(dayBranch){
   
   return SX.map(function(_,i){
     let score=3;
-    // Six harmonies: +2
+
     for(let h of liuHe){if((h[0]===dayBranch&&h[1]===i)||(h[0]===i&&h[1]===dayBranch)){score+=2;break;}}
-    // Three harmonies: +1
+
     for(let g of sanHe){if(g.includes(dayBranch)&&g.includes(i)){score+=1;break;}}
-    // Six conflicts (六冲): -2
+
     if((dayBranch+6)%12===i)score-=2;
-    // Punishment: -1
+
     for(let x of xing){if(x[0]===dayBranch&&x[1]===i){score-=1;break;}}
     if(xing.some(x=>(x[0]===i&&x[1]===dayBranch)))score-=1;
-    
-    // Element support/restraint
+
     let dayEl=ELEM_DZ[dayBranch];
     let zodEl=ELEM_DZ[i];
     let elemScore=0;
@@ -308,31 +289,27 @@ function getZodiacFortune(dayBranch){
     else if(score===3){stars='★★★☆☆';grade='平';texts=FORTUNE_TEXTS_MID;}
     else if(score===2){stars='★★☆☆☆';grade='平';texts=FORTUNE_TEXTS_MID;}
     else {stars='★☆☆☆☆';grade='凶';texts=FORTUNE_TEXTS_LOW;}
-    
-    // Pick text based on zodiac index to get variety
+
     let tIdx=(i*7+dayBranch*3)%texts.length;
     
     return {zodiac:SX[i],index:i,score,stars,grade,text:texts[tIdx],top:score>=5,good:score>=4,low:score<=1};
   });
 }
 
-// ===== BaZi (八字) Computation =====
 function computeBazi(year,month,day,hour,gender){
   let yg=yGz(year);
   let mg=mGz(year,month,day);
   let dg=dGz(year,month,day);
   let hb=hourToBranch(hour);
   let hg=hGz(dg.s,hb);
-  
-  // Hidden stems for each pillar's branch
+
   let yCg=CANG_GAN[yg.b]||[];
   let mCg=CANG_GAN[mg.b]||[];
   let dCg=CANG_GAN[dg.b]||[];
   let hCg=hg?CANG_GAN[hg.b]||[]:[];
   
   function fmtCang(arr){return arr.map(i=>TG[i]).join('');}
-  
-  // Five element count from 8 characters
+
   let elemCount={金:0,木:0,水:0,火:0,土:0};
   function countElem(ganArr,zhiArr){
     for(let s of ganArr){let el=ELEM[s];if(el&&elemCount[el]!==undefined)elemCount[el]++;}
@@ -345,23 +322,19 @@ function computeBazi(year,month,day,hour,gender){
   
   for(let s of ganArr){let el=ELEM[s];if(el)elemCount[el]++;}
   for(let b of zhiArr){let el=ELEM_DZ[b];if(el)elemCount[el]++;}
-  
-  // Find strongest/weakest
+
   let maxEl=0,minEl=10,maxElName='',minElName='';
   for(let k of WU_XING){
     if(elemCount[k]>maxEl){maxEl=elemCount[k];maxElName=k;}
     if(elemCount[k]<minEl){minEl=elemCount[k];minElName=k;}
   }
-  
-  // Day master (日主) analysis
+
   let dayMaster=TG[dg.s];
   let dayMasterEl=ELEM[dg.s];
-  
-  // Season based strength
+
   let monthBranch=mg.b;
   const seasonEl={0:'水',1:'土',2:'木',3:'木',4:'火',5:'火',6:'土',7:'金',8:'金',9:'土',10:'土',11:'水'};
-  // In which season is the day master born?
-  // 寅卯辰=春(木), 巳午未=夏(火), 申酉戌=秋(金), 亥子丑=冬(水)
+
   let season='';
   if([2,3,4].includes(monthBranch))season='木';
   else if([5,6,7].includes(monthBranch))season='火';
@@ -369,7 +342,7 @@ function computeBazi(year,month,day,hour,gender){
   else season='水';
   
   let dmStrong=false;
-  // Day master is strong when born in its own season or when its element is most abundant
+
   if(dayMasterEl===season)dmStrong=true;
   if(elemCount[dayMasterEl]>=3)dmStrong=true;
   
@@ -380,8 +353,7 @@ function computeBazi(year,month,day,hour,gender){
   if(maxElName)analysis+='八字中'+maxElName+'最旺('+elemCount[maxElName]+'个)，';
   if(minElName)analysis+=''+minElName+'最弱('+elemCount[minElName]+'个)。';
   analysis+='五行'+(elemCount[dayMasterEl]>=2?'相对均衡。':'略有偏颇，需后天补益。');
-  
-  // Personality traits based on day master element
+
   const PERSONALITY={
     '金':'刚毅果断、意志坚定，有领导力和执行力。',
     '木':'仁慈宽厚、有进取心，善于规划和组织。',
@@ -406,7 +378,6 @@ function computeBazi(year,month,day,hour,gender){
   };
 }
 
-// ===== Today's Almanac =====
 function getTodayAlmanac(){
   let now=new Date();
   let y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
@@ -416,13 +387,8 @@ function getTodayAlmanac(){
   return{year:y,month:m,day:d,info,shichen,lunar:l};
 }
 
-
-// ============================================================
-// 天时 · 界面逻辑
-// ============================================================
-
 document.addEventListener('DOMContentLoaded',function(){
-  // ---- Tab switching ----
+
   const tabs=document.querySelectorAll('.tab');
   tabs.forEach(function(t){
     t.addEventListener('click',function(){
@@ -430,13 +396,12 @@ document.addEventListener('DOMContentLoaded',function(){
       document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));
       this.classList.add('active');
       document.getElementById(this.dataset.tab).classList.add('active');
-      // Refresh dynamic tabs when shown
+
       if(this.dataset.tab==='tab-today')renderToday();
       if(this.dataset.tab==='tab-zodiac')renderZodiac();
     });
   });
 
-  // ---- 择吉日 ----
   const pg=document.getElementById('pg');
   const cb=document.getElementById('cb');
   const mt=document.getElementById('mt');
@@ -457,7 +422,7 @@ document.addEventListener('DOMContentLoaded',function(){
     b.classList.add('active');sel=b.dataset.p;
     try{localStorage.setItem('ts_purpose',sel);}catch(e){}
     render(vy,vm);
-  // Auto-calculate today's BaZi
+
   setTimeout(function(){
     var calcBtn=document.getElementById('calcBazi');
     if(calcBtn) calcBtn.click();
@@ -493,8 +458,7 @@ document.addEventListener('DOMContentLoaded',function(){
   function renderCached(r){
     let li=g2l(r.y,r.m,1);
     mt.innerHTML=r.y+'年'+r.m+'月'+(li?' <small>'+LMN[li.month]+'</small>':'');
-    
-    // Calendar grid
+
     let h='<tr>';
     for(let i=0;i<r.fdow;i++)h+='<td class="om"></td>';
     let t=new Date();let ts=t.getFullYear()+'-'+(t.getMonth()+1)+'-'+t.getDate();
@@ -511,16 +475,14 @@ document.addEventListener('DOMContentLoaded',function(){
     if(lc!==0)for(let i=lc;i<7;i++)h+='<td class="om"></td>';
     h+='</tr>';
     cb.innerHTML=h;
-    
-    // Summary
+
     let pn=PURPOSE_NAMES[sel]||sel;
     sb.innerHTML='<span><span class="d d1"></span>大吉 <b>'+r.stats.dj+'</b></span>'
       +'<span><span class="d d2"></span>吉 <b>'+r.stats.j+'</b></span>'
       +'<span><span class="d d3"></span>平 <b>'+r.stats.p+'</b></span>'
       +'<span><span class="d d4"></span>不宜 <b>'+r.stats.x+'</b></span>'
       +'<span style="margin-left:auto;color:#999;font-size:0.7rem;">'+pn+'</span>';
-    
-    // Day click
+
     cb.querySelectorAll('td[data-ds]').forEach(function(td){
       td.addEventListener('click',function(){
         let p=this.dataset.ds.split('-');
@@ -529,8 +491,7 @@ document.addEventListener('DOMContentLoaded',function(){
         this.classList.add('sel');
       });
     });
-    
-    // Auto-select
+
     let tdy=cb.querySelector('.tdy');
     if(tdy){
       let p=tdy.dataset.ds.split('-');
@@ -544,8 +505,7 @@ document.addEventListener('DOMContentLoaded',function(){
         fg.classList.add('sel');
       }
     }
-    
-    // Monthly auspicious list
+
     renderMonthlyList(r);
   }
   
@@ -594,32 +554,30 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   
   window.switchToDay=function(y,m,d){
-    // Switch to the tab-day tab and navigate to correct month
+
     document.querySelector('[data-tab="tab-day"]').click();
-    // Navigate to correct month
+
     vy=y;vm=m;
     render(vy,vm);
-  // Auto-calculate today's BaZi
-  setTimeout(function(){
-    var calcBtn=document.getElementById('calcBazi');
-    if(calcBtn) calcBtn.click();
-  }, 500);
-    // After render, find and click the day
-    setTimeout(function(){
-      let target=document.querySelector('td[data-ds="'+y+'-'+m+'-'+d+'"]');
-      if(target)target.click();
-    },100);
-  };
-  
-  // Initial render
-  render(vy,vm);
-  // Auto-calculate today's BaZi
+
   setTimeout(function(){
     var calcBtn=document.getElementById('calcBazi');
     if(calcBtn) calcBtn.click();
   }, 500);
 
-  // ---- 今日黄历 ----
+    setTimeout(function(){
+      let target=document.querySelector('td[data-ds="'+y+'-'+m+'-'+d+'"]');
+      if(target)target.click();
+    },100);
+  };
+
+  render(vy,vm);
+
+  setTimeout(function(){
+    var calcBtn=document.getElementById('calcBazi');
+    if(calcBtn) calcBtn.click();
+  }, 500);
+
   function renderToday(){
     let data=getTodayAlmanac();
     let info=data.info;
@@ -654,7 +612,6 @@ document.addEventListener('DOMContentLoaded',function(){
     grid.innerHTML=html;
   }
 
-  // ---- 生肖运势 ----
   function renderZodiac(){
     let now=new Date();
     let y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
@@ -700,44 +657,38 @@ document.addEventListener('DOMContentLoaded',function(){
       +'<p style="margin-top:0.3rem;font-size:0.72rem;color:#aaa;">* 供娱乐参考</p>';
   };
 
-  // ---- 八字排盘 ----
   (function initBazi(){
     let yearSel=document.getElementById('baziYear');
     let monthSel=document.getElementById('baziMonth');
     let daySel=document.getElementById('baziDay');
     let hourSel=document.getElementById('baziHour');
-    
-    // Populate year: 1900-2030
+
     for(let y=2030;y>=1900;y--){
       let opt=document.createElement('option');
       opt.value=y;opt.textContent=y+'年';
       if(y===1990)opt.selected=true;
       yearSel.appendChild(opt);
     }
-    
-    // Month
+
     for(let m=1;m<=12;m++){
       let opt=document.createElement('option');
       opt.value=m;opt.textContent=m+'月';
       monthSel.appendChild(opt);
     }
-    
-    // Day
+
     for(let d=1;d<=31;d++){
       let opt=document.createElement('option');
       opt.value=d;opt.textContent=d+'日';
       daySel.appendChild(opt);
     }
-    
-    // Hour
+
     hourSel.innerHTML='<option value="-1">未知</option>';
     SHICHEN.forEach(function(sh){
       let opt=document.createElement('option');
       opt.value=sh.idx;opt.textContent=sh.name+' ('+sh.start+'-'+sh.end+')';
       hourSel.appendChild(opt);
     });
-    
-    // Gender toggle
+
     let genderBtns=document.querySelectorAll('.bg-opt');
     let gender='M';
     genderBtns.forEach(function(b){
@@ -747,8 +698,7 @@ document.addEventListener('DOMContentLoaded',function(){
         gender=this.dataset.g;
       });
     });
-    
-    // Calculate
+
     document.getElementById('calcBazi').addEventListener('click',function(){
       let y=parseInt(yearSel.value);
       let m=parseInt(monthSel.value);
@@ -777,8 +727,7 @@ document.addEventListener('DOMContentLoaded',function(){
     tableHtml+='</tr><tr><td>五行</td>';
     r.pillars.forEach(function(p){tableHtml+='<td><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:'+(ELEM_COLORS[p.el]||'#999')+';vertical-align:middle;margin-right:0.2rem;"></span>'+p.el+'</td>';});
     tableHtml+='</tr></table>';
-    
-    // Element bars
+
     let elemHtml='<div class="be"><div class="be-title">五行统计</div>';
     let maxCount=Math.max(...WU_XING.map(k=>r.elemCount[k]||0),1);
     for(let k of WU_XING){
@@ -789,8 +738,7 @@ document.addEventListener('DOMContentLoaded',function(){
         +'<span class="bar-count">'+cnt+'</span></div>';
     }
     elemHtml+='</div>';
-    
-    // Analysis
+
     let analysisHtml='<div class="ba"><p><b>日主：</b>'+r.dayMaster.gan+'('+r.dayMaster.el+')生于'+r.season+'月</p>'
       +'<p><b>四柱：</b>'+r.fourPillars.join(' ')+'</p>'
       +'<p>'+r.analysis+'</p>'
@@ -800,20 +748,16 @@ document.addEventListener('DOMContentLoaded',function(){
 div.innerHTML=tableHtml+elemHtml+analysisHtml+payBtn;
   }
 
-  // ---- Init today's tab (load when first shown) ----
-  // Pre-render today and zodiac for fast tab switching
   setTimeout(function(){
     renderToday();
     renderZodiac();
   },200);
 });
 
-
-
 function closeDP(){document.getElementById('dp').className='dp';}
 function closeZM(){document.getElementById('zodiacModal').className='zm';}
 var _origFuncs={};
-// wrapPreview('showBaziPreview',showBaziPreview);
+
 wrapPreview('showTimeDetail',showTimeDetail);
 wrapPreview('showLuxuryReport',showLuxuryReport);
 wrapPreview('openReport',openReport);
@@ -821,7 +765,6 @@ function copyText(t){
   navigator.clipboard.writeText("天时 "+t).catch(function(){});
 }
 
-// Dream search init (separate from copyText to ensure it runs)
 function initDreamSearch(){
   var dreamInp=document.getElementById("dreamSearch");
   if(dreamInp){
@@ -835,11 +778,6 @@ function initDreamSearch(){
 }
 initDreamSearch();
 
-// ============================================================
-// 天时 · 高级功能 (周易 · 合盘 · 姓名 · 报告)
-// ============================================================
-
-// ---- 六十四卦 (64 Hexagrams) ----
 const HEXAGRAMS = [
   {num:1,name:"乾为天",desc:"乾卦，天行健，君子以自强不息。刚健中正，自强不息。",yi:"关键日，适合开创性大事",ji:"不宜过分张扬"},
   {num:2,name:"坤为地",desc:"坤卦，地势坤，君子以厚德载物。柔顺包容，厚德载物。",yi:"宜稳重保守",ji:"不宜冒进"},
@@ -924,7 +862,7 @@ function computeBaziForDate(y,m,d,h){
 }
 
 function computeCompat(){
-  // Get form values
+
   let ay=parseInt(document.getElementById('caY').value);
   let am=parseInt(document.getElementById('caM').value);
   let ad=parseInt(document.getElementById('caD').value);
@@ -936,8 +874,7 @@ function computeCompat(){
   
   let aData=computeBaziForDate(ay,am,ad,ah);
   let bData=computeBaziForDate(by,bm,bd,bh);
-  
-  // Day master compatibility
+
   let aEl=aData.dayMasterEl;
   let bEl=bData.dayMasterEl;
   
@@ -954,12 +891,11 @@ function computeCompat(){
   else if(EL_RELATIONS[aEl].生===bEl||EL_RELATIONS[bEl].生===aEl)elCompat=85; // mutual generation
   else if(EL_RELATIONS[aEl].克===bEl||EL_RELATIONS[bEl].克===aEl)elCompat=40; // conflict
   else elCompat=55; // neutral
-  
-  // Year branch compatibility (六合三合)
+
   let ybCompat=0;
   if((aData.yg.b+6)%12===bData.yg.b)ybCompat=30; // six conflict
   else{
-    // Check six harmony
+
     const sixHarmony=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]];
     let isHarmony=false;
     for(let h of sixHarmony){
@@ -969,8 +905,7 @@ function computeCompat(){
     }
     ybCompat=isHarmony?90:60;
   }
-  
-  // Overall score
+
   let total=Math.round(elCompat*0.5+ybCompat*0.3+Math.random()*10+55);
   total=Math.min(99,Math.max(30,total));
   
@@ -995,7 +930,6 @@ function computeCompat(){
     +'<p style="font-size:0.7rem;color:#aaa;">* Demo版本 · 完整版含姓名分析+详细冲煞</p>';
 }
 
-// ---- Populate compatibility form selects ----
 (function initCompatForms(){
   let selects=['caY','caM','caD','caH','cbY','cbM','cbD','cbH'];
   for(let s of selects){
@@ -1034,15 +968,13 @@ function computeCompat(){
   }
 })();
 
-// ---- Report Generation ----
 function openReport(type){
   let almanac=getTodayAlmanac();
   let info=almanac.info;
   let dt=almanac.info.dateStr;
   let targetDate=new Date();
   let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,d=targetDate.getDate();
-  
-  // If user was looking at a specific date in the calendar, use that
+
   let selectedTd=document.querySelector('#cb td.sel');
   if(selectedTd){
     let ds=selectedTd.dataset.ds;
@@ -1060,8 +992,7 @@ function openReport(type){
   document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;
   
   let html='';
-  
-  // Section 1: Basic info
+
   html+='<div class="rp-sec"><h2>基础信息</h2><table>'
     +'<tr><td>日期</td><td>'+info.dateStr+' 星期'+info.dow+'</td></tr>'
     +'<tr><td>农历</td><td>'+info.fl+'</td></tr>'
@@ -1074,22 +1005,19 @@ function openReport(type){
     +'<tr><td>冲煞</td><td>'+info.cs+'</td></tr>'
     +'<tr><td>综合评分</td><td style="font-weight:600;color:'+(info.r==='大吉'?'#AF2020':info.r==='吉'?'#D4A030':'#999')+'">'+info.r+' ('+info.sc+'分)</td></tr>'
     +'</table></div>';
-  
-  // Section 2: YiJi
+
   html+='<div class="rp-sec"><h2>宜忌建议</h2><table>'
     +'<tr><td>宜</td><td>'+(info.yi.length?info.yi.join('、'):'—')+'</td></tr>'
     +'<tr><td>忌</td><td>'+(info.ji.length?info.ji.join('、'):'—')+'</td></tr>'
     +'</table></div>';
-  
-  // Section 3: Shichen
+
   let shichen=calcShichen(y,m,d);
   html+='<div class="rp-sec"><h2>时辰吉凶</h2><table>';
   shichen.forEach(function(sh){
     html+='<tr><td>'+sh.name+'</td><td>'+sh.start+'-'+sh.end+'</td><td style="font-weight:600;color:'+(sh.grade==='吉'?'#2A7A3A':'#888')+'">'+sh.grade+'</td></tr>';
   });
   html+='</table></div>';
-  
-  // Section 4: Hexagram (周易) - deep only
+
   if(isDeep){
     html+='<div class="rp-sec"><h2>周易卦象</h2><table>'
       +'<tr><td>卦名</td><td style="font-weight:600;font-size:1.05rem">'+hexagram.name+' (第'+hexagram.num+'卦)</td></tr>'
@@ -1098,8 +1026,7 @@ function openReport(type){
       +'<tr><td>忌</td><td>'+hexagram.ji+'</td></tr>'
       +'</table>'
       +'<p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">* 本日卦象基于日柱天干地支推算，结合当日五行气场。</p></div>';
-    
-    // Element analysis
+
     html+='<div class="rp-sec"><h2>五行生克推理</h2><table>'
       +'<tr><td>日主五行</td><td>'+ELEM[info.dgS]+'</td></tr>'
       +'<tr><td>当日旺相</td><td>'+(info.r==='大吉'||info.r==='吉'?'五行调和，气场流通':'五行相滞，宜静不宜动')+'</td></tr>'
@@ -1109,20 +1036,15 @@ function openReport(type){
   
   document.getElementById('rpContent').innerHTML=html;
   document.getElementById('reportPage').className='rp op';
-  
-  // Scroll to report
+
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ---- Name Analysis (simplified) ----
 function getNameStrokes(char){
-  // Simplified 81-number theory mapping
-  // In a full version, this would use a proper stroke dictionary
-  // For now, we estimate based on Unicode range
+
   let code=char.charCodeAt(0);
   if(code>=0x4E00&&code<=0x9FFF){
-    // Approximate: stroke count based on character complexity
-    // This is a placeholder - real implementation needs Kangxi dictionary
+
     let strokes=((code-0x4E00)%24)+3;
     return Math.max(1,Math.min(strokes,30));
   }
@@ -1137,15 +1059,13 @@ function analyzeName(name){
     totalStrokes+=strokes;
     charAnalysis.push({char:ch,strokes});
   }
-  
-  // Map total strokes to 81-number theory (simplified)
+
   let numIndex=(totalStrokes-1)%81+1;
   const NUM_ELEMENTS={
     odd:{金:'刚健',木:'生长',水:'流动',火:'热烈',土:'厚重'},
     even:{金:'内敛',木:'柔韧',水:'深邃',火:'温暖',土:'包容'}
   };
-  
-  // Determine element from number
+
   let elem='';
   if([1,2,11,12,21,22,31,32,41,42,51,52,61,62,71,72,81].includes(numIndex))elem='木';
   else if([3,4,13,14,23,24,33,34,43,44,53,54,63,64,73,74].includes(numIndex))elem='火';
@@ -1157,7 +1077,7 @@ function analyzeName(name){
 }
 
 function openReportFromDetail(){
-  // Find the currently selected date in the calendar
+
   let selTd=document.querySelector('#cb td.sel');
   if(selTd){
     let ds=selTd.dataset.ds;
@@ -1170,7 +1090,7 @@ function openReportFromDetail(){
       return;
     }
   }
-  // Fallback: use today
+
   let today=getTodayAlmanac();
   let info=today.info;
   let now=new Date();
@@ -1178,7 +1098,7 @@ function openReportFromDetail(){
   showReportContent(info,now.getFullYear(),now.getMonth()+1,now.getDate(),hexagram,false);
 }
   function paidReportFromDetail(){
-    // Always show payment popup
+
     showReportPayment();
   }
 
@@ -1230,7 +1150,6 @@ function showReportContent(info,y,m,d,hexagram,isDeep){
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ---- 吉时精选预览 ----
 function showTimeDetail(){
   let targetDate=new Date();
   let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,d=targetDate.getDate();
@@ -1260,8 +1179,7 @@ function showTimeDetail(){
     html+='<td>'+(gd==='吉'?'宜重要活动':'宜休息')+'</td></tr>';
   });
   html+='</table><p style="font-size:0.75rem;color:#888;margin-top:0.3rem;">时辰吉凶综合日主五行与地支关系推算。</p></div>';
-  
-  // Best times summary
+
   let best=shichen.filter(function(sh){return sh.grade==='吉';});
   if(best.length>0){
     html+='<div class="rp-sec"><h2>推荐吉时</h2><p>本日最佳时辰为：'+best.map(function(sh){return sh.name;}).join('、')+'。宜将重要活动安排在这些时段。</p></div>';
@@ -1272,7 +1190,6 @@ function showTimeDetail(){
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ---- 择吉豪华包预览 ----
 function showLuxuryReport(){
   let targetDate=new Date();
   let y=targetDate.getFullYear(),m=targetDate.getMonth()+1,d=targetDate.getDate();
@@ -1327,7 +1244,6 @@ function showLuxuryReport(){
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ---- 八字命理预览 ----
 function showBaziPreview(){
   let now=new Date();
   let y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
@@ -1370,7 +1286,7 @@ function showBaziPreview(){
   document.getElementById('reportPage').className='rp op';
   document.getElementById('reportPage').scrollIntoView({behavior:'smooth',block:'start'});
 }
-// ---- 付费解锁功能 ----
+
 function getReportCount(){
   try{return parseInt(localStorage.getItem('js_count'))||0}catch(e){return 0}
 }
@@ -1384,7 +1300,6 @@ function setPaid(){
   try{localStorage.setItem('js_paid','true')}catch(e){}
 }
 
-
 function wrapPreview(name,fn){
   _origFuncs[name]=fn;
   window[name]=function(){
@@ -1396,11 +1311,9 @@ function wrapPreview(name,fn){
   };
 }
 
-
 function onPaidAndUnlock(){setPaid();closePaywall();if(typeof _paywallAfterPaid==='function')try{_paywallAfterPaid()}catch(e){}}
 function closePaywall(){var el=document.getElementById("paywall-overlay");if(el)el.remove();}
 var _paywallAfterPaid=null;
-
 
 function showReportPayment(cb){_paywallAfterPaid=cb||openReportFromDetail;var prices=[{n:"基础报告",r:"9.99",d:"吉凶评分、宜忌建议、时辰吉凶",u:"https://paypal.me/jishinet/9.99"},{n:"专业报告",r:"29.99",d:"基础+周易卦象、五行分析、详细冲煞",u:"https://paypal.me/jishinet/29.99"},{n:"豪华报告",r:"49.99",d:"专业+深度五行推理、吉时推荐、全方位报告",u:"https://paypal.me/jishinet/49.99"}];var html='<div id="paywall-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;"><div style="background:#fff;border-radius:12px;padding:1.5rem;max-width:520px;width:90%;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.2);"><div style="font-size:1.5rem;margin-bottom:0.3rem;">📋</div><h2 style="font-size:1.1rem;color:#2E2E2E;margin-bottom:0.5rem;">选择报告套餐</h2><p style="font-size:0.8rem;color:#888;margin-bottom:1rem;">购买后即可解锁全部功能</p><p style="font-size:0.7rem;color:#888;margin-top:-0.5rem;margin-bottom:0.8rem;padding:0.3rem 0.5rem;background:#FFF8E8;border-radius:6px;">💳 首次支付需登录 PayPal，可用信用卡/借记卡快捷支付，无需注册账户</p><div style="display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;">';prices.forEach(function(x,i){var c=["#2A7A3A","#AF2020","#B8860B"];html+='<div style="flex:1;min-width:130px;border:2px solid '+(i===1?c[1]:"#ddd")+';border-radius:10px;padding:0.8rem;text-align:center;"><div style="font-size:0.85rem;font-weight:600;color:'+c[i]+';margin-bottom:0.3rem;">'+x.n+'</div><div style="font-size:1.3rem;font-weight:800;color:'+c[i]+';margin-bottom:0.2rem;">$'+x.r+'</div><div style="font-size:0.7rem;color:#888;margin-bottom:0.5rem;line-height:1.3;">'+x.d+'</div><a href="'+x.u+'" target="_blank" style="display:inline-block;padding:0.35rem 1rem;background:'+c[i]+';color:#fff;border-radius:6px;text-decoration:none;font-size:0.8rem;font-weight:600;">选择并支付</a></div>';});html+='</div><p style="font-size:0.7rem;color:#aaa;margin-bottom:0.3rem;">支付后点击下方按钮查看报告</p><button onclick="onPaidAndUnlock();" style="padding:0.4rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;">我已支付，查看报告</button></div></div>';var d=document.createElement("div");d.innerHTML=html;document.body.appendChild(d.firstElementChild);}
 function showPaywall(afterPaid){_paywallAfterPaid=afterPaid||null;
@@ -1417,7 +1330,7 @@ function showPaywall(afterPaid){_paywallAfterPaid=afterPaid||null;
   d.innerHTML=html;
   document.body.appendChild(d.firstElementChild);
 }
-// ---- 周公解梦数据 ----
+
 var DREAM_DATA = [
 {keyword:"水",t:"梦见水",d:"水主财，清澈的水象征财运亨通；浑浊的水预示财运有波折。大水象征大财，细流象征小财。梦见喝水预示健康。"},
 {keyword:"蛇",t:"梦见蛇",d:"蛇为小人，梦见蛇暗示身边有人对你不利。但蛇也象征智慧和转变，梦见蛇蜕皮预示新生和蜕变。梦见被蛇追表示有压力。"},
