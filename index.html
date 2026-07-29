@@ -15,13 +15,13 @@
 <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
-<header class="h"><div class="logo">吉</div><span class="sn">吉时网</span><span class="st">择吉日 · 顺天时</span><span class="sub">Jishi · Calendar · BaZi</span></header>
+<header class="h"><div class="logo">吉</div><span class="lang-btn" onclick="switchLang()" style="cursor:pointer;font-size:0.75rem;color:#AF2020;margin-left:0.5rem;border:1px solid #AF2020;padding:2px 6px;border-radius:4px">中/EN</span><span class="sn">吉时网</span><span class="st">择吉日 · 顺天时</span><span class="sub">Jishi · Calendar · BaZi</span></header>
 <main class="ct">
 
 <!-- ===== Tabs ===== -->
 <div class="tabs">
-<button class="tab active" data-tab="tab-day">择吉日<small>Auspicious Days</small></button>
-<button class="tab" data-tab="tab-today">今日黄历<small>Today Almanac</small></button>
+<button class="tab active" data-tab="tab-day"><span data-i18n="tab-day">择吉日</span><small>Auspicious Days</small></button>
+<button class="tab" data-tab="tab-today"><span data-i18n="tab-today">今日黄历</span><small>Today Almanac</small></button>
 <button class="tab" data-tab="tab-zodiac">生肖运势<small>Zodiac Fortune</small></button>
 <button class="tab" data-tab="tab-bazi">八字排盘<small>BaZi Chart</small></button>
 <button class="tab" data-tab="tab-know">关于<small>About</small></button>
@@ -304,6 +304,7 @@
 
 </main>
 <script src="script.js">
+<script src="translations.js">
 <script src="features.js"></script>
 
 <div class="tab-content" id="tab-know">
