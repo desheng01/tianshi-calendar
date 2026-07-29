@@ -348,6 +348,62 @@ ipt src="script.js"></script>
 
 
 <script>
+
+var LANG={zh:{},en:{}};
+function switchLang(){
+var l=window.localStorage;
+var c=l.getItem('jlang')==='en'?'zh':'en';
+l.setItem('jlang',c);
+var e=document.querySelectorAll('[data-i18n]');
+for(var i=0;i<e.length;i++){
+var k=e[i].getAttribute('data-i18n');
+if(LANG[c]&&LANG[c][k])e[i].textContent=LANG[c][k];
+}
+var b=document.querySelector('.lang-btn');
+if(b)b.textContent=c==='zh'?'中/EN':'EN/中';
+}
+// LANG data
+LANG.zh["tab-day"]="择吉日";
+LANG.en["tab-day"]="Auspicious Days";
+LANG.zh["tab-today"]="今日黄历";
+LANG.en["tab-today"]="Daily Almanac";
+LANG.zh["tab-zodiac"]="生肖运势";
+LANG.en["tab-zodiac"]="Zodiac Fortune";
+LANG.zh["tab-bazi"]="八字排盘";
+LANG.en["tab-bazi"]="BaZi Chart";
+LANG.zh["tab-know"]="关于";
+LANG.en["tab-know"]="About";
+LANG.zh["tab-dream"]="周公解梦";
+LANG.en["tab-dream"]="Dream Dictionary";
+LANG.zh["tab-name"]="起名";
+LANG.en["tab-name"]="Name Suggestion";
+LANG.zh["tab-price"]="服务与价格";
+LANG.en["tab-price"]="Services & Pricing";
+LANG.zh["guide-title"]="使用指导";
+LANG.en["guide-title"]="How to Use";
+LANG.zh["auspicious"]="大吉";
+LANG.en["auspicious"]="Auspicious";
+LANG.zh["good"]="吉";
+LANG.en["good"]="Good";
+LANG.zh["fair"]="平";
+LANG.en["fair"]="Fair";
+LANG.zh["avoid"]="不宜";
+LANG.en["avoid"]="Avoid";
+LANG.zh["prev"]="上月";
+LANG.en["prev"]="Prev";
+LANG.zh["next"]="下月";
+LANG.en["next"]="Next";
+LANG.zh["bazi-btn"]="开始排盘";
+LANG.en["bazi-btn"]="Calculate";
+LANG.zh["dream-btn"]="搜索";
+LANG.en["dream-btn"]="Search";
+LANG.zh["name-btn"]="开始起名";
+LANG.en["name-btn"]="Generate Names";
+LANG.zh["buy"]="立即购买";
+LANG.en["buy"]="Buy Now";
+LANG.zh["preview"]="免费预览";
+LANG.en["preview"]="Free Preview";
+
 function switchLang(){
 var l=window.localStorage;
 var c=l.getItem('jlang')==='en'?'zh':'en';
