@@ -110,59 +110,162 @@
 </div>
 </div><!-- ===== Tab: 关于 ===== -->
 <div class="tab-content" id="tab-name">
-<div class="card" style="text-align:center;padding:3rem">
-<div style="font-size:3rem;margin-bottom:1rem">🚧</div>
-<h2 style="font-size:1.2rem;color:#2E2E2E;margin-bottom:0.5rem">起名功能正在建设中</h2>
-<p style="font-size:0.85rem;color:#888;margin-bottom:1rem">宝宝起名、公司起名、改名参考等功能即将上线，敬请期待。</p>
-<p style="font-size:0.78rem;color:#aaa">Name Suggestion — Coming Soon</p>
+<div class="card">
+<h2 style="font-size:1.1rem;margin-bottom:1rem">起名 - 根据八字五行推荐吉名</h2>
+<div class="nf">
+<div class="nf-row">
+<label>姓氏</label><input id="nSurname" maxlength="2" placeholder="姓" style="width:80px">
+<label>性别</label><select id="nGender"><option value="m">男</option><option value="f">女</option></select>
 </div>
-</div><!-- ===== Tab: 关于 ===== -->
-<div class="tab-content" id="tab-know">
-<div class="card kw">
-<div class="st">关于吉时网 <small>About Jishi</small></div>
-<p><b>吉时网</b> &mdash; 面向海外华人的传统文化平台，致力于传播周易哲学与传统黄历文化。我们提供择吉日、八字排盘、生肖运势、周公解梦等功能，帮助用户了解和传承中华传统文化。</p>
-<p><b>Jishi</b> (Auspicious Times) is a traditional Chinese culture platform for overseas Chinese. We provide almanac, BaZi astrology, zodiac fortune, and dream interpretation services to help you explore and preserve Chinese cultural heritage.</p>
-<p style="font-size:0.8rem;color:#888;margin-top:0.8rem;"><b>使命 Mission</b>：让海外华人随时随地了解传统文化，让周易智慧融入现代生活。</p>
+<div class="nf-row">
+<label>出生年</label><select id="nYear">
+<option>2026</option>
+<option>2025</option>
+<option>2024</option>
+<option>2023</option>
+<option>2022</option>
+<option>2021</option>
+<option>2020</option>
+<option>2019</option>
+<option>2018</option>
+<option>2017</option>
+<option>2016</option>
+<option>2015</option>
+<option>2014</option>
+<option>2013</option>
+<option>2012</option>
+<option>2011</option>
+<option>2010</option>
+<option>2009</option>
+<option>2008</option>
+<option>2007</option>
+<option>2006</option>
+<option>2005</option>
+<option>2004</option>
+<option>2003</option>
+<option>2002</option>
+<option>2001</option>
+<option>2000</option>
+<option>1999</option>
+<option>1998</option>
+<option>1997</option>
+<option>1996</option>
+<option>1995</option>
+<option>1994</option>
+<option>1993</option>
+<option>1992</option>
+<option>1991</option>
+<option selected>1990</option>
+<option>1989</option>
+<option>1988</option>
+<option>1987</option>
+<option>1986</option>
+<option>1985</option>
+<option>1984</option>
+<option>1983</option>
+<option>1982</option>
+<option>1981</option>
+<option>1980</option>
+<option>1979</option>
+<option>1978</option>
+<option>1977</option>
+<option>1976</option>
+<option>1975</option>
+<option>1974</option>
+<option>1973</option>
+<option>1972</option>
+<option>1971</option>
+<option>1970</option>
+<option>1969</option>
+<option>1968</option>
+<option>1967</option>
+<option>1966</option>
+<option>1965</option>
+<option>1964</option>
+<option>1963</option>
+<option>1962</option>
+<option>1961</option>
+<option>1960</option>
+<option>1959</option>
+<option>1958</option>
+<option>1957</option>
+<option>1956</option>
+<option>1955</option>
+<option>1954</option>
+<option>1953</option>
+<option>1952</option>
+<option>1951</option>
+<option>1950</option>
+</select>
+<label>月</label><select id="nMonth">
+<option selected>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+<option>11</option>
+<option>12</option>
+</select>
+<label>日</label><select id="nDay">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+<option>8</option>
+<option>9</option>
+<option>10</option>
+<option>11</option>
+<option>12</option>
+<option>13</option>
+<option>14</option>
+<option selected>15</option>
+<option>16</option>
+<option>17</option>
+<option>18</option>
+<option>19</option>
+<option>20</option>
+<option>21</option>
+<option>22</option>
+<option>23</option>
+<option>24</option>
+<option>25</option>
+<option>26</option>
+<option>27</option>
+<option>28</option>
+<option>29</option>
+<option>30</option>
+<option>31</option>
+</select>
+<label>时辰</label>
+<select id="nHour">
+<option value="-1">未知</option>
+<option value="0">子时(23-1)</option>
+<option value="1">丑时(1-3)</option>
+<option value="2">寅时(3-5)</option>
+<option value="3">卯时(5-7)</option>
+<option value="4">辰时(7-9)</option>
+<option value="5">巳时(9-11)</option>
+<option value="6">午时(11-13)</option>
+<option value="7">未时(13-15)</option>
+<option value="8">申时(15-17)</option>
+<option value="9">酉时(17-19)</option>
+<option value="10">戌时(19-21)</option>
+<option value="11">亥时(21-23)</option>
+</select>
 </div>
-<div class="card kw">
-<div class="st">关于择吉</div>
-<p><b>建除十二神</b> &mdash; 黄历每日由十二位值日神轮流掌管：建、除、满、平、定、执、破、危、成、收、开、闭。其中除、定、危、成、开为吉；破、闭为凶。</p>
-<p><b>二十八宿</b> &mdash; 中国古代将黄道分为二十八星宿，每日轮值一宿，各宿有吉凶属性。</p>
-<p><b>冲煞</b> &mdash; 当日地支与某生肖相冲，该生肖者此日宜谨慎。</p>
-<p><b>评分体系</b> &mdash; 综合建除、二十八宿、日干支三大因素。大吉&ge;3分，吉&ge;1分，平&ge;-1分，不宜&lt;-1分。</p>
-<p class="kt">关于八字</p>
-<p><b>八字</b>(四柱命理)以出生年、月、日、时的天干地支组成八个字，通过分析五行生克制化来解读人的性格与运势趋势。</p>
-<p><b>日主</b> &mdash; 指出生日那天的天干，代表命主自身。日主的五行属性是八字分析的核心。</p>
-<p><b>五行</b> &mdash; 金、木、水、火、土五种元素，八字中每种元素的多少和强弱决定一个人的先天特质。</p>
-<p class="kt">计算说明</p>
-<p>月柱根据节气(立春、惊蛰等)精准计算。时柱根据日干用五鼠遁法推算。二十八宿以公历1900年1月1日为角宿起算。</p>
-<p>月柱根据节气(立春、惊蛰等)精准计算。时柱根据日干用五鼠遁法推算。二十八宿以公历1900年1月1日为角宿起算。</p>
-<p class="kt">关于解梦</p>
-<p><b>周公解梦</b> &mdash; 相传为周公旦所著，是中国古代最著名的梦文化典籍。梦境被视为人与天地沟通的桥梁，不同梦境元素对应不同的预兆与启示。</p>
-<p><b>常见梦境解析</b> &mdash; 梦见水象征财运；梦见飞代表志向远大；梦见故人表示思念；梦见蛇暗示小人。解梦需结合梦境细节和梦者现实情况，不可一概而论。</p>
-<p class="kt">关于命理</p>
-<p><b>紫微斗数</b> &mdash; 与八字齐名的传统命理体系，以命宫、身宫为核心，配合十二宫位和百余星曜解读人一生的轨迹。</p>
-<p><b>面相手相</b> &mdash; 相学认为面部和手掌纹路反映命运走向。额头看智慧、眼睛看心性、鼻子看财运、下巴看晚运。</p>
-<p class="kt">关于择吉</p>
-<p><b>择日学</b> &mdash; 古代称为选日或择吉，源远流长。黄历择日综合考虑建除、二十八宿、五行生克、冲煞回避等因素，为重要活动选定吉时吉日。</p></div>
+<button class="ab" onclick="generateNames()" style="margin-top:0.8rem;width:100%">开始起名</button>
+</div>
+<div id="nameResults"></div>
 </div>
 
-
-
-
-<div><label>月份</label><select id="caM"><option value="1">1月</option></select></div>
-<div><label>日期</label><select id="caD"><option value="1">1日</option></select></div>
-<div><label>时辰</label><select id="caH"><option value="-1">未知</option></select></div>
-</div>
-<div class="cpf-row">
-<div><label>乙方 出生年份</label><select id="cbY"><option value="1990">1990</option></select></div>
-<div><label>月份</label><select id="cbM"><option value="1">1月</option></select></div>
-<div><label>日期</label><select id="cbD"><option value="1">1日</option></select></div>
-<div><label>时辰</label><select id="cbH"><option value="-1">未知</option></select></div>
-</div>
-<button class="btn btn-pri" onclick="computeCompat()" style="margin-top:0.25rem;padding:0.35rem 1.2rem;font-size:0.82rem">查看合盘</button>
-<div class="cpf-result" id="compatResult"></div>
-</div>
 <p style="font-size:0.72rem;color:#999;margin-top:0.5rem;">* 合盘分析仅供传统文化交流参考，不作为实际决策依据。</p>
 <!-- ===== Tab: 服务与价格 ===== -->
 <div class="tab-content" id="tab-price">
@@ -189,7 +292,7 @@
 </ul>
 <div class="pc-btn-wrap">
 <button class="pc-btn pb-primary" onclick="openReport('basic')">免费预览</button>
-<a href="https://paypal.me/jishinet/5" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+<a onclick="startPayment(5,'择日基础')" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
 </div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
@@ -206,7 +309,7 @@
 <li>PDF导出</li>
 </ul>
 <div class="pc-btn-wrap">
-<button class="pc-btn pb-primary" onclick="showTimeDetail()">免费预览</button><a href="https://paypal.me/jishinet/15" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+<button class="pc-btn pb-primary" onclick="showTimeDetail()">免费预览</button><a onclick="startPayment(15,'择日专业')" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
 </div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
@@ -225,7 +328,7 @@
 </ul>
 <div class="pc-btn-wrap">
 <button class="pc-btn pb-primary" onclick="showLuxuryReport()">免费预览</button>
-<a href="https://paypal.me/jishinet/44" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+<a onclick="startPayment(44,'择日豪华')" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
 </div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
@@ -250,7 +353,7 @@
 <li>PDF导出</li>
 </ul>
 <div class="pc-btn-wrap">
-<button class="pc-btn pb-primary" onclick="showBaziPreview()">免费预览</button><a href="https://paypal.me/jishinet/10" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+<button class="pc-btn pb-primary" onclick="showBaziPreview()">免费预览</button><a onclick="startPayment(10,'八字命理基础')" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
 </div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
@@ -268,7 +371,7 @@
 <li>PDF彩印</li>
 </ul>
 <div class="pc-btn-wrap">
-<button class="pc-btn pb-primary" onclick="openReport('deep')">免费预览</button><a href="https://paypal.me/jishinet/33" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+<button class="pc-btn pb-primary" onclick="openReport('deep')">免费预览</button><a onclick="startPayment(33,'八字命理深度')" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
 </div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
@@ -287,7 +390,7 @@
 <li>PDF报告</li>
 </ul>
 <div class="pc-btn-wrap">
-<button class="pc-btn pb-primary" onclick="document.getElementById('compatForm').classList.toggle('op')">免费预览</button><a href="https://paypal.me/jishinet/50" target="_blank" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
+<button class="pc-btn pb-primary" onclick="document.getElementById('compatForm').classList.toggle('op')">免费预览</button><a onclick="startPayment(50,'定制合盘')" class="pc-btn pb-primary" style="margin-left:0.3rem">立即购买</a>
 </div>
 <div class="pc-discount">开业特惠 · 限时 5 折</div>
 </div>
@@ -304,5 +407,6 @@
 
 </main>
 <script src="script.js"></script>
+<script src="features.js"></script>
 </body>
 </html>
