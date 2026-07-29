@@ -1,154 +1,37 @@
 var LANG={zh:{},en:{}};
-LANG.zh.tab-day='择吉日';
-LANG.en.tab-day='Auspicious Days';
-LANG.zh.tab-today='今日黄历';
-LANG.en.tab-today='Daily Almanac';
-LANG.zh.tab-zodiac='生肖运势';
-LANG.en.tab-zodiac='Zodiac Fortune';
-LANG.zh.tab-bazi='八字排盘';
-LANG.en.tab-bazi='BaZi Chart';
-LANG.zh.tab-know='关于';
-LANG.en.tab-know='About';
-LANG.zh.tab-dream='周公解梦';
-LANG.en.tab-dream='Dream Dictionary';
-LANG.zh.tab-name='起名';
-LANG.en.tab-name='Name Suggestion';
-LANG.zh.tab-price='服务与价格';
-LANG.en.tab-price='Services & Pricing';
-LANG.zh.guide-title='使用指导';
-LANG.en.guide-title='How to Use';
-LANG.zh.guide-text='① 选事项(点上方按钮) → ② 看吉日(大吉 吉 平 不宜) → ③ 点日期(点日历上日期查看详情)';
-LANG.en.guide-text='Select event → View days (Auspicious/Good/Fair/Avoid) → Click date for details';
-LANG.zh.event-choose='选择事项';
-LANG.en.event-choose='Select Event';
-LANG.zh.next-month='下月';
-LANG.en.next-month='Next';
-LANG.zh.prev-month='上月';
-LANG.en.prev-month='Prev';
-LANG.zh.bazi-title='八字排盘';
-LANG.en.bazi-title='BaZi Chart';
-LANG.zh.bazi-year='出生年份';
-LANG.en.bazi-year='Birth Year';
-LANG.zh.bazi-month='出生月份';
-LANG.en.bazi-month='Birth Month';
-LANG.zh.bazi-day='出生日期';
-LANG.en.bazi-day='Birth Date';
-LANG.zh.bazi-hour='出生时辰';
-LANG.en.bazi-hour='Birth Hour';
-LANG.zh.bazi-btn='开始排盘';
-LANG.en.bazi-btn='Calculate';
-LANG.zh.dream-title='周公解梦';
-LANG.en.dream-title='Dream Dictionary';
-LANG.zh.dream-placeholder='输入梦境关键词，如：水、火、飞...';
-LANG.en.dream-placeholder='Enter dream keyword, e.g: water, fire, fly...';
-LANG.zh.dream-btn='搜索';
-LANG.en.dream-btn='Search';
-LANG.zh.name-title='起名 - 根据八字五行推荐吉名';
-LANG.en.name-title='Name Suggestion - Based on BaZi Elements';
-LANG.zh.name-surname='姓氏';
-LANG.en.name-surname='Surname';
-LANG.zh.name-gender='性别';
-LANG.en.name-gender='Gender';
-LANG.zh.name-male='男';
-LANG.en.name-male='Male';
-LANG.zh.name-female='女';
-LANG.en.name-female='Female';
-LANG.zh.name-birthyear='出生年';
-LANG.en.name-birthyear='Birth Year';
-LANG.zh.name-birthmonth='月';
-LANG.en.name-birthmonth='Month';
-LANG.zh.name-birthday='日';
-LANG.en.name-birthday='Day';
-LANG.zh.name-hour='时辰';
-LANG.en.name-hour='Hour';
-LANG.zh.name-btn='开始起名';
-LANG.en.name-btn='Generate Names';
-LANG.zh.price-title='服务与价格';
-LANG.en.price-title='Services & Pricing';
-LANG.zh.free-preview='免费预览';
-LANG.en.free-preview='Free Preview';
-LANG.zh.buy-now='立即购买';
-LANG.en.buy-now='Buy Now';
-LANG.zh.about-title='关于吉时网';
-LANG.en.about-title='About Jishi';
-LANG.zh.wedding='结婚';
-LANG.en.wedding='Wedding';
-LANG.zh.move='搬家';
-LANG.en.move='Moving';
-LANG.zh.house='入宅';
-LANG.en.house='Housewarming';
-LANG.zh.open='开业';
-LANG.en.open='Grand Opening';
-LANG.zh.travel='出行';
-LANG.en.travel='Travel';
-LANG.zh.sign='签约';
-LANG.en.sign='Signing';
-LANG.zh.ground='动土';
-LANG.en.ground='Digging Ground';
-LANG.zh.worship='祭礼';
-LANG.en.worship='Worship';
-LANG.zh.burial='安葬';
-LANG.en.burial='Burial';
-LANG.zh.auspicious='大吉';
-LANG.en.auspicious='Auspicious';
-LANG.zh.good='吉';
-LANG.en.good='Good';
-LANG.zh.fair='平';
-LANG.en.fair='Fair';
-LANG.zh.avoid='不宜';
-LANG.en.avoid='Avoid';
-LANG.zh.sun='日';
-LANG.en.sun='Sun';
-LANG.zh.mon='一';
-LANG.en.mon='Mon';
-LANG.zh.tue='二';
-LANG.en.tue='Tue';
-LANG.zh.wed='三';
-LANG.en.wed='Wed';
-LANG.zh.thu='四';
-LANG.en.thu='Thu';
-LANG.zh.fri='五';
-LANG.en.fri='Fri';
-LANG.zh.sat='六';
-LANG.en.sat='Sat';
-LANG.zh.unknown='未知';
-LANG.en.unknown='Unknown';
-LANG.zh.male='男';
-LANG.en.male='Male';
-LANG.zh.female='女';
-LANG.en.female='Female';
-LANG.zh.hour-zishi='子时(23-1)';
-LANG.en.hour-zishi='Zi Hour (23-1)';
-LANG.zh.hour-chou='丑时(1-3)';
-LANG.en.hour-chou='Chou Hour (1-3)';
-LANG.zh.hour-yin='寅时(3-5)';
-LANG.en.hour-yin='Yin Hour (3-5)';
-LANG.zh.hour-mao='卯时(5-7)';
-LANG.en.hour-mao='Mao Hour (5-7)';
-LANG.zh.hour-chen='辰时(7-9)';
-LANG.en.hour-chen='Chen Hour (7-9)';
-LANG.zh.hour-si='巳时(9-11)';
-LANG.en.hour-si='Si Hour (9-11)';
-LANG.zh.hour-wu='午时(11-13)';
-LANG.en.hour-wu='Wu Hour (11-13)';
-LANG.zh.hour-wei='未时(13-15)';
-LANG.en.hour-wei='Wei Hour (13-15)';
-LANG.zh.hour-shen='申时(15-17)';
-LANG.en.hour-shen='Shen Hour (15-17)';
-LANG.zh.hour-you='酉时(17-19)';
-LANG.en.hour-you='You Hour (17-19)';
-LANG.zh.hour-xu='戌时(19-21)';
-LANG.en.hour-xu='Xu Hour (19-21)';
-LANG.zh.hour-hai='亥时(21-23)';
-LANG.en.hour-hai='Hai Hour (21-23)';
+var T={
+"tab-day":["\u62e9\u5409\u65e5","Auspicious Days"],
+"tab-today":["\u4eca\u65e5\u9ec4\u5386","Daily Almanac"],
+"tab-zodiac":["\u751f\u8096\u8fd0\u52bf","Zodiac Fortune"],
+"tab-bazi":["\u516b\u5b57\u6392\u76d8","BaZi Chart"],
+"tab-know":["\u5173\u4e8e","About"],
+"tab-dream":["\u5468\u516c\u89e3\u68a6","Dream Dictionary"],
+"tab-name":["\u8d77\u540d","Name Suggestion"],
+"tab-price":["\u670d\u52a1\u4e0e\u4ef7\u683c","Services & Pricing"],
+"guide-title":["\u4f7f\u7528\u6307\u5bfc","How to Use"],
+"guide-text":["\u2460 \u9009\u4e8b\u9879 \u2192 \u2461 \u770b\u5409\u65e5 \u2192 \u2462 \u70b9\u65e5\u671f","Select event \u2192 View days \u2192 Click date"],
+"auspicious":["\u5927\u5409","Auspicious"],
+"good":["\u5409","Good"],
+"fair":["\u5e73","Fair"],
+"avoid":["\u4e0d\u5b9c","Avoid"],
+"prev":["\u4e0a\u6708","Prev"],
+"next":["\u4e0b\u6708","Next"],
+"bazi-btn":["\u5f00\u59cb\u6392\u76d8","Calculate"],
+"dream-btn":["\u641c\u7d22","Search"],
+"name-btn":["\u5f00\u59cb\u8d77\u540d","Generate Names"],
+"buy":["\u7acb\u5373\u8d2d\u4e70","Buy Now"],
+"preview":["\u514d\u8d39\u9884\u89c8","Free Preview"]
+};
+for(var k in T){LANG.zh[k]=T[k][0];LANG.en[k]=T[k][1];}
 
-var currentLang='zh';
+var currentLang="zh";
 function switchLang(){
-  currentLang=currentLang==='zh'?'en':'zh';
-  document.querySelectorAll('[data-i18n]').forEach(function(el){
-    var key=el.getAttribute('data-i18n');
-    if(LANG[currentLang][key]) el.textContent=LANG[currentLang][key];
-  });
-  var btn=document.querySelector('.lang-btn');
-  if(btn) btn.textContent=currentLang==='zh'?'中/EN':'EN/中';
+  currentLang=currentLang==="zh"?"en":"zh";
+  var els=document.querySelectorAll("[data-i18n]");
+  for(var i=0;i<els.length;i++){
+    var key=els[i].getAttribute("data-i18n");
+    if(LANG[currentLang][key]) els[i].textContent=LANG[currentLang][key];
+  }
+  var btn=document.querySelector(".lang-btn");
+  if(btn) btn.textContent=currentLang==="zh"?"\u4e2d/EN":"EN/\u4e2d";
 }
