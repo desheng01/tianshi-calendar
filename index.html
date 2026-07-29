@@ -346,5 +346,21 @@ ipt src="script.js"></script>
 <div class="card">
 <h2 style="font-size:1.1rem;margin-bottom:1rem">服务与价格</h2>
 
+
+<script>
+function switchLang(){
+var l=window.localStorage;
+var c=l.getItem('jlang')==='en'?'zh':'en';
+l.setItem('jlang',c);
+var e=document.querySelectorAll('[data-i18n]');
+for(var i=0;i<e.length;i++){
+var k=e[i].getAttribute('data-i18n');
+if(window.LANG&&LANG[c]&&LANG[c][k])e[i].textContent=LANG[c][k];
+}
+var b=document.querySelector('.lang-btn');
+if(b)b.textContent=c==='zh'?'中/EN':'EN/中';
+}
+</script>
+
 </body>
 </html>
