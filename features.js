@@ -74,3 +74,18 @@ h+='<div style="font-size:0.75rem;color:#888">Suggested</div></div>';
 h+='</div><button class="ab" onclick="showPaywall()" style="margin-top:0.5rem;width:100%">Get Full Report</button></div>';
 document.getElementById('nameResults').innerHTML=h;
 }
+
+function switchLang(){
+  var lst = window.localStorage;
+  var lang = lst.getItem("jishi_lang") === "en" ? "zh" : "en";
+  lst.setItem("jishi_lang", lang);
+  var els = document.querySelectorAll("[data-i18n]");
+  for (var i = 0; i < els.length; i++) {
+    var key = els[i].getAttribute("data-i18n");
+    if (window.LANG && LANG[lang] && LANG[lang][key]) {
+      els[i].textContent = LANG[lang][key];
+    }
+  }
+  var btn = document.querySelector(".lang-btn");
+  if (btn) btn.textContent = lang === "zh" ? "中/EN" : "EN/中";
+}
