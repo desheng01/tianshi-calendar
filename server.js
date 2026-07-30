@@ -29,7 +29,7 @@ app.post('/api/create-order', async (req, res) => {
     const r = await fetch(PAYPAL_API + '/v2/checkout/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
-      body: JSON.stringify({ intent: 'CAPTURE', purchase_units: [{ amount: { currency_code: 'USD', value: String(amount) }, description }] })
+      body: JSON.stringify({ intent: 'CAPTURE', purchase_units: [{ amount: { currency_code: 'USD', value: Number(amount).toFixed(2) }, description }] })
     });
     const d = await r.json();
     const url = d.links ? d.links.find(l => l.rel === 'approve').href : null;
