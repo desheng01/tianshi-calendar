@@ -176,3 +176,76 @@ DREAM_DATA.push({keyword:"古城",t:"梦见古城",d:"古城代表历史、传�
 DREAM_DATA.push({keyword:"公园",t:"梦见公园",d:"公园代表休闲、家庭。散步公园赞家庭和盦，寂静公园提示孤独。"});
 DREAM_DATA.push({keyword:"建筑",t:"梦见高楼",d:"高楼代表理想、抱负。站在高楼看远方赞视野开阔，楼层太高提示压力大。"});
 })();
+
+
+//=== Enhanced Report Previews ===
+
+// Enhanced openReport for day selection
+if(typeof openReport_orig==="undefined"){
+  var openReport_orig=window.openReport;
+}
+window.openReport=function(tier){
+  var h="<div style=\"background:#fff;border-radius:12px;padding:2rem;max-width:600px;margin:0 auto\">";
+  h+="<div style=\"text-align:center;margin-bottom:1.5rem\">";
+  h+="<div style=\"font-size:0.9rem;color:#AF2020;font-weight:600\">吉时网 Jishi.today</div>";
+  h+="<div style=\"font-size:1.1rem;color:#2E2E2E;margin-top:0.3rem\">择吉日报告</div>";
+  h+="<div style=\"font-size:0.8rem;color:#aaa;margin-top:0.2rem\">Day Selection Report</div>";
+  h+="</div><hr style=\"border:none;border-top:1px solid #eee\">";
+  h+="<div style=\"padding:0.5rem 0\">";
+  if(tier==="basic"){
+    h+="<p style=\"font-size:0.85rem;color:#666;line-height:1.8\"><b>所择日期：</b>2026年8月8日<br>";
+    h+="<b>农历：</b>丙午年六月廿六<br>";
+    h+="<b>日干支：</b>甲申<br>";
+    h+="<b>建除：</b>满日 吉<br>";
+    h+="<b>二十八宿：</b>角宿 吉<br>";
+    h+="<b>冲煞：</b>冲虎(戊寅) 煞南<br>";
+    h+="<b>宜：</b>结婚、搬家、入宅、开业、出行<br>";
+    h+="<b>忌：</b>安葬、动土<br>";
+    h+="<b>评分：</b><span style=\"color:#AF2020;font-weight:600\">大吉 (★★★★★)</span></p>";
+    h+="<p style=\"font-size:0.8rem;color:#888;margin-top:0.8rem\">* 此为简要预览。完整报告含时辰吉凶表、五行生克分析、冲煞方位图解等详细内容。</p>";
+  } else {
+    h+="<p style=\"font-size:0.85rem;color:#666;line-height:1.8\"><b>此报告包含：</b><br>";
+    h+="• 多日对比推荐（3-5个吉日）<br>";
+    h+="• 每日时辰吉凶表<br>";
+    h+="• 周易卦象解读<br>";
+    h+="• 五行生克推理<br>";
+    h+="• 冲煞方位详细解析</p>";
+    h+="<p style=\"font-size:0.8rem;color:#888;margin-top:0.8rem\">* 此为简要预览。付费后可查看完整报告。</p>";
+  }
+  h+="</div><hr style=\"border:none;border-top:1px solid #eee\">";
+  h+="<button onclick=\"document.getElementById('reportPage').className='rp';showPaywall()\" style=\"display:block;width:100%;padding:0.7rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;cursor:pointer;margin-top:1rem\">查看完整报告</button>";
+  h+="</div>";
+  document.getElementById("rpContent").innerHTML=h;
+  document.getElementById("rpSubtitle").textContent=tier==="basic"?"择日报告预览":"深度报告预览";
+  document.getElementById("reportPage").className="rp op";
+};
+
+if(typeof showBaziPreview_orig==="undefined"){
+  var showBaziPreview_orig=window.showBaziPreview;
+}
+window.showBaziPreview=function(){
+  var h="<div style=\"background:#fff;border-radius:12px;padding:2rem;max-width:600px;margin:0 auto\">";
+  h+="<div style=\"text-align:center;margin-bottom:1.5rem\">";
+  h+="<div style=\"font-size:0.9rem;color:#AF2020;font-weight:600\">吉时网 Jishi.today</div>";
+  h+="<div style=\"font-size:1.1rem;color:#2E2E2E;margin-top:0.3rem\">八字命理报告</div>";
+  h+="<div style=\"font-size:0.8rem;color:#aaa;margin-top:0.2rem\">BaZi Destiny Report</div>";
+  h+="</div><hr style=\"border:none;border-top:1px solid #eee\">";
+  h+="<div style=\"padding:0.5rem 0\">";
+  h+="<p style=\"font-size:0.85rem;color:#666;line-height:1.8\"><b>出生时间：</b>1990年1月15日 辰时<br>";
+  h+="<b>八字：</b>己巳 丁丑 癸未 丙辰<br>";
+  h+="<b>日主：</b>癸水（生于丑月）<br>";
+  h+="<b>五行：</b>火旺 土相 木休 水囚 金死<br>";
+  h+="<b>用神：</b>金、水<br>";
+  h+="<b>忌神：</b>火、土<br>";
+  h+="<b>性格特点：</b>聪慧敏感，善谋略，但有时过于谨慎。</p>";
+  h+="<p style=\"font-size:0.8rem;color:#888;margin-top:0.8rem\">* 此为简要预览。付费后可查看完整分析报告（含事业、财运、感情等详解）。</p>";
+  h+="</div><hr style=\"border:none;border-top:1px solid #eee\">";
+  h+="<button onclick=\"showPaywall()\" style=\"display:block;width:100%;padding:0.7rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;cursor:pointer;margin-top:1rem\">查看完整报告</button>";
+  h+="</div>";
+  var rp=document.getElementById("reportPage");
+  var rc=document.getElementById("rpContent");
+  if(!rp||!rc){alert("报告区域未找到");return;}
+  rc.innerHTML=h;
+  document.getElementById("rpSubtitle").textContent="八字命理报告预览";
+  rp.className="rp op";
+};
