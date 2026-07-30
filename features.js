@@ -541,3 +541,11 @@ DREAM_DATA.push({keyword:"手指",t:"梦见手指",d:"手指代表细节、能�
 DREAM_DATA.push({keyword:"眼睛",t:"梦见眼睛",d:"眼睛代表视野、洞察。清晰的眼睛赞看得清，失明提示迷茫"});
 DREAM_DATA.push({keyword:"血",t:"梦见血",d:"血代表生命、能量。鲜血赞活力，流血提示损失"});
 DREAM_DATA.push({keyword:"皮肤",t:"梦见皮肤",d:"皮肤代表外表、印象。光滑皮肤赞自信"});
+
+
+//=== Final massive additions ===
+var nc=[for(var i=0;i<nc.length;i++){NAME_CHARS[nc[i][0]]={w:nc[i][1],m:nc[i][2]};}
+for(var i=0;i<wc.length;i++){NAME_CHARS[wc[i][0]]={w:wc[i][1],m:wc[i][2]};}
+for(var i=0;i<wac.length;i++){NAME_CHARS[wac[i][0]]={w:wac[i][1],m:wac[i][2]};}
+for(var i=0;i<fc.length;i++){NAME_CHARS[fc[i][0]]={w:fc[i][1],m:fc[i][2]};}
+for(var i=0;i<ec.length;i++){NAME_CHARS[ec[i][0]]={w:ec[i][1],m:ec[i][2]};}
