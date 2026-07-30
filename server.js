@@ -75,4 +75,22 @@ setInterval(function(){
   } catch(e) {}
 }, 60000);
 
+
+// Webhook for GitHub auto-deploy
+app.post('/api/webhook', function(req, res) {
+  res.status(200).send('OK');
+  setTimeout(function() {
+    try {
+      var cp = require('child_process');
+      cp.execSync('cd ' + __dirname + ' && git fetch --all && git reset --hard origin/main -q', {timeout:30000});
+      try {
+        cp.execSync('pm2 restart jishi', {timeout:10000});
+      } catch(e2) {
+        cp.exec('sudo /usr/bin/node ' + __dirname + '/server.js &', {timeout:5000});
+        process.exit(0);
+      }
+    } catch(e) {}
+  }, 200);
+});
+
 app.listen(PORT, () => console.log('Server on port ' + PORT));
