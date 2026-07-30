@@ -77,12 +77,4 @@ setInterval(function(){
 
 
 
-app.post('/api/webhook', function(req, res) {
-  res.status(200).send('OK');
-  try {
-    var cp = require('child_process');
-    cp.execSync('cd ' + __dirname + ' && git fetch --all && git reset --hard origin/main -q', {timeout:30000});
-  } catch(e) {}
-});
-
 app.listen(PORT, () => console.log('Server on port ' + PORT));
