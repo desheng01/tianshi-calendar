@@ -93,4 +93,9 @@ app.post('/api/webhook', function(req, res) {
   }, 200);
 });
 
+
+app.post('/api/webhook', function(req, res) {
+  res.status(200).send('OK');
+});
+
 app.listen(PORT, () => console.log('Server on port ' + PORT));
