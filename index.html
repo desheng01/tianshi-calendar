@@ -15,17 +15,17 @@
 <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
-<header class="h"><div class="logo">吉</div><span class="lang-btn" onclick="switchLang()" style="cursor:pointer;font-size:0.75rem;color:#AF2020;margin-left:0.5rem;border:1px solid #AF2020;padding:2px 6px;border-radius:4px">中/EN</span><span class="sn">吉时网</span><span class="st">择吉日 · 顺天时</span><span class="sub">Jishi · Calendar · BaZi</span></header>
+<header class="h"><div class="logo">吉</div><span class="lang-btn" onclick="switchLang()" style="cursor:pointer;font-size:0.75rem;color:#AF2020;margin-left:0.5rem;border:1px solid #AF2020;padding:2px 6px;border-radius:4px">中/EN</span><span class="sn">吉时网</span><span class="st"><span data-i18n="tab-day-title">择吉日</span> · 顺天时</span><span class="sub">Jishi · Calendar · BaZi</span></header>
 <main class="ct">
 
 <!-- ===== Tabs ===== -->
 <div class="tabs">
 <button class="tab active" data-tab="tab-day"><span data-i18n="tab-day">择吉日</span><small>Auspicious Days</small></button>
 <button class="tab" data-tab="tab-today"><span data-i18n="tab-today"><span data-i18n="tab-today"><span data-i18n="today-alm">今日黄历</span></span></span><small>Today Almanac</small></button>
-<button class="tab" data-tab="tab-zodiac">生肖运势<small>Zodiac Fortune</small></button>
-<button class="tab" data-tab="tab-bazi">八字排盘<small>BaZi Chart</small></button>
+<button class="tab" data-tab="tab-zodiac"><span data-i18n="tab-zodiac">生肖运势</span><small>Zodiac Fortune</small></button>
+<button class="tab" data-tab="tab-bazi"><span data-i18n="tab-bazi">八字排盘</span><small>BaZi Chart</small></button>
 <button class="tab" data-tab="tab-know"><span data-i18n="tab-know">关于</span><small>About</small></button>
-<button class="tab" data-tab="tab-dream">周公解梦<small>Dream Dictionary</small></button>
+<button class="tab" data-tab="tab-dream"><span data-i18n="tab-dream">周公解梦</span><small>Dream Dictionary</small></button>
 <button class="tab" data-tab="tab-name"><span data-i18n="tab-name">起名</span><small>Name Suggestion</small></button>
 <button class="tab" data-tab="tab-price"><span data-i18n="tab-price"><span data-i18n="price-title">服务与价格</span></span><small>Services & Pricing</small></button>
 </div>
@@ -503,13 +503,29 @@ LANG.zh['price-preview']='免费预览';
 LANG.en['price-preview']='Free Preview';
 LANG.zh['price-buy']='立即购买';
 LANG.en['price-buy']='Buy Now';
+LANG.en["tab-day-title"]=LANG.en["tab-day"];
+LANG.zh["tab-day-title"]=LANG.zh["tab-day"];
 
+LANG.en["tab-today-title"]=LANG.en["tab-today"];
+LANG.zh["tab-today-title"]=LANG.zh["tab-today"];
 function switchLang(){
+LANG.en["tab-zodiac-title"]=LANG.en["tab-zodiac"];
+LANG.zh["tab-zodiac-title"]=LANG.zh["tab-zodiac"];
 var l=window.localStorage;
+LANG.en["tab-bazi-title"]=LANG.en["tab-bazi"];
+LANG.zh["tab-bazi-title"]=LANG.zh["tab-bazi"];
 var c=l.getItem('jlang')==='en'?'zh':'en';
+LANG.en["tab-know-title"]=LANG.en["tab-know"];
+LANG.zh["tab-know-title"]=LANG.zh["tab-know"];
 l.setItem('jlang',c);
+LANG.en["tab-dream-title"]=LANG.en["tab-dream"];
+LANG.zh["tab-dream-title"]=LANG.zh["tab-dream"];
 var e=document.querySelectorAll('[data-i18n]');
+LANG.en["tab-name-title"]=LANG.en["tab-name"];
+LANG.zh["tab-name-title"]=LANG.zh["tab-name"];
 for(var i=0;i<e.length;i++){
+LANG.en["tab-price-title"]=LANG.en["tab-price"];
+LANG.zh["tab-price-title"]=LANG.zh["tab-price"];
 var k=e[i].getAttribute('data-i18n');
 if(LANG[c]&&LANG[c][k])e[i].textContent=LANG[c][k];
 }
