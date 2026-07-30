@@ -56,4 +56,18 @@ app.post('/api/capture-order', async (req, res) => {
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
 
 const PORT = process.env.PORT || 80;
+
+// Auto-deploy: check GitHub every 60 seconds
+var cp=require("child_process");
+setInterval(function(){
+  try{
+    var r=cp.execSync("cd "+__dirname+" && git fetch origin -q && if [ $(git rev-parse HEAD) != $(git rev-parse origin/main) ]; then git reset --hard origin/main -q && echo UPDATE; fi",{timeout:30000}).toString().trim();
+    if(r==="UPDATE"){
+      console.log("New version detected. Restarting...");
+      var child=cp.spawn("sudo",["/usr/bin/node",__dirname+"/server.js"],{cwd:__dirname,stdio:"inherit",detached:true});
+      child.unref();
+      process.exit(0);
+    }
+  }catch(e){}
+},60000);
 app.listen(PORT, () => console.log('Server on port ' + PORT));
