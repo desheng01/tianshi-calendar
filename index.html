@@ -310,10 +310,10 @@
 <div class="tab-content" id="tab-know">
 <div class="card" style="text-align:center;padding:2rem">
 <h2 style="font-size:1.1rem;margin-bottom:0.5rem">关于吉时网</h2>
-<p style="color:#666;font-size:0.85rem;line-height:1.8">吉时网致力于传承中华传统文化，提供择吉日、八字命理、周公解梦、生肖运势等传统文化服务。我们以周易为理论基础，结合现代科技，为广大海外华人提供便捷的传统文化咨询平台。</p>
+<p style="color:#666;font-size:0.85rem;line-height:1.8"><span data-i18n="about-desc">吉时网致力于传承中华传统文化，提供择吉日、八字命理、周公解梦、生肖运势等传统文化服务。我们以周易为理论基础，结合现代科技，为广大海外华人提供便捷的传统文化咨询平台。</span></p>
 <hr style="border:none;border-top:1px solid #eee;margin:1rem 0">
-<p style="color:#aaa;font-size:0.8rem">联系方式：<a href="mailto:support@jishi.today" style="color:#AF2020">support@jishi.today</a></p>
-<p style="color:#aaa;font-size:0.8rem">本网站提供的内容仅供娱乐参考，不作为任何决策依据。</p>
+<p style="color:#aaa;font-size:0.8rem"><span data-i18n="about-contact">联系方式：</span><a href="mailto:support@jishi.today" style="color:#AF2020">support@jishi.today</a></p>
+<p style="color:#aaa;font-size:0.8rem"><span data-i18n="about-disclaimer">本网站提供的内容仅供娱乐参考，不作为任何决策依据。</span></p>
 </div>
 </div>
 
@@ -363,11 +363,13 @@ var b=document.querySelector('.lang-btn');
 if(b)b.textContent=c==='zh'?'中/EN':'EN/中';
 }
 // LANG data
-LANG.zh["male"]="男";
-LANG.en["male"]="Male";
-LANG.zh["female"]="女";
-LANG.en["female"]="Female";
 LANG.zh["tab-day"]="择吉日";
+LANG.zh["about-desc"]="吉时网致力于传承中华传统文化，提供择吉日、八字命理、周公解梦、生肖运势等传统文化服务。我们以周易为理论基础，结合现代科技，为广大海外华人提供便捷的传统文化咨询平台。";
+LANG.en["about-desc"]="Jishi is dedicated to Chinese traditional culture, offering auspicious day selection, BaZi, dream interpretation, zodiac forecasts and more. Based on the I Ching, we provide services for overseas Chinese.";
+LANG.zh["about-contact"]="联系方式：";
+LANG.en["about-contact"]="Contact: ";
+LANG.zh["about-disclaimer"]="本网站提供的内容仅供娱乐参考，不作为任何决策依据。";
+LANG.en["about-disclaimer"]="For entertainment purposes only. Not professional advice.";
 LANG.en["tab-day"]="Auspicious Days";
 LANG.zh["tab-today"]="今日黄历";
 LANG.en["tab-today"]="Daily Almanac";
