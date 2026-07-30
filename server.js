@@ -29,7 +29,7 @@ app.post('/api/create-order', async (req, res) => {
     const r = await fetch(PAYPAL_API + '/v2/checkout/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
-      body: JSON.stringify({ intent: 'CAPTURE', purchase_units: [{ amount: { currency_code: 'USD', value: String(amount) }, description }], payment_source: { paypal: { experience_context: { return_url: 'http://jishi.today/?payment=success', cancel_url: 'http://jishi.today/?payment=cancel', user_action: 'PAY_NOW' } } } })
+      body: JSON.stringify({ intent: 'CAPTURE', purchase_units: [{ amount: { currency_code: 'USD', value: String(amount) }, description }] })
     });
     const d = await r.json();
     const url = d.links ? d.links.find(l => l.rel === 'approve').href : null;
@@ -57,17 +57,22 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().t
 
 const PORT = process.env.PORT || 80;
 
-// Auto-deploy: check GitHub every 60 seconds
-var cp=require("child_process");
+// Simple auto-deploy: check GitHub every 60s
+var AD = require("child_process");
 setInterval(function(){
-  try{
-    var r=cp.execSync("cd "+__dirname+" && git fetch origin -q && if [ $(git rev-parse HEAD) != $(git rev-parse origin/main) ]; then git reset --hard origin/main -q && echo UPDATE; fi",{timeout:30000}).toString().trim();
-    if(r==="UPDATE"){
-      console.log("New version detected. Restarting...");
-      var child=cp.spawn("sudo",["/usr/bin/node",__dirname+"/server.js"],{cwd:__dirname,stdio:"inherit",detached:true});
-      child.unref();
+  try {
+    AD.execSync("cd " + __dirname + "; git fetch origin -q", {timeout:15000});
+    var h1 = AD.execSync("cd " + __dirname + "; git rev-parse HEAD", {timeout:5000}).toString().trim();
+    var h2 = AD.execSync("cd " + __dirname + "; git rev-parse origin/main", {timeout:5000}).toString().trim();
+    if (h1 !== h2) {
+      console.log("Auto-update: new version");
+      AD.execSync("cd " + __dirname + "; git reset --hard origin/main -q", {timeout:15000});
+      console.log("Auto-update: restarting...");
+      var ch = AD.spawn("sudo", ["/usr/bin/node", __dirname + "/server.js"], {stdio:"inherit", detached:true});
+      ch.unref();
       process.exit(0);
     }
-  }catch(e){}
-},60000);
+  } catch(e) {}
+}, 60000);
+
 app.listen(PORT, () => console.log('Server on port ' + PORT));
