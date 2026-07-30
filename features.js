@@ -562,3 +562,5 @@ NAME_CHARS["银"]={w:"金",m:"metal"};
 NAME_CHARS["锄"]={w:"金",m:"metal"};
 NAME_CHARS["铁"]={w:"金",m:"metal"};
 NAME_CHARS["钢"]={w:"金",m:"metal"};
+
+// v2.0
