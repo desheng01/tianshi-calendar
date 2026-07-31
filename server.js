@@ -1,17 +1,14 @@
-
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const app = express();
-
+app.use(function(r,_,n){if(r.path.match(/^\/server/))return _.status(404).end();n();});
 const PAYPAL_CLIENT_ID = 'AVhq2W4f3mYFFtZcZqYUNvQoowjSAtt8HAX2KdYN8nicGp28iXoSvLEfyNq60OPRY6k-KXYpj8XNnbun';
 const PAYPAL_SECRET = 'ENWC9lZCHd8QrO27Uh8xyesiwfbztHuTjwqtOStQvWyLROrhosuzVm85aV_BItJXsMm4AcMk_60iDx8F';
 const PAYPAL_API = 'https://api-m.paypal.com';
-
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
-
 async function getToken() {
   const auth = Buffer.from(PAYPAL_CLIENT_ID + ':' + PAYPAL_SECRET).toString('base64');
   const r = await fetch(PAYPAL_API + '/v1/oauth2/token', {
@@ -21,7 +18,6 @@ async function getToken() {
   });
   return (await r.json()).access_token;
 }
-
 app.post('/api/create-order', async (req, res) => {
   try {
     const { amount, description = '\u5409\u65f6\u7f51' } = req.body;
@@ -36,7 +32,6 @@ app.post('/api/create-order', async (req, res) => {
     res.json({ success: !!d.id, orderId: d.id || null, approvalUrl: url, status: d.status || 'ERROR' });
   } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
-
 app.post('/api/capture-order', async (req, res) => {
   try {
     const { orderId } = req.body;
@@ -52,29 +47,6 @@ app.post('/api/capture-order', async (req, res) => {
     } else { res.json({ success: false, status: d.status }); }
   } catch (e) { res.status(500).json({ success: false, error: e.message }); }
 });
-
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
-
 const PORT = process.env.PORT || 80;
-
-// Simple auto-deploy: check GitHub every 60s
-var AD = require("child_process");
-setInterval(function(){
-  try {
-    AD.execSync("cd " + __dirname + "; git fetch origin -q", {timeout:15000});
-    var h1 = AD.execSync("cd " + __dirname + "; git rev-parse HEAD", {timeout:5000}).toString().trim();
-    var h2 = AD.execSync("cd " + __dirname + "; git rev-parse origin/main", {timeout:5000}).toString().trim();
-    if (h1 !== h2) {
-      console.log("Auto-update: new version");
-      AD.execSync("cd " + __dirname + "; git reset --hard origin/main -q", {timeout:15000});
-      console.log("Auto-update: restarting...");
-      var ch = AD.spawn("sudo", ["/usr/bin/node", __dirname + "/server.js"], {stdio:"inherit", detached:true});
-      ch.unref();
-      process.exit(0);
-    }
-  } catch(e) {}
-}, 60000);
-
-
-
-app.listen(PORT, () => console.log('Server on port ' + PORT));
+app.listen(PORT, () => console.log("Server on port " + PORT));
