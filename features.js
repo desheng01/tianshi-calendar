@@ -14,13 +14,21 @@ async function startPayment(amount, description){
       if(description && description.indexOf("起名") >= 0){ try{ sessionStorage.setItem("name_pending", "1"); }catch(err){} }
       window.location.href = d.approvalUrl;
     }else{
-      alert("订单创建失败，请稍后重试");
-      if(e){ e.textContent = "立即购买"; e.disabled = false; }
+      startPayPalFallback(amount, description);
     }
   }catch(err){
-    alert("网络错误，请稍后重试");
-    if(e){ e.textContent = "立即购买"; e.disabled = false; }
+    startPayPalFallback(amount, description);
   }
+}
+
+function startPayPalFallback(amount, description){
+  try{
+    sessionStorage.setItem("pay_fallback", "1");
+    sessionStorage.setItem("pay_amount", String(amount));
+    sessionStorage.setItem("pay_name", description || "周易起名");
+    sessionStorage.setItem("name_pending", "1");
+  }catch(err){}
+  window.location.href = "https://paypal.me/jishinet/" + amount;
 }
 
 (function(){
@@ -48,6 +56,30 @@ async function startPayment(amount, description){
     }
   } else if(p.get("payment") === "cancel"){
     alert("Payment cancelled");
+  }
+})();
+
+
+function confirmManualPayment(){
+  try{
+    localStorage.setItem("js_paid", "true");
+    sessionStorage.removeItem("pay_fallback");
+    sessionStorage.removeItem("name_pending");
+  }catch(err){}
+  renderSavedNameReport();
+}
+
+(function(){
+  var fallback = "";
+  try{ fallback = sessionStorage.getItem("pay_fallback") || ""; }catch(err){}
+  if(fallback){
+    var box = document.getElementById("nameResults");
+    if(box){
+      box.innerHTML = '<div style="padding:1rem;background:#FBF5EC;border:1px solid #EAD9BE;border-radius:10px;text-align:center">' +
+        '<h2 style="font-size:1.05rem;color:#AF2020;margin-bottom:0.5rem">请在 PayPal 完成支付</h2>' +
+        '<p style="font-size:0.85rem;color:#555;margin-bottom:0.8rem">支付完成后返回本页，点击下方按钮解锁完整周易起名报告。</p>' +
+        '<button onclick="confirmManualPayment()" style="padding:0.6rem 1.2rem;background:#AF2020;color:#fff;border:none;border-radius:8px;cursor:pointer">我已支付，查看报告</button></div>';
+    }
   }
 })();
 
