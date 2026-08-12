@@ -10024,7 +10024,7 @@ function openReport(type){
 
 
 
-  document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;var _badge=['基础版','专业版','豪华版'];var _bc=['#2A7A3A','#AF2020','#D4A030'];html='<div style="margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:2px solid '+_bc[_rTier]+';display:flex;align-items:center;gap:0.3rem;"><span style="font-size:1.2rem;font-weight:800;color:#AF2020;">吉</span><span style="font-size:0.85rem;color:#2E2E2E;">吉时网 · 传统文化报告</span><span style="font-size:0.65rem;color:#fff;background:'+_bc[_rTier]+';padding:0.1rem 0.4rem;border-radius:3px;font-weight:600;">'+_badge[_rTier]+'</span><span style="font-size:0.65rem;color:#999;margin-left:auto;">'+subtitle+'</span></div>'+(function(){if(_rTier>=1){return'<div style="margin-bottom:0.5rem;font-size:0.75rem;color:#888;text-align:right;">'+(function(){return['★ 基础报告：含基础信息、宜忌建议、时辰吉凶','★★ 专业报告：含基础+周易卆象、五行分析、详细冲煞','★★★ 豪华报告：含专业+深度推理、吉时推荐、全方位报告'][_rTier]})()+'</div>'}return''})()+html;
+  document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;var _badge=['基础版','专业版','豪华版'];var _bc=['#2A7A3A','#AF2020','#D4A030'];var _hdr='<div style="margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:2px solid '+_bc[_rTier]+';display:flex;align-items:center;gap:0.3rem;"><span style="font-size:1.2rem;font-weight:800;color:#AF2020;">吉</span><span style="font-size:0.85rem;color:#2E2E2E;">吉时网 · 传统文化报告</span><span style="font-size:0.65rem;color:#fff;background:'+_bc[_rTier]+';padding:0.1rem 0.4rem;border-radius:3px;font-weight:600;">'+_badge[_rTier]+'</span><span style="font-size:0.65rem;color:#999;margin-left:auto;">'+subtitle+'</span></div>'+(function(){if(_rTier>=1){return'<div style="margin-bottom:0.5rem;font-size:0.75rem;color:#888;text-align:right;">'+(function(){return['★ 基础报告：含基础信息、宜忌建议、时辰吉凶','★★ 专业报告：含基础+周易卦象、五行分析、详细冲煞','★★★ 豪华报告：含专业+深度推理、吉时推荐、全方位报告'][_rTier]})()+'</div>'}return''})();
 
 
 
@@ -10045,6 +10045,7 @@ function openReport(type){
 
 
   let html='';
+  html=_hdr+html;
 
 
 
@@ -10464,7 +10465,9 @@ function openReport(type){
 
 
 
-  document.getElementById('rpContent').innerHTML=html;
+  
+html+='<div style="margin-top:1rem;padding-top:0.6rem;border-top:1px solid #E3DDD2;font-size:0.7rem;color:#999;line-height:1.7;text-align:center;">吉时网 · 传统文化报告<br/>报告编号：JS-'+(new Date().getFullYear())+('0'+(new Date().getMonth()+1)).slice(-2)+('0'+new Date().getDate()).slice(-2)+(Math.floor(Math.random()*900)+100)+'，生成时间：'+new Date().toLocaleString('zh-CN',{hour12:false})+'<br/>本报告由传统历法与周易文化算法自动生成，仅供文化参考与娱乐用途。</div>';
+document.getElementById('rpContent').innerHTML=html;
 
 
 
@@ -11180,7 +11183,7 @@ function showReportContent(info,y,m,d,hexagram,isDeep){var _rTier=parseInt(local
 
 
 
-  document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;var _badge=['基础版','专业版','豪华版'];var _bc=['#2A7A3A','#AF2020','#D4A030'];html='<div style="margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:2px solid '+_bc[_rTier]+';display:flex;align-items:center;gap:0.3rem;"><span style="font-size:1.2rem;font-weight:800;color:#AF2020;">吉</span><span style="font-size:0.85rem;color:#2E2E2E;">吉时网 · 传统文化报告</span><span style="font-size:0.65rem;color:#fff;background:'+_bc[_rTier]+';padding:0.1rem 0.4rem;border-radius:3px;font-weight:600;">'+_badge[_rTier]+'</span><span style="font-size:0.65rem;color:#999;margin-left:auto;">'+subtitle+'</span></div>'+(function(){if(_rTier>=1){return'<div style="margin-bottom:0.5rem;font-size:0.75rem;color:#888;text-align:right;">'+(function(){return['★ 基础报告：含基础信息、宜忌建议、时辰吉凶','★★ 专业报告：含基础+周易卆象、五行分析、详细冲煞','★★★ 豪华报告：含专业+深度推理、吉时推荐、全方位报告'][_rTier]})()+'</div>'}return''})()+html;
+  document.getElementById('rpSubtitle').textContent=info.dateStr+' | '+subtitle;var _badge=['基础版','专业版','豪华版'];var _bc=['#2A7A3A','#AF2020','#D4A030'];var _hdr='<div style="margin-bottom:0.8rem;padding-bottom:0.5rem;border-bottom:2px solid '+_bc[_rTier]+';display:flex;align-items:center;gap:0.3rem;"><span style="font-size:1.2rem;font-weight:800;color:#AF2020;">吉</span><span style="font-size:0.85rem;color:#2E2E2E;">吉时网 · 传统文化报告</span><span style="font-size:0.65rem;color:#fff;background:'+_bc[_rTier]+';padding:0.1rem 0.4rem;border-radius:3px;font-weight:600;">'+_badge[_rTier]+'</span><span style="font-size:0.65rem;color:#999;margin-left:auto;">'+subtitle+'</span></div>'+(function(){if(_rTier>=1){return'<div style="margin-bottom:0.5rem;font-size:0.75rem;color:#888;text-align:right;">'+(function(){return['★ 基础报告：含基础信息、宜忌建议、时辰吉凶','★★ 专业报告：含基础+周易卦象、五行分析、详细冲煞','★★★ 豪华报告：含专业+深度推理、吉时推荐、全方位报告'][_rTier]})()+'</div>'}return''})();
 
 
 
@@ -11201,6 +11204,7 @@ function showReportContent(info,y,m,d,hexagram,isDeep){var _rTier=parseInt(local
 
 
   let html='';
+  html=_hdr+html;
 
 
 
@@ -11560,7 +11564,8 @@ function showReportContent(info,y,m,d,hexagram,isDeep){var _rTier=parseInt(local
 
 
 
-  document.getElementById('rpContent').innerHTML=html;
+  html+='<div style="margin-top:1rem;padding-top:0.6rem;border-top:1px solid #E3DDD2;font-size:0.7rem;color:#999;line-height:1.7;text-align:center;">吉时网 · 传统文化报告<br/>报告编号：JS-'+(new Date().getFullYear())+('0'+(new Date().getMonth()+1)).slice(-2)+('0'+new Date().getDate()).slice(-2)+(Math.floor(Math.random()*900)+100)+'，生成时间：'+new Date().toLocaleString('zh-CN',{hour12:false})+'<br/>本报告由传统历法与周易文化算法自动生成，仅供文化参考与娱乐用途。</div>';
+document.getElementById('rpContent').innerHTML=html;
 
 
 
@@ -11962,7 +11967,8 @@ function showTimeDetail(){
 
 
 
-  document.getElementById('rpContent').innerHTML=html;
+  html+='<div style="margin-top:1rem;padding-top:0.6rem;border-top:1px solid #E3DDD2;font-size:0.7rem;color:#999;line-height:1.7;text-align:center;">吉时网 · 传统文化报告<br/>报告编号：JS-'+(new Date().getFullYear())+('0'+(new Date().getMonth()+1)).slice(-2)+('0'+new Date().getDate()).slice(-2)+(Math.floor(Math.random()*900)+100)+'，生成时间：'+new Date().toLocaleString('zh-CN',{hour12:false})+'<br/>本报告由传统历法与周易文化算法自动生成，仅供文化参考与娱乐用途。</div>';
+document.getElementById('rpContent').innerHTML=html;
 
 
 
@@ -12500,7 +12506,8 @@ function showLuxuryReport(){
 
 
 
-  document.getElementById('rpContent').innerHTML=html;
+  html+='<div style="margin-top:1rem;padding-top:0.6rem;border-top:1px solid #E3DDD2;font-size:0.7rem;color:#999;line-height:1.7;text-align:center;">吉时网 · 传统文化报告<br/>报告编号：JS-'+(new Date().getFullYear())+('0'+(new Date().getMonth()+1)).slice(-2)+('0'+new Date().getDate()).slice(-2)+(Math.floor(Math.random()*900)+100)+'，生成时间：'+new Date().toLocaleString('zh-CN',{hour12:false})+'<br/>本报告由传统历法与周易文化算法自动生成，仅供文化参考与娱乐用途。</div>';
+document.getElementById('rpContent').innerHTML=html;
 
 
 
@@ -12928,7 +12935,8 @@ function showBaziPreview(){
 
 
 
-  document.getElementById('rpContent').innerHTML=html;
+  html+='<div style="margin-top:1rem;padding-top:0.6rem;border-top:1px solid #E3DDD2;font-size:0.7rem;color:#999;line-height:1.7;text-align:center;">吉时网 · 传统文化报告<br/>报告编号：JS-'+(new Date().getFullYear())+('0'+(new Date().getMonth()+1)).slice(-2)+('0'+new Date().getDate()).slice(-2)+(Math.floor(Math.random()*900)+100)+'，生成时间：'+new Date().toLocaleString('zh-CN',{hour12:false})+'<br/>本报告由传统历法与周易文化算法自动生成，仅供文化参考与娱乐用途。</div>';
+document.getElementById('rpContent').innerHTML=html;
 
 
 
