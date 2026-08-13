@@ -96,6 +96,17 @@ function confirmManualPayment(){
   }
 })();
 
+function showDreamPaywall(){
+  var h='<div id="paywall-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem">';
+  h+='<div style="background:#fff;border-radius:12px;padding:2rem;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.25)">';
+  h+='<h2 style="font-size:1.2rem;color:#2E2E2E;margin-bottom:0.5rem">周公解梦完整版</h2>';
+  h+='<p style="font-size:0.85rem;color:#888;margin-bottom:1rem">付费后显示完整梦境解读，一次购买全站完整报告均可查看。</p>';
+  h+='<button onclick="closePaywall();startPayment(2,\'周公解梦完整版\')" style="width:100%;padding:0.7rem;background:#AF2020;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600">$1.99 - 周公解梦完整版</button>';
+  h+='<p style="font-size:0.75rem;color:#aaa;margin-top:0.8rem">通过 PayPal 支付，支持信用卡/借记卡</p>';
+  h+='</div></div>';
+  var d=document.createElement('div');d.innerHTML=h;document.body.appendChild(d.firstElementChild);
+}
+
 function showPaywall(){
   var h = '<div id="paywall-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem">';
   h += '<div style="background:#fff;border-radius:12px;padding:2rem;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.25)">';
@@ -288,7 +299,7 @@ function renderNameReportFromParams(params){
   h += '<div style="margin:0.8rem 0;padding:0.8rem;background:linear-gradient(135deg,#FFFDF8,#FBEFDD);border:1px solid #E3C58A;border-radius:10px">';
   h += '<b style="color:#AF2020">核心收获</b><ul style="margin:0.5rem 0 0;padding-left:1.2rem;color:#6B4B1F;font-size:0.84rem;line-height:1.9"><li>八字宜补：' + result.desired.join('、') + '</li><li>流年重点：' + getAnnualFortune(params) + '</li><li>幸运数字：' + lucky.num + '；幸运色：' + lucky.color + '；吉位：' + lucky.dir + '</li></ul></div>';
   h += '<div style="display:grid;gap:0.8rem">';
-  for(var i = 0; i < result.candidates.length; i++){
+  var _cap = Math.min(12, result.candidates.length); for(var i = 0; i < _cap; i++){
     var c = result.candidates[i];
     var chars = c.info.charAnalysis;
     h += '<div style="padding:1rem;background:linear-gradient(135deg,#FFFDF8,#FBEFDD);border:1px solid #E3C58A;border-radius:12px">';
