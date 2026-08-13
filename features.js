@@ -195,9 +195,52 @@ function analyzeNameSafe(name){
   return {totalStrokes:total, numIndex:numIndex, elem:elem, charAnalysis:arr, strokeScore:isLuckyStroke(numIndex) ? 6 : 0};
 }
 
+function gridInfo(num){
+  num = ((num - 1) % 81 + 81) % 81 + 1;
+  var tail = num % 10;
+  var elem = {1:'木',2:'木',3:'火',4:'火',5:'土',6:'土',7:'金',8:'金',9:'水',0:'水'}[tail] || '土';
+  return {num:num, elem:elem, lucky:isLuckyStroke(num)};
+}
+
+function calcWuGe(surname, c1, c2){
+  var sStrokes = 0; for(var i = 0; i < surname.length; i++) sStrokes += getCharStrokes(surname[i]);
+  var lastS = getCharStrokes(surname[surname.length - 1]) || 0;
+  var c1s = getCharStrokes(c1) || 0;
+  var c2s = c2 ? (getCharStrokes(c2) || 0) : 0;
+  var tian = surname.length > 1 ? sStrokes : sStrokes + 1;
+  var ren = lastS + c1s;
+  var di = c2 ? (c1s + c2s) : (c1s + 1);
+  var zong = sStrokes + c1s + c2s;
+  var wai = zong - ren + (c2 ? 1 : 2);
+  if(wai < 1) wai = 1;
+  var t = gridInfo(tian), r = gridInfo(ren), d = gridInfo(di), w = gridInfo(wai), z = gridInfo(zong);
+  var sheng = {'木':['火','水'],'火':['土','木'],'土':['金','火'],'金':['水','土'],'水':['木','金']};
+  function rel(a,b){ if(a === b) return '同'; if(sheng[a] && sheng[a].indexOf(b) >= 0) return '生'; if(sheng[b] && sheng[b].indexOf(a) >= 0) return '被生'; return '克'; }
+  var rel1 = rel(t.elem, r.elem), rel2 = rel(r.elem, d.elem);
+  var sanLucky = (rel1 === '生' || rel1 === '同') && (rel2 === '生' || rel2 === '同');
+  return {tian:t, ren:r, di:d, wai:w, zong:z, rel1:rel1, rel2:rel2, sanLucky:sanLucky,
+    text:'天格' + t.num + '(' + t.elem + ')、人格' + r.num + '(' + r.elem + ')、地格' + d.num + '(' + d.elem + ')、外格' + w.num + '(' + w.elem + ')、总格' + z.num + '(' + z.elem + ')'};
+}
+
+function getYongShen(dayElem, month){
+  var season = (month >= 2 && month <= 4) ? '春' : (month >= 5 && month <= 7) ? '夏' : (month >= 8 && month <= 10) ? '秋' : '冬';
+  var table = {
+    '木':{春:['火','水'],夏:['水','金'],秋:['水','木'],冬:['火','木']},
+    '火':{春:['木','水'],夏:['水','金'],秋:['木','火'],冬:['木','火']},
+    '土':{春:['火','土'],夏:['金','水'],秋:['火','土'],冬:['火','木']},
+    '金':{春:['土','火'],夏:['水','金'],秋:['火','水'],冬:['火','土']},
+    '水':{春:['金','水'],夏:['金','水'],秋:['木','金'],冬:['木','火']}
+  };
+  var arr = (table[dayElem] && table[dayElem][season]) || ['木','火'];
+  return {season:season, xi:arr, ji:[dayElem || '木']};
+}
+
 function buildNameCandidates(params){
   var desired = getDesiredElements(params);
   var zodiacInfo = getZodiacInfo(params.year);
+  var dayMasterElem = '木';
+  try{ if(typeof computeBazi === 'function'){ var br = computeBazi(params.year, params.month, params.day, params.hour < 0 ? 12 : params.hour, params.gender === 'f' ? 'F' : 'M'); if(br && br.dayMaster && br.dayMaster.el) dayMasterElem = br.dayMaster.el; } }catch(err){}
+  var yongShen = getYongShen(dayMasterElem, params.month);
   var chars = [];
   for(var k in NAME_CHARS){ chars.push(k); if(chars.length >= 20000) break; }
   chars.sort(function(){ return Math.random() - 0.5; });
@@ -219,7 +262,7 @@ function buildNameCandidates(params){
     }
   }
   names.sort(function(x,y){ return y.score - x.score; });
-  return {desired:desired, zodiac:zodiacInfo, candidates:names.slice(0, 20)};
+  return {desired:desired, zodiac:zodiacInfo, dayMasterElem:dayMasterElem, yongShen:yongShen, candidates:names.slice(0, 20)};
 }
 
 function charStyleText(ch){
@@ -293,6 +336,7 @@ function renderNameReportFromParams(params){
   h += '八字五行补益：宜补 <b>' + result.desired.join("、") + '</b>；';
   h += '生肖宜忌：<b>' + result.zodiac.zodiac + '</b> 命主喜 ' + result.zodiac.like.join("、") + '，忌 ' + result.zodiac.avoid.join("、") + '；';
   h += '<br><b>流年运势：</b>' + getAnnualFortune(params) + '；';
+  h += '日主五行属<b>' + result.dayMasterElem + '</b>，生于' + result.yongShen.season + '；调候喜用神：<b>' + result.yongShen.xi.join('、') + '</b>，忌神：' + result.yongShen.ji.join('、') + '；'
   h += '笔画以 1、3、5、7、8、11、13、15、16、17、18、21、23、24、25、29、31、32、33、35、37、39、41、45、47、48、52、57、61、63、65、67、68、81 等数理为吉。';
   h += '</p></div>';
   var lucky = getLuckyInfo(result.desired);
@@ -306,8 +350,12 @@ function renderNameReportFromParams(params){
     h += '<div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap">';
     h += '<span style="font-size:1.5rem;font-weight:800;color:#AF2020">' + c.name + '</span>';
     h += '<span style="font-size:0.75rem;color:#fff;background:#AF2020;padding:0.2rem 0.5rem;border-radius:4px">推荐 #' + (i+1) + '</span></div>';
+    var wg = calcWuGe(params.surname, c.c1, c.c2);
     h += '<p style="font-size:0.82rem;color:#555;line-height:1.8;margin-top:0.5rem">';
     h += '总笔画 ' + c.info.totalStrokes + ' 画，数理 ' + c.info.numIndex + '，五行属 ' + c.info.elem + '；';
+    h += '三才五格：' + wg.text + '；';
+    h += '三才天→人' + wg.rel1 + '、人→地' + wg.rel2 + '，' + (wg.sanLucky ? '三才相生，格局顺畅；' : '三才略需调和，可用字义与读音化解；') + '；';
+    h += '五格数理' + ((wg.tian.lucky && wg.ren.lucky && wg.di.lucky && wg.wai.lucky && wg.zong.lucky) ? '俱为吉数；' : '多数为吉，个别数理以音形义补益；') + '；';
     for(var j = 0; j < chars.length; j++){
       var info = NAME_CHARS[chars[j].char] || {w:"", s:0};
       h += chars[j].char + '（' + (info.w || "综合") + '，' + chars[j].strokes + '画）：' + charStyleText(chars[j].char) + '；' + (getCharMeaning[chars[j].char] ? '字义：' + getCharMeaning[chars[j].char] : '字义：寓意积极、适合命名。') + '；';
