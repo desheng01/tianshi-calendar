@@ -339,6 +339,13 @@ function renderNameReportFromParams(params){
   h += '日主五行属<b>' + result.dayMasterElem + '</b>，生于' + result.yongShen.season + '；调候喜用神：<b>' + result.yongShen.xi.join('、') + '</b>，忌神：' + result.yongShen.ji.join('、') + '；'
   h += '笔画以 1、3、5、7、8、11、13、15、16、17、18、21、23、24、25、29、31、32、33、35、37、39、41、45、47、48、52、57、61、63、65、67、68、81 等数理为吉。';
   h += '</p></div>';
+  h += '<div style="margin:0.8rem 0;padding:0.8rem;background:#FBF7EF;border:1px solid #E3D5B8;border-radius:10px;font-size:0.82rem;color:#5D4B2A;line-height:1.9">';
+  h += '<b style="color:#AF2020">命名推荐模型</b><br/>';
+  h += '第一层（主要依据）：八字喜用神、生肖喜忌、音形义——决定名字是否合适；<br/>';
+  h += '第二层（参考排序）：三才五格、81数理、笔画数理——用于候选名排序与说明；<br/>';
+  h += '第三层（补充说明）：字义、流年、文化意涵、发展建议——用于综合理解。<br/>';
+  h += '数理仅供参考，不作为唯一吉凶标准；最终以用神、音形义与家庭意愿为准。';
+  h += '</div>';
   var lucky = getLuckyInfo(result.desired);
   h += '<div style="margin:0.8rem 0;padding:0.8rem;background:linear-gradient(135deg,#FFFDF8,#FBEFDD);border:1px solid #E3C58A;border-radius:10px">';
   h += '<b style="color:#AF2020">核心收获</b><ul style="margin:0.5rem 0 0;padding-left:1.2rem;color:#6B4B1F;font-size:0.84rem;line-height:1.9"><li>八字宜补：' + result.desired.join('、') + '</li><li>流年重点：' + getAnnualFortune(params) + '</li><li>幸运数字：' + lucky.num + '；幸运色：' + lucky.color + '；吉位：' + lucky.dir + '</li></ul></div>';
@@ -362,6 +369,7 @@ function renderNameReportFromParams(params){
     }
     h += '音形义建议：发音自然、字义积极，与姓氏组合后气韵平稳。';
     h += '发展建议：' + getElementAdvice(c.info.elem) + '；';
+    h += '<br/><span style="color:#999">注：三才五格与81数理为现代姓名学参考项，不作唯一吉凶标准；以八字用神、音形义与家庭意愿为主。</span>';
     h += '</p></div>';
   }
   h += '</div>';
