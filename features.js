@@ -55,6 +55,8 @@ function startPayPalFallback(amount, description){
         .then(function(d){
           if(d.success){
             try{
+              var _pn = ""; try{ _pn = sessionStorage.getItem("pay_name") || ""; }catch(err){}
+              if(_pn.indexOf("解梦") >= 0){ localStorage.setItem("js_dream_paid", "true"); }
               localStorage.setItem("js_paid", "true");
               if(sessionStorage.getItem("name_pending")){ renderSavedNameReport(); sessionStorage.removeItem("name_pending"); }
               sessionStorage.removeItem("pay_order"); sessionStorage.removeItem("pay_amount"); sessionStorage.removeItem("pay_name");
@@ -101,7 +103,7 @@ function showDreamPaywall(){
   h+='<div style="background:#fff;border-radius:12px;padding:2rem;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.25)">';
   h+='<h2 style="font-size:1.2rem;color:#2E2E2E;margin-bottom:0.5rem">周公解梦完整版</h2>';
   h+='<p style="font-size:0.85rem;color:#888;margin-bottom:1rem">付费后显示完整梦境解读，一次购买全站完整报告均可查看。</p>';
-  h+='<button onclick="closePaywall();startPayment(2,\'周公解梦完整版\')" style="width:100%;padding:0.7rem;background:#AF2020;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600">$1.99 - 周公解梦完整版</button>';
+  h+='<button onclick="closePaywall();startPayment(2,\'周公解梦完整版\')" style="width:100%;padding:0.7rem;background:#AF2020;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600">$2.00 - 周公解梦完整版</button>';
   h+='<p style="font-size:0.75rem;color:#aaa;margin-top:0.8rem">通过 PayPal 支付，支持信用卡/借记卡</p>';
   h+='</div></div>';
   var d=document.createElement('div');d.innerHTML=h;document.body.appendChild(d.firstElementChild);
@@ -510,3 +512,6 @@ function generateNames(){
   if(!paid){ showPaywall(); return; }
   renderNameReportFromParams(params);
 }
+
+var _EXTRA_DREAMS = [{keyword:'鼻毛',t:'梦见鼻毛',d:'鼻为肺之窍，又主审辨与财帛。鼻毛象征身体细节与防微杜渐：长出鼻毛提示关注呼吸道健康与自我形象；清理鼻毛代表整理细节、清除隐患；鼻毛杂乱提醒近期留意健康与财务细节。',src:'现代补充·取象比类'},{keyword:'汽车',t:'梦见汽车',d:'汽车象征古代车马、轿辇，主行动、道路与事业运。梦见开车平稳预示方向顺遂；方向盘失控表示近期选择需谨慎；汽车故障提示事业或出行受阻；车内乘客代表同路之人或贵人。',src:'现代补充·取象比类'},{keyword:'手机',t:'梦见手机',d:'手机如古代信使、飞鸽、驿站，主消息与联络。梦见手机响起预示有消息将至；手机丢失或没电，提示近期可能错过重要联系；换新手机代表新的沟通机会。',src:'现代补充·取象比类'},{keyword:'电脑',t:'梦见电脑',d:'电脑如古代书案、文书、机关，主工作与信息。梦见电脑顺畅预示事务推进；电脑故障或死机，提示工作细节需复查；电脑文件代表积累与成果。',src:'现代补充·取象比类'},{keyword:'电梯',t:'梦见电梯',d:'电梯象征阶梯与登高，主升迁与阶段变化。电梯上行预示地位或事业上升；下行代表阶段性回落；电梯故障提示等待时机。',src:'周易取象参考'},{keyword:'飞机',t:'梦见飞机',d:'飞机如大鹏腾云、驿传远行，主高远与快速进展。梦见飞机起飞预示新机会开启；飞行平稳代表志向可成；飞机延误提示计划需耐心。',src:'周易取象参考'},{keyword:'火车',t:'梦见火车',d:'火车如舟车行旅，主长途与按部就班。梦见火车准点预示计划顺利；赶不上火车，提示重要安排需提前准备。',src:'现代补充·取象比类'},{keyword:'快递',t:'梦见快递',d:'快递如信报、包裹，主远方消息与结果。梦见收到快递预示期待之事将有回音；快递丢失或破损，提示留意信息与承诺。',src:'现代补充·取象比类'},{keyword:'银行',t:'梦见银行',d:'银行如库房、仓廪，主储蓄与财运。梦见银行存款预示积累；取款代表支出或动用储备；银行排队提示财务事务需耐心处理。',src:'现代补充·取象比类'},{keyword:'方向盘',t:'梦见方向盘',d:'方向盘如古代执辔驾车，主掌控方向。方向盘顺手预示方向明确；方向盘失控提示近期需谨慎决策。',src:'现代补充·取象比类'},{keyword:'加油站',t:'梦见加油站',d:'加油站如古代驿站、补给，主补充能量与前进动力。加油顺利预示能量充足；加油站等待提示需缓冲与规划。',src:'现代补充·取象比类'}];
+(function(){var k={};for(var i=0;i<DREAM_DATA.length;i++){if(DREAM_DATA[i]&&DREAM_DATA[i].keyword)k[DREAM_DATA[i].keyword]=1;}for(var j=0;j<_EXTRA_DREAMS.length;j++){if(!k[_EXTRA_DREAMS[j].keyword]){DREAM_DATA.push(_EXTRA_DREAMS[j]);k[_EXTRA_DREAMS[j].keyword]=1;}}})();

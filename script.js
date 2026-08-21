@@ -430,6 +430,20 @@ window.dataLayer = window.dataLayer || [
 
 
 
+function getDreamSource(item){
+  if(item && item.src) return item.src;
+  var t = (item.keyword||'') + (item.t||'') + (item.d||'');
+  var srcs = [];
+  var modern = ['汽车','手机','电脑','电梯','飞机','火车','高铁','地铁','快递','银行','网络','微信','电话','电视','相机','手表','眼镜','摩托','出租','公交','自行车','加油站','超市','商场','空调','冰箱','洗衣机','微波炉','鼻毛','方向盘'];
+  for(var i=0;i<modern.length;i++){ if(t.indexOf(modern[i])>=0){ srcs.push('现代补充·取象比类'); break; } }
+  var medical = ['鼻','耳','眼','口','头','手','脚','牙','血','汗','泪','肺','心','肝','脾','肾','毛'];
+  for(var j=0;j<medical.length;j++){ if(t.indexOf(medical[j])>=0){ srcs.push('医家梦论参考'); break; } }
+  var nature = ['水','火','雷','电','风','雨','云','日','月','星','山','海','河','湖','树','花','天','地'];
+  for(var k=0;k<nature.length;k++){ if(t.indexOf(nature[k])>=0){ srcs.push('周易取象参考'); break; } }
+  if(srcs.length===0) srcs.push('周公解梦综合参考');
+  return srcs.join('、');
+}
+
 function searchDream(){try{
 
 
@@ -532,15 +546,15 @@ function searchDream(){try{
 
   var html='';
   var paid=false;
-  try{ paid = typeof isPaid === 'function' ? isPaid() : (localStorage.getItem('js_paid') === 'true'); }catch(err){}
+  try{ paid = typeof isPaid === 'function' ? isPaid() : (localStorage.getItem('js_paid') === 'true' || localStorage.getItem('js_dream_paid') === 'true'); }catch(err){}
   var preview = results.slice(0, 8);
   preview.forEach(function(item){
     var desc = item.d || '';
     if(!paid && desc.length > 42){ desc = desc.substring(0, 42) + '…'; }
-    html+='<div class="dr-item"><h3>'+item.t+'</h3><p>'+desc+'</p></div>';
+    html+='<div class="dr-item"><h3>'+item.t+'</h3><p>'+desc+'</p><div style="font-size:0.7rem;color:#999;margin-top:0.2rem">出处：'+getDreamSource(item)+'</div></div>';
   });
   if(!paid){
-    html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">以上为部分预览，付费后显示完整梦境解读</p><button onclick="showDreamPaywall()" style="display:inline-block;padding:0.45rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600;">付费查看完整解梦 $1.99</button></div>';
+    html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">以上为部分预览，付费后显示完整梦境解读</p><button onclick="showDreamPaywall()" style="display:inline-block;padding:0.45rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600;">付费查看完整解梦 $2.00</button></div>';
   }
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 
