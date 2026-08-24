@@ -1219,254 +1219,31 @@ function daysBetween(a,b){return Math.round((b-a)/86400000);}
 
 
 function g2l(year,month,day){
-
-
-
-
-
-
-
-
-
   if(year<1900||year>2100)return null;
-
-
-
-
-
-
-
-
-
-  let base=new Date(1900,0,31);
-
-
-
-
-
-
-
-
-
-  let target=new Date(year,month-1,day);
-
-
-
-
-
-
-
-
-
-  let offset=daysBetween(base,target);
-
-
-
-
-
-
-
-
-
+  var base=new Date(1900,0,31);
+  var target=new Date(year,month-1,day);
+  var offset=Math.round((target-base)/86400000);
   if(offset<0)return null;
-
-
-
-
-
-
-
-
-
-  let ly,lm,ld,isLeap=false,yd;
-
-
-
-
-
-
-
-
-
+  function leapM(y){ return LD[y-1900]&0xf; }
+  function leapD(y){ if(leapM(y)){ return (LD[y-1900]&0x10000)?30:29; } return 0; }
+  function yD(y){ var i,sum=348; for(i=0x8000;i>0x8;i>>=1){ if(LD[y-1900]&i) sum++; } return sum+leapD(y); }
+  function mD(y,m){ return (LD[y-1900]&(0x10000>>m))?30:29; }
+  var ly,lm,ld,isLeap=false,yd;
   for(ly=1900;ly<2101;ly++){
-
-
-
-
-
-
-
-
-
-    yd=LD[ly-1900];let dy=0;
-
-
-
-
-
-
-
-
-
-    for(let i=0;i<12;i++)dy+=(yd&(1<<i))?30:29;
-
-
-
-
-
-
-
-
-
-    let leap=(yd>>12)&0x0F;
-
-
-
-
-
-
-
-
-
-    if(leap>0)dy+=(yd>>16)&0x01?30:29;
-
-
-
-
-
-
-
-
-
+    var dy=yD(ly);
     if(offset<dy)break;offset-=dy;
-
-
-
-
-
-
-
-
-
   }
-
-
-
-
-
-
-
-
-
   if(ly>2100)return null;
-
-
-
-
-
-
-
-
-
-  let leapM=(yd>>12)&0x0F,leapD=(yd>>16)&0x01?30:0;
-
-
-
-
-
-
-
-
-
+  var leapM2=leapM(ly),leapD2=leapD(ly);
   for(lm=1;lm<=12;lm++){
-
-
-
-
-
-
-
-
-
-    let dim=(yd&(1<<(lm-1)))?30:29;
-
-
-
-
-
-
-
-
-
+    var dim=mD(ly,lm);
     if(offset<dim)break;offset-=dim;
-
-
-
-
-
-
-
-
-
-    if(lm===leapM){if(offset<leapD){isLeap=true;break;}offset-=leapD;}
-
-
-
-
-
-
-
-
-
+    if(lm===leapM2){if(offset<leapD2){isLeap=true;break;}offset-=leapD2;}
   }
-
-
-
-
-
-
-
-
-
   if(lm>12)lm=12;
-
-
-
-
-
-
-
-
-
   ld=offset+1;
-
-
-
-
-
-
-
-
-
   return {year:ly,month:lm,day:ld,isLeap};
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
 
 function fmtLunar(l){
 
