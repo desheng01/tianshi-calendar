@@ -484,13 +484,14 @@ function searchDream(){try{
     var sc = 0;
     var combo = k.indexOf('与') >= 0 || t.indexOf('与') >= 0;
     if(k === core || t === '梦见' + core) sc = 100;
-    else if(k.indexOf(core) === 0 || t.indexOf('梦见' + core) >= 0) sc = 70;
+    else if(k.indexOf(core) === 0 || t.indexOf('梦见' + core) >= 0) sc = combo ? 25 : 70;
     else if(k.indexOf(core) >= 0 || t.indexOf(core) >= 0) sc = combo ? 10 : 40;
     else if(d.indexOf(core) >= 0) sc = 5;
     if(sc > 0) scored.push({item:item, sc:sc});
   });
   scored.sort(function(a,b){ return b.sc - a.sc; });
-  var results = scored.map(function(r){ return r.item; });
+  var strong = scored.filter(function(r){ return r.sc >= 40; });
+  var results = strong.length ? strong.slice(0, 5).map(function(r){ return r.item; }) : scored.slice(0, 3).map(function(r){ return r.item; });
 
 
 
