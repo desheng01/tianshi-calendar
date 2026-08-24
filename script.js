@@ -7032,6 +7032,22 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 
+    function updateBaziLunar(){
+      try{
+        var y=parseInt(document.getElementById('baziYear').value);
+        var m=parseInt(document.getElementById('baziMonth').value);
+        var d=parseInt(document.getElementById('baziDay').value);
+        var el=document.getElementById('baziLunar');
+        if(!el) return;
+        if(!y||!m||!d){ el.textContent='农历：—'; return; }
+        var l=g2l(y,m,d);
+        if(l){ el.textContent='农历：'+(l.isLeap?'闰':'')+LMN[l.month]+LDN[l.day]+'（'+yGz(y).t+'年）'; }
+        else { el.textContent='农历：—'; }
+      }catch(err){}
+    }
+    [document.getElementById('baziYear'),document.getElementById('baziMonth'),document.getElementById('baziDay')].forEach(function(sel){ sel.addEventListener('change', updateBaziLunar); });
+    updateBaziLunar();
+
     let genderBtns=document.querySelectorAll('.bg-opt');
 
 
