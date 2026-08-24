@@ -474,27 +474,21 @@ function searchDream(){try{
 
 
 
-  var results=DREAM_DATA.filter(function(item){
-
-
-
-
-
-
-
-
-
-    return item.t.indexOf(q)>=0||item.keyword.indexOf(q)>=0||item.d.indexOf(q)>=0;
-
-
-
-
-
-
-
-
-
+  var core = q;
+  if(core.indexOf('梦见') === 0) core = core.substring(2);
+  else if(core.indexOf('梦到') === 0) core = core.substring(2);
+  core = core.trim() || q;
+  var scored = [];
+  DREAM_DATA.forEach(function(item){
+    var k = item.keyword || '', t = item.t || '', d = item.d || '';
+    var sc = 0;
+    if(k === core || t.indexOf('梦见' + core) >= 0) sc = 30;
+    else if(k.indexOf(core) >= 0 || t.indexOf(core) >= 0) sc = 20;
+    else if(d.indexOf(core) >= 0) sc = 5;
+    if(sc > 0) scored.push({item:item, sc:sc});
   });
+  scored.sort(function(a,b){ return b.sc - a.sc; });
+  var results = scored.map(function(r){ return r.item; });
 
 
 
