@@ -14,6 +14,14 @@ const PAYPAL_API = 'https://api-m.paypal.com';
 app.use(cors());
 app.use(express.json());
 
+// Disable caching so updated JS/HTML always reach visitors
+app.use(function(req,res,next){
+  res.set('Cache-Control','no-cache, no-store, must-revalidate');
+  res.set('Pragma','no-cache');
+  res.set('Expires','0');
+  next();
+});
+
 // Redirect HTTP to HTTPS except ACME challenge path
 app.use(function(req, res, next){
   if (req.secure) return next();
