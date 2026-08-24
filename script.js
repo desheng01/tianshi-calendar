@@ -7032,21 +7032,58 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 
-    function updateBaziLunar(){
+    var calMode='solar';
+    var lunarSolar={y:1990,m:1,d:1};
+    function lunarToSolar(ly,lm,ld,isLeap){
+      for(var yy=ly-1; yy<=ly+1; yy++){
+        for(var mm=1; mm<=12; mm++){
+          var dim=new Date(yy,mm,0).getDate();
+          for(var dd=1; dd<=dim; dd++){
+            var l=g2l(yy,mm,dd);
+            if(l && l.year===ly && l.month===lm && l.day===ld && !!l.isLeap===!!isLeap) return {y:yy,m:mm,d:dd};
+          }
+        }
+      }
+      return null;
+    }
+    function updateBaziConvert(){
       try{
-        var y=parseInt(document.getElementById('baziYear').value);
-        var m=parseInt(document.getElementById('baziMonth').value);
-        var d=parseInt(document.getElementById('baziDay').value);
-        var el=document.getElementById('baziLunar');
+        var el=document.getElementById('baziConvert');
         if(!el) return;
-        if(!y||!m||!d){ el.textContent='农历：—'; return; }
-        var l=g2l(y,m,d);
-        if(l){ el.textContent='农历：'+(l.isLeap?'闰':'')+LMN[l.month]+LDN[l.day]+'（'+yGz(y).t+'年）'; }
-        else { el.textContent='农历：—'; }
+        var y=parseInt(yearSel.value),m=parseInt(monthSel.value),d=parseInt(daySel.value);
+        if(!y||!m||!d){ el.textContent='—'; return; }
+        if(calMode==='solar'){
+          var l=g2l(y,m,d);
+          el.textContent=l?('农历：'+(l.isLeap?'闰':'')+LMN[l.month]+LDN[l.day]+'（'+yGz(y).t+'年）'):'农历：—';
+        } else {
+          var sol=lunarToSolar(y,m,d,false);
+          if(sol){ lunarSolar={y:sol.y,m:sol.m,d:sol.d}; el.textContent='阳历：'+sol.y+'年'+sol.m+'月'+sol.d+'日（'+yGz(sol.y).t+'年）'; }
+          else { el.textContent='阳历：—（请检查农历日期）'; }
+        }
       }catch(err){}
     }
-    [document.getElementById('baziYear'),document.getElementById('baziMonth'),document.getElementById('baziDay')].forEach(function(sel){ sel.addEventListener('change', updateBaziLunar); });
-    updateBaziLunar();
+    function fillBaziSelects(mode){
+      var days=mode==='lunar'?30:31;
+      var yv=parseInt(yearSel.value)||1990, mv=parseInt(monthSel.value)||1, dv=parseInt(daySel.value)||1;
+      yearSel.innerHTML='';
+      for(var y=2030;y>=1900;y--){ var o=document.createElement('option'); o.value=y; o.textContent=(mode==='lunar'?'农历 ':'')+y+'年'; if(y===yv)o.selected=true; yearSel.appendChild(o); }
+      monthSel.innerHTML='';
+      for(var m=1;m<=12;m++){ var o2=document.createElement('option'); o2.value=m; o2.textContent=(mode==='lunar'?'农历 ':'')+m+'月'; if(m===mv)o2.selected=true; monthSel.appendChild(o2); }
+      daySel.innerHTML='';
+      for(var d=1;d<=days;d++){ var o3=document.createElement('option'); o3.value=d; o3.textContent=d+'日'; if(d===dv)o3.selected=true; daySel.appendChild(o3); }
+    }
+    document.querySelectorAll('.cal-opt').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('.cal-opt').forEach(function(x){ x.classList.remove('active'); x.style.background='#FBF5EC'; x.style.color='#6B4B1F'; x.style.borderColor='#D6C6A8'; });
+        this.classList.add('active'); this.style.background='#AF2020'; this.style.color='#fff'; this.style.borderColor='#AF2020';
+        calMode=this.dataset.cal;
+        fillBaziSelects(calMode);
+        updateBaziConvert();
+      });
+    });
+    [yearSel,monthSel,daySel].forEach(function(sel){ sel.addEventListener('change', updateBaziConvert); });
+    fillBaziSelects('solar');
+    updateBaziConvert();
 
     let genderBtns=document.querySelectorAll('.bg-opt');
 
@@ -7156,27 +7193,9 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
 
-      let y=parseInt(yearSel.value);
-
-
-
-
-
-
-
-
-
-      let m=parseInt(monthSel.value);
-
-
-
-
-
-
-
-
-
-      let d=parseInt(daySel.value);
+      let y,m,d;
+      if(calMode==='lunar'){ y=lunarSolar.y; m=lunarSolar.m; d=lunarSolar.d; }
+      else { y=parseInt(yearSel.value); m=parseInt(monthSel.value); d=parseInt(daySel.value); }
 
 
 
