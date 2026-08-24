@@ -482,8 +482,10 @@ function searchDream(){try{
   DREAM_DATA.forEach(function(item){
     var k = item.keyword || '', t = item.t || '', d = item.d || '';
     var sc = 0;
-    if(k === core || t.indexOf('梦见' + core) >= 0) sc = 30;
-    else if(k.indexOf(core) >= 0 || t.indexOf(core) >= 0) sc = 20;
+    var combo = k.indexOf('与') >= 0 || t.indexOf('与') >= 0;
+    if(k === core || t === '梦见' + core) sc = 100;
+    else if(k.indexOf(core) === 0 || t.indexOf('梦见' + core) >= 0) sc = 70;
+    else if(k.indexOf(core) >= 0 || t.indexOf(core) >= 0) sc = combo ? 10 : 40;
     else if(d.indexOf(core) >= 0) sc = 5;
     if(sc > 0) scored.push({item:item, sc:sc});
   });
