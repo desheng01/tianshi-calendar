@@ -533,7 +533,7 @@ function updateDreamPayBar(){
     var paid = (typeof isPaid === 'function' && isPaid()) || localStorage.getItem('js_dream_paid') === 'true';
     var bar = document.getElementById('dreamPayBar');
     if(!bar) return;
-    if(paid){ bar.innerHTML = '<span style="color:#2A7A3A;font-size:0.85rem;font-weight:600">已解锁完整解梦</span>'; }
+    if(paid){ bar.innerHTML = '<span style="color:#2A7A3A;font-size:0.85rem;font-weight:600">已解锁完整解梦</span> <a href="javascript:resetDreamUnlock()" style="font-size:0.72rem;color:#999;margin-left:0.5rem">清除本机解锁状态</a>'; }
     else { bar.innerHTML = '<button onclick="showDreamPaywall()" style="padding:0.55rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer">付费解锁完整解梦 $2.00</button>'; }
   }catch(err){}
 }
