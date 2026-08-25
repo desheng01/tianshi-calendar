@@ -538,3 +538,8 @@ function updateDreamPayBar(){
   }catch(err){}
 }
 try{ updateDreamPayBar(); }catch(err){}
+function resetDreamUnlock(){
+  try{ localStorage.removeItem('js_paid'); localStorage.removeItem('js_dream_paid'); }catch(err){}
+  try{ updateDreamPayBar(); }catch(err){}
+  try{ if(typeof searchDream === 'function'){ var q=document.getElementById('dreamSearch'); if(q && q.value) searchDream(); } }catch(err){}
+}
