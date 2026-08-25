@@ -64,6 +64,7 @@ function startPayPalFallback(amount, description){
               var _pn = ""; try{ _pn = sessionStorage.getItem("pay_name") || ""; }catch(err){}
               if(_pn.indexOf("解梦") >= 0){ localStorage.setItem("js_dream_paid", "true"); }
               localStorage.setItem("js_paid", "true");
+              try{ updateDreamPayBar(); }catch(err){}
               if(sessionStorage.getItem("name_pending")){ renderSavedNameReport(); sessionStorage.removeItem("name_pending"); }
               sessionStorage.removeItem("pay_order"); sessionStorage.removeItem("pay_amount"); sessionStorage.removeItem("pay_name");
             }catch(err){}
@@ -527,3 +528,13 @@ var _BASE_DREAMS = [{keyword:'水',t:'梦见水',d:'水主财，清澈的水象�
 
 var _VARIANTS = [{keyword:'抓鱼',t:'梦见抓鱼',d:'抓鱼预示好运将至，努力会有收获；抓到活鱼代表机遇在握。',src:'周公解梦'},{keyword:'钓鱼',t:'梦见钓鱼',d:'钓鱼象征耐心等待与把握机会。钓到大鱼预示收获丰厚；鱼儿脱钩提示机会稍纵即逝。',src:'周公解梦'},{keyword:'金鱼',t:'梦见金鱼',d:'金鱼象征富贵与观赏。金色游鱼预示生活富足；鱼缸里的金鱼代表安稳与欣赏。',src:'周公解梦'},{keyword:'锦鲤',t:'梦见锦鲤',d:'锦鲤象征好运与逆流而上。锦鲤游动预示好运连连；锦鲤跃水象征突破。',src:'周公解梦'},{keyword:'吃鱼',t:'梦见吃鱼',d:'吃鱼象征享受成果与口福。鱼肉鲜美预示收获可享；吃鱼卡刺提示小心处理事务。',src:'周公解梦'},{keyword:'买鱼',t:'梦见买鱼',d:'买鱼象征主动求财与置办。买鱼顺利预示财运可得；挑到活鱼代表好机会。',src:'周公解梦'},{keyword:'卖鱼',t:'梦见卖鱼',d:'卖鱼象征将成果变现。卖鱼顺利预示付出有回报；鱼卖不出去提示时机或方法需调整。',src:'周公解梦'},{keyword:'鱼缸',t:'梦见鱼缸',d:'鱼缸象征容器与圈定范围。缸中游鱼预示在可控范围内发展；鱼缸水浑提示注意环境。',src:'周公解梦'},{keyword:'死鱼',t:'梦见死鱼',d:'死鱼象征停滞与损失。死鱼提示近期项目或关系需留意；清理死鱼代表及时止损。',src:'周公解梦'},{keyword:'大鱼',t:'梦见大鱼',d:'大鱼象征大财与大机会。梦见大鱼预示重要机遇；大鱼挣脱提示把握需更坚决。',src:'周公解梦'},{keyword:'小鱼',t:'梦见小鱼',d:'小鱼象征小额收益与积累。小鱼成群预示细水长流；养小鱼代表耐心经营。',src:'周公解梦'},{keyword:'鱼跃龙门',t:'梦见鱼跃龙门',d:'鱼跃龙门象征事业突破与身份提升。跃过龙门预示大展宏图；跃而未过提示还需积累。',src:'周公解梦'}];
 (function(){var k={};for(var i=0;i<DREAM_DATA.length;i++){if(DREAM_DATA[i]&&DREAM_DATA[i].keyword)k[DREAM_DATA[i].keyword]=1;}for(var j=0;j<_VARIANTS.length;j++){if(!k[_VARIANTS[j].keyword]){DREAM_DATA.push(_VARIANTS[j]);k[_VARIANTS[j].keyword]=1;}}})();
+function updateDreamPayBar(){
+  try{
+    var paid = (typeof isPaid === 'function' && isPaid()) || localStorage.getItem('js_dream_paid') === 'true';
+    var bar = document.getElementById('dreamPayBar');
+    if(!bar) return;
+    if(paid){ bar.innerHTML = '<span style="color:#2A7A3A;font-size:0.85rem;font-weight:600">已解锁完整解梦</span>'; }
+    else { bar.innerHTML = '<button onclick="showDreamPaywall()" style="padding:0.55rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer">付费解锁完整解梦 $2.00</button>'; }
+  }catch(err){}
+}
+try{ updateDreamPayBar(); }catch(err){}
