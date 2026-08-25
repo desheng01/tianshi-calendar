@@ -409,7 +409,7 @@ function getDreamCategory(text){
   return "\u7efc\u5408\u53c2\u8003";
 }
 
-function searchDream(){
+function searchDreamLegacy(){
   var input = document.getElementById("dreamSearch");
   if(!input) return;
   var q = input.value.trim();
