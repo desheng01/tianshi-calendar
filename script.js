@@ -12341,6 +12341,8 @@ document.getElementById('rpContent').innerHTML=html;
 
 
 function showBaziPreview(){
+  try{ var _paid = (typeof isPaid === 'function' && isPaid()) || localStorage.getItem('js_dream_paid') === 'true'; if(_paid && typeof renderBaziDeepReportFromForm === 'function'){ renderBaziDeepReportFromForm(); return; } }catch(e){}
+
 
 
 

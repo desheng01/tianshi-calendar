@@ -65,6 +65,7 @@ function startPayPalFallback(amount, description){
               if(_pn.indexOf("解梦") >= 0){ localStorage.setItem("js_dream_paid", "true"); }
               localStorage.setItem("js_paid", "true");
               try{ updateDreamPayBar(); }catch(err){}
+              if(_pn.indexOf("八字命理") >= 0){ try{ var _dp=sessionStorage.getItem('bazi_draft'); if(_dp){ renderBaziDeepReport(JSON.parse(_dp)); } else { renderBaziDeepReportFromForm(); } }catch(err){} }
               if(sessionStorage.getItem("name_pending")){ renderSavedNameReport(); sessionStorage.removeItem("name_pending"); }
               sessionStorage.removeItem("pay_order"); sessionStorage.removeItem("pay_amount"); sessionStorage.removeItem("pay_name");
             }catch(err){}
@@ -542,4 +543,103 @@ function resetDreamUnlock(){
   try{ localStorage.removeItem('js_paid'); localStorage.removeItem('js_dream_paid'); }catch(err){}
   try{ updateDreamPayBar(); }catch(err){}
   try{ if(typeof searchDream === 'function'){ var q=document.getElementById('dreamSearch'); if(q && q.value) searchDream(); } }catch(err){}
+}
+
+function getBaziInputs(){
+  try{
+    var y=parseInt(document.getElementById('baziYear').value)||1990;
+    var m=parseInt(document.getElementById('baziMonth').value)||1;
+    var d=parseInt(document.getElementById('baziDay').value)||1;
+    var h=parseInt(document.getElementById('baziHour').value)||-1;
+    var g='M'; var act=document.querySelector('.bg-opt.active'); if(act && act.dataset.g) g=act.dataset.g;
+    return {year:y,month:m,day:d,hour:h,gender:g};
+  }catch(e){ return {year:1990,month:1,day:1,hour:-1,gender:'M'}; }
+}
+function purchaseBaziReport(){
+  try{ sessionStorage.setItem('bazi_draft', JSON.stringify(getBaziInputs())); }catch(e){}
+  if(typeof startPayment === 'function') startPayment(10,'八字命理基础');
+}
+function renderBaziDeepReportFromForm(){
+  renderBaziDeepReport(getBaziInputs());
+}
+function renderBaziDeepReport(p){
+  try{
+    var r=computeBazi(p.year, p.month, p.day, p.hour<0?12:p.hour, (p.gender==='f'||p.gender==='F')?'F':'M');
+    var dmEl=r.dayMaster.el;
+    var rel={'木':{gen:'水',give:'火',control:'土',controlled:'金'},'火':{gen:'木',give:'土',control:'金',controlled:'水'},'土':{gen:'火',give:'金',control:'水',controlled:'木'},'金':{gen:'土',give:'水',control:'木',controlled:'火'},'水':{gen:'金',give:'木',control:'火',controlled:'土'}};
+    var yin=rel[dmEl].gen, shiShang=rel[dmEl].give, cai=rel[dmEl].control, guanSha=rel[dmEl].controlled;
+    var ec=r.elemCount||{};
+    function cnt(x){ return ec[x]||0; }
+    function card(title, lines){
+      var h='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem">';
+      h+='<div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">'+title+'</div>';
+      for(var i=0;i<lines.length;i++){ h+='<div style="font-size:0.85rem;color:#555;line-height:1.9;margin-top:0.2rem">'+lines[i]+'</div>'; }
+      return h+'</div>';
+    }
+    var html='<div style="padding:1rem;background:linear-gradient(135deg,#FFF8EC,#FDEBD2);border:1.5px solid #D4A030;border-radius:12px;margin-bottom:1rem">';
+    html+='<h2 style="font-size:1.15rem;color:#AF2020;margin-bottom:0.4rem">八字深度报告</h2>';
+    html+='<div style="font-size:0.72rem;color:#999">出生：'+p.year+'年'+p.month+'月'+p.day+'日'+(p.hour>=0?' 第'+(p.hour+1)+'时辰':' 时辰未知')+' · 性别：'+(p.gender==='f'||p.gender==='F'?'女':'男')+'</div>';
+    html+='<div style="font-size:0.85rem;color:#555;margin-top:0.4rem">四柱：'+r.fourPillars.join(' ')+' · 日主：'+r.dayMaster.gan+'('+dmEl+') · 生于'+r.season+'月 · '+(r.dmStrong?'日主偏旺':'日主偏弱')+'</div>';
+    html+='</div>';
+
+    // Wealth
+    var wTxt='';
+    if(r.dmStrong && cnt(cai)>=2){ wTxt='日主有力，能担财，适合稳健求财。'; }
+    else if(r.dmStrong){ wTxt='有财可得，但需主动经营。'; }
+    else if(cnt(cai)>=2){ wTxt='财多身弱，宜先提升能力再放大投入，避免贪多。'; }
+    else { wTxt='财星不显，宜稳中求进，先积累再拓展。'; }
+    var wLines=['财星（'+cai+'）'+(cnt(cai)>0?'出现 '+cnt(cai)+' 处，':'不显，')+wTxt];
+    if(cnt(shiShang)>0) wLines.push('食伤（'+shiShang+'）较旺，宜以才华、技术、内容生财。');
+    if(cnt(yin)>0) wLines.push('印星（'+yin+'）有助稳定与靠山，适合依托平台或知识积累。');
+    if(cnt(dmEl)>=3) wLines.push('比劫偏旺，合伙与投资需谨慎，防竞争和意外支出。');
+    html+=card('财富', wLines);
+
+    // Career
+    var cTxt = (cnt(guanSha)>0) ? '事业心与责任意识较强，适合管理、平台或稳定体系。' : '更倾向技术、自由或自主经营路线。';
+    var cLines=['官杀（'+guanSha+'）'+(cnt(guanSha)>0?'出现 '+cnt(guanSha)+' 处，':'不显，')+cTxt];
+    if(cnt(yin)>0) cLines.push('印星（'+yin+'）旺，学历、证书、贵人与平台有利，宜借力发展。');
+    if(cnt(shiShang)>0) cLines.push('食伤（'+shiShang+'）旺，表达、创意、技术路线更顺，适合展现个人能力。');
+    if(cnt(dmEl)>=3) cLines.push('比劫旺，团队协作与竞争并存，宜明确分工、避免内耗。');
+    html+=card('事业', cLines);
+
+    // Emotion
+    var eLines=[];
+    var zhi='';
+    try{ zhi=r.pillars[2]?r.pillars[2].zhi:''; }catch(e2){}
+    var peach=0; ['子','午','卯','酉'].forEach(function(b){ if(r.fourPillars.join('').indexOf(b)>=0) peach++; });
+    var loveKey=(p.gender==='f'||p.gender==='F')?guanSha:cai;
+    eLines.push('夫妻宫坐'+zhi+'，'+(peach>0?'命带桃花，异性缘较明显，感情表达更主动。':'感情偏内敛，更看重长期稳定与彼此理解。'));
+    if(cnt(loveKey)>0) eLines.push('感情星（'+loveKey+'）'+(cnt(loveKey)>0?'出现 '+cnt(loveKey)+' 处，缘分机会较多，但需辨别质量。':'偏弱，缘分需要更多主动与耐心。'));
+    if(cnt(shiShang)>0) eLines.push('食伤偏旺，相处时注意表达方式，避免言语伤人。');
+    eLines.push('建议：感情以真诚沟通为先，重要关系多给彼此空间与信任。');
+    html+=card('情感', eLines);
+
+    // Health
+    var hLines=[];
+    var organ={'木':'肝胆、筋络与情绪','火':'心、小肠与睡眠','土':'脾胃、消化与气血','金':'肺、呼吸与皮肤','水':'肾、泌尿与内分泌'};
+    var minK='木', maxK='木', minV=99, maxV=-1;
+    ['金','木','水','火','土'].forEach(function(k){ if(ec[k]<minV){minV=ec[k];minK=k;} if(ec[k]>maxV){maxV=ec[k];maxK=k;} });
+    if(minV===0) hLines.push('五行缺'+minK+'，注意'+organ[minK]+'方面，宜通过作息与饮食补益。');
+    else if(minV<=1) hLines.push('五行中'+minK+'偏弱，'+organ[minK]+'需适当养护。');
+    if(maxV>=3) hLines.push('五行'+maxK+'偏旺，注意'+organ[maxK]+'的负荷，避免过劳。');
+    if(r.dmStrong) hLines.push('日主偏旺，体质较有底子，但也要防止消耗过度。');
+    else hLines.push('日主偏弱，注意规律作息与增强体质，避免透支。');
+    hLines.push('建议：顺应季节作息，均衡饮食，每年做一次常规体检。');
+    html+=card('健康', hLines);
+
+    // Annual fortune
+    var y=new Date().getFullYear();
+    var yEl=(['木','木','火','火','土','土','金','金','水','水'][((y-4)%10+10)%10])||'土';
+    var relTxt='与日主五行'+(yEl===dmEl?'同气，流年整体顺遂。':(rel[dmEl].gen===yEl?'相生，得助力，利于进展。':(rel[dmEl].control===yEl?'相克，宜稳妥，重点在管理节奏。':(rel[dmEl].controlled===yEl?'受制，注意压力与健康，宜低调蓄力。':'互动明显，机遇与变化并存。'))));
+    html+=card('大运流年', ['当前流年五行：'+yEl+'。'+relTxt+' 建议：顺势而为，重要决定留出余量，下半年可复盘调整。']);
+
+    // Advice
+    var colors={'木':'青绿、东南','火':'红紫、正南','土':'黄褐、中央','金':'白金银、正西','水':'蓝黑、正北'};
+    html+=card('调理建议', ['宜补五行：'+minK+'；对应颜色与方位参考：'+colors[minK]+'。','生活建议：早睡养肝、情绪宜疏、饮食有节、运动有恒。','择日提示：重要安排可结合黄历择吉，顺天时、尽人事。']);
+
+    html+='<div style="margin-top:1rem;padding-top:0.6rem;border-top:1px solid #E3DDD2;font-size:0.7rem;color:#999;text-align:center">吉时网 · 八字深度报告 · '+new Date().toLocaleString()+'<br/>本报告基于传统命理文化规则生成，仅供文化参考及娱乐用途。</div>';
+    document.getElementById('rpSubtitle').textContent='八字深度报告 | BaZi Deep';
+    document.getElementById('rpContent').innerHTML=html;
+    var rp=document.getElementById('reportPage'); if(rp){ rp.className='rp op'; rp.scrollIntoView({behavior:'smooth',block:'start'}); }
+  }catch(e){ alert('生成深度报告失败，请稍后重试'); }
 }
