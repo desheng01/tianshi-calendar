@@ -534,7 +534,7 @@ function updateDreamPayBar(){
     var paid = (typeof isPaid === 'function' && isPaid()) || localStorage.getItem('js_dream_paid') === 'true';
     var bar = document.getElementById('dreamPayBar');
     if(!bar) return;
-    if(paid){ bar.innerHTML = '<span style="color:#2A7A3A;font-size:0.85rem;font-weight:600">已解锁完整解梦</span> <a href="javascript:resetDreamUnlock()" style="font-size:0.72rem;color:#999;margin-left:0.5rem">清除本机解锁状态</a>'; }
+    if(paid){ bar.innerHTML = '<span style="color:#2A7A3A;font-size:0.85rem;font-weight:600">已解锁完整解梦</span> <button onclick="renderDreamDeepReportFromSearch()" style="margin-left:0.6rem;padding:0.4rem 1rem;background:#AF2020;color:#fff;border:none;border-radius:6px;font-size:0.8rem;font-weight:600;cursor:pointer">查看完整解梦报告</button> <a href="javascript:resetDreamUnlock()" style="font-size:0.72rem;color:#999;margin-left:0.5rem">清除本机解锁状态</a>'; }
     else { bar.innerHTML = '<button onclick="showDreamPaywall()" style="padding:0.55rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer">付费解锁完整解梦 $2.00</button>'; }
   }catch(err){}
 }
@@ -642,4 +642,67 @@ function renderBaziDeepReport(p){
     document.getElementById('rpContent').innerHTML=html;
     var rp=document.getElementById('reportPage'); if(rp){ rp.className='rp op'; rp.scrollIntoView({behavior:'smooth',block:'start'}); }
   }catch(e){ alert('生成深度报告失败，请稍后重试'); }
+}
+
+function renderDreamDeepReportFromSearch(){
+  var el=document.getElementById('dreamSearch');
+  var q = el ? el.value.trim() : '';
+  if(!q){ alert('请先输入梦境关键词'); return; }
+  renderDreamDeepReport(q);
+}
+function renderDreamDeepReport(q){
+  try{
+    var core=q;
+    if(core.indexOf('梦见')===0)core=core.substring(2);
+    core=core.trim()||q;
+    var scored=[];
+    DREAM_DATA.forEach(function(item){
+      var k=item.keyword||'',t=item.t||'',d=item.d||'';
+      var sc=0;
+      var combo=k.indexOf('与')>=0||t.indexOf('与')>=0;
+      if(k===core||t==='梦见'+core)sc=100;
+      else if(k.indexOf(core)===0||t.indexOf('梦见'+core)>=0)sc=combo?25:70;
+      else if(k.indexOf(core)>=0||t.indexOf(core)>=0)sc=combo?10:40;
+      else if(d.indexOf(core)>=0)sc=5;
+      if(sc>0)scored.push({item:item,sc:sc});
+    });
+    scored.sort(function(a,b){return b.sc-a.sc;});
+    var strong=scored.filter(function(r){return r.sc>=40;});
+    var list=(strong.length?strong:scored.slice(0,3)).slice(0,6);
+    var cat=getDreamCategory(q);
+    var html='<div style="padding:1rem;background:linear-gradient(135deg,#FFF8EC,#FDEBD2);border:1.5px solid #D4A030;border-radius:12px;margin-bottom:1rem">';
+    html+='<h2 style="font-size:1.15rem;color:#AF2020;margin-bottom:0.4rem">完整解梦报告</h2>';
+    html+='<div style="font-size:0.72rem;color:#999">梦境关键词：'+q+' · 主题：'+cat+' · 报告编号：JS-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).substr(2,6).toUpperCase()+' · '+new Date().toLocaleString()+'</div>';
+    html+='</div>';
+
+    html+='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem"><div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">梦境主题</div>';
+    html+='<div style="font-size:0.85rem;color:#555;line-height:1.9">本次梦境归类为：<b>'+cat+'</b>。梦象通常与近期心境、现实事务和个人处境相关，需结合具体细节综合理解。</div></div>';
+
+    html+='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem"><div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">传统象征</div>';
+    if(list.length){
+      list.forEach(function(r){
+        var it=r.item;
+        html+='<div style="font-size:0.85rem;color:#555;line-height:1.9;margin-top:0.4rem"><b>'+it.t+'</b>：'+it.d+'<div style="font-size:0.7rem;color:#999">出处：'+getDreamSource(it)+'</div></div>';
+      });
+    } else {
+      html+='<div style="font-size:0.85rem;color:#555;line-height:1.9">按传统周公解梦与周易取象思路，'+core+'所代表的象征可结合五行、物象与梦境情境共同解读。</div>';
+    }
+    html+='</div>';
+
+    var psych='';
+    if(cat.indexOf('财运')>=0)psych='潜意识中可能与财富、机会、资源或自我价值有关；梦境中的得与失，常反映现实中对安全感与成就感的关注。';
+    else if(cat.indexOf('感情')>=0)psych='可能与亲密关系、情绪表达或对陪伴的渴望有关；梦中的互动方式，常反映现实中的情感模式。';
+    else if(cat.indexOf('事业')>=0)psych='可能与压力、目标、竞争或自我期待有关；梦境中的进展与阻碍，常反映现实中的行动力与顾虑。';
+    else if(cat.indexOf('健康')>=0)psych='潜意识可能在提醒关注身体状态与休息；也可能代表近期承受的压力以象征方式呈现。';
+    else psych='潜意识可能将日常情绪、经历和关注点转化为梦境意象；建议结合近期生活事件与情绪状态理解。';
+    html+='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem"><div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">现代心理视角</div><div style="font-size:0.85rem;color:#555;line-height:1.9">'+psych+'</div></div>';
+
+    html+='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem"><div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">综合建议</div><div style="font-size:0.85rem;color:#555;line-height:1.9">近期可适当放慢节奏，整理情绪与重要事务；重要决定建议结合现实情况谨慎判断。若梦境反复出现或伴随明显困扰，可留意作息、压力与身心状态。</div></div>';
+
+    html+='<div style="margin-top:1rem;padding-top:0.6rem;border-top:1px solid #E3DDD2;font-size:0.72rem;color:#999;text-align:center">本报告仅依据周易文化及传统民俗进行文化推测与娱乐参考，不作为任何法律、医疗、财务或其他决策依据。<br/>吉时网 · 完整解梦报告 · '+new Date().toLocaleString()+'</div>';
+
+    document.getElementById('rpSubtitle').textContent='完整解梦报告 | Dream Report';
+    document.getElementById('rpContent').innerHTML=html;
+    var rp=document.getElementById('reportPage'); if(rp){ rp.className='rp op'; rp.scrollIntoView({behavior:'smooth',block:'start'}); }
+  }catch(e){ alert('生成解梦报告失败，请稍后重试'); }
 }

@@ -553,6 +553,7 @@ function searchDream(){try{
   if(!paid){
     html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">以上为部分预览，付费后显示完整梦境解读</p><button onclick="showDreamPaywall()" style="display:inline-block;padding:0.45rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600;">付费查看完整解梦 $2.00</button></div>';
   }
+  if(paid){ html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><button onclick="renderDreamDeepReportFromSearch()" style="padding:0.55rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer">生成完整解梦报告</button></div>'; }
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 
 
