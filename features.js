@@ -337,6 +337,69 @@ function getAnnualFortune(params){
 }
 
 
+var CULTURAL_NAME_CHARS = [
+  {ch:"嘉", src:"《诗经·小雅·鹿鸣》", quote:"我有嘉宾，鼓瑟吹笙。", meaning:"美善、喜庆"},
+  {ch:"淑", src:"《诗经·周南·关雎》", quote:"窈窕淑女，君子好逑。", meaning:"贤良、美好"},
+  {ch:"婉", src:"《诗经·郑风·野有蔓草》", quote:"有美一人，清扬婉兮。", meaning:"柔美、温婉"},
+  {ch:"彦", src:"《诗经·郑风·羔裘》", quote:"彼其之子，邦之彦兮。", meaning:"才俊、贤士"},
+  {ch:"昭", src:"《诗经·大雅·文王》", quote:"文王在上，於昭于天。", meaning:"光明、显扬"},
+  {ch:"熙", src:"《诗经·大雅·文王》", quote:"穆穆文王，於缉熙敬止。", meaning:"光明、兴盛"},
+  {ch:"景", src:"《诗经·小雅·车舝》", quote:"高山仰止，景行行止。", meaning:"光大、景仰"},
+  {ch:"瑶", src:"《诗经·卫风·木瓜》", quote:"投我以木桃，报之以琼瑶。", meaning:"美玉、珍贵"},
+  {ch:"琼", src:"《诗经·卫风·木瓜》", quote:"投我以木瓜，报之以琼琚。", meaning:"美玉、华美"},
+  {ch:"瑾", src:"《楚辞·九章·怀沙》", quote:"怀瑾握瑜兮，穷不知所示。", meaning:"美玉、高洁"},
+  {ch:"瑜", src:"《楚辞·九章·怀沙》", quote:"怀瑾握瑜兮，穷不知所示。", meaning:"美玉、美德"},
+  {ch:"哲", src:"《尚书·皋陶谟》", quote:"知人则哲，能官人。", meaning:"明达、智慧"},
+  {ch:"睿", src:"《尚书·洪范》", quote:"思曰睿，睿作圣。", meaning:"通达、圣明"},
+  {ch:"明", src:"《大学》", quote:"大学之道，在明明德。", meaning:"光明、智慧"},
+  {ch:"德", src:"《周易·坤卦·象传》", quote:"地势坤，君子以厚德载物。", meaning:"德行、涵养"},
+  {ch:"乾", src:"《周易·乾卦·象传》", quote:"天行健，君子以自强不息。", meaning:"刚健、进取"},
+  {ch:"谦", src:"《周易·谦卦·象传》", quote:"谦谦君子，卑以自牧也。", meaning:"谦逊、谦和"},
+  {ch:"恒", src:"《周易·序卦传》", quote:"恒者，久也。", meaning:"持久、恒常"},
+  {ch:"观", src:"《周易·贲卦·彖传》", quote:"观乎人文，以化成天下。", meaning:"洞见、格局"},
+  {ch:"升", src:"《周易·升卦·象传》", quote:"地中生木，升。君子以顺德，积小以高大。", meaning:"上升、成长"},
+  {ch:"和", src:"《中庸》", quote:"中也者，天下之大本也；和也者，天下之达道也。", meaning:"和谐、平和"},
+  {ch:"诚", src:"《中庸》", quote:"诚者，天之道也；诚之者，人之道也。", meaning:"真诚、笃实"},
+  {ch:"慎", src:"《中庸》", quote:"君子慎其独也。", meaning:"谨慎、持重"},
+  {ch:"思", src:"《论语·为政》", quote:"《诗》三百，一言以蔽之，曰：“思无邪。”", meaning:"善思、端正"}
+];
+
+function getCulturalChar(ch){
+  for(var i = 0; i < CULTURAL_NAME_CHARS.length; i++){
+    if(CULTURAL_NAME_CHARS[i].ch === ch) return CULTURAL_NAME_CHARS[i];
+  }
+  return null;
+}
+
+function culturalNameNote(chars){
+  var arr = [];
+  for(var i = 0; i < chars.length; i++){
+    var it = getCulturalChar(chars[i]);
+    if(it) arr.push('<b>' + it.ch + '</b>（' + it.src + '，原文：“' + it.quote + '”）');
+  }
+  if(!arr.length) return "";
+  return '<span style="display:block;font-size:0.75rem;color:#8A6D3B;line-height:1.7;margin-top:0.35rem"><b>文化贵气字：</b>' + arr.join('；') + '</span>';
+}
+
+function renderCulturalNameSection(){
+  var h = '<div style="margin:1rem 0 0;padding:1rem;background:linear-gradient(135deg,#FBF7EF,#F2E7D2);border:1px solid #D4A030;border-radius:12px">';
+  h += '<div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap"><b style="color:#AF2020">文化贵气字参考</b><span style="font-size:0.72rem;color:#8A6D3B">以下字词均附原文，仅作文化释义</span></div>';
+  h += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0.7rem;margin-top:0.7rem">';
+  for(var i = 0; i < CULTURAL_NAME_CHARS.length; i++){
+    var it = CULTURAL_NAME_CHARS[i];
+    h += '<div style="padding:0.7rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:10px">';
+    h += '<div style="font-size:1.3rem;font-weight:800;color:#AF2020">' + it.ch + '</div>';
+    h += '<div style="font-size:0.75rem;color:#8A6D3B;margin-top:0.25rem">' + it.src + ' · ' + it.meaning + '</div>';
+    h += '<div style="font-size:0.78rem;color:#5D4B2A;line-height:1.7;margin-top:0.35rem"><b>原文：</b>“' + it.quote + '”</div>';
+    h += '</div>';
+  }
+  h += '</div>';
+  h += '<p style="font-size:0.7rem;color:#8A6D3B;margin-top:0.6rem">说明：以上原文均引自常见传世文献，仅用于文化释义与命名参考，不构成对名字吉凶的绝对判断。</p>';
+  h += '</div>';
+  return h;
+}
+
+
 function renderNameReportFromParams(params){
   var result = buildNameCandidates(params);
   var h = '<div style="margin-bottom:1rem;padding:1rem;background:linear-gradient(135deg,#FFF8EC,#FDEBD2);border:1.5px solid #D4A030;border-radius:12px;box-shadow:0 4px 16px rgba(175,32,32,0.08)">';
@@ -377,12 +440,15 @@ function renderNameReportFromParams(params){
       var info = NAME_CHARS[chars[j].char] || {w:"", s:0};
       h += chars[j].char + '（' + (info.w || "综合") + '，' + chars[j].strokes + '画）：' + charStyleText(chars[j].char) + '；' + (getCharMeaning[chars[j].char] ? '字义：' + getCharMeaning[chars[j].char] : '字义：寓意积极、适合命名。') + '；';
     }
+    var cnote = culturalNameNote([c.c1, c.c2]);
+    if(cnote){ h += cnote; }
     h += '音形义建议：发音自然、字义积极，与姓氏组合后气韵平稳。';
     h += '发展建议：' + getElementAdvice(c.info.elem) + '；';
     h += '<br/><span style="color:#999">注：三才五格与81数理为现代姓名学参考项，不作唯一吉凶标准；以八字用神、音形义与家庭意愿为主。</span>';
     h += '</p></div>';
   }
   h += '</div>';
+  h += renderCulturalNameSection();
   
   h += getHeartLine();h += '<p style="font-size:0.72rem;color:#999;margin-top:0.8rem">* 周易起名报告基于传统文化规则生成，仅供文化参考及娱乐用途。</p>';
   document.getElementById("nameResults").innerHTML = h;
