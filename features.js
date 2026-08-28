@@ -404,10 +404,11 @@ function renderSavedNameReport(){
 
 function getDreamCategory(text){
   var t = text || "";
-  if(/[\u8d22\u94b1\u91d1\u9c7c\u6c34\u5bcc\u8d22]/.test(t)) return "\u8d22\u8fd0\u53c2\u8003";
-  if(/[\u7231\u5a5a\u604b\u60c5\u82b1\u73ab\u7470\u9e33\u9e2f]/.test(t)) return "\u611f\u60c5\u53c2\u8003";
-  if(/[\u5de5\u4f5c\u4e8b\u4e1a\u5347\u804c\u5b98\u9f99\u9a6c\u98de]/.test(t)) return "\u4e8b\u4e1a\u53c2\u8003";
-  if(/[\u75c5\u4f24\u8840\u6b7b\u9b3c\u75db]/.test(t)) return "\u5065\u5eb7\u8b66\u793a";
+  if(/[\u8d22\u94b1\u91d1\u9c7c\u6c34\u5bcc\u8d22\u94f6\u8d5a\u751f\u610f]/.test(t)) return "\u8d22\u8fd0\u53c2\u8003";
+  if(/[\u7231\u5a5a\u604b\u60c5\u82b1\u73ab\u7470\u9e33\u9e2f\u6843\u82b1\u4f34\u4fa3]/.test(t)) return "\u611f\u60c5\u53c2\u8003";
+  if(/[\u5de5\u4f5c\u4e8b\u4e1a\u5347\u804c\u5b98\u9f99\u9a6c\u98de\u8003\u8bd5\u5f00\u4f1a\u521b\u4e1a\u7b7e\u7ea6]/.test(t)) return "\u4e8b\u4e1a\u53c2\u8003";
+  if(/[\u75c5\u4f24\u8840\u6b7b\u9b3c\u75db\u533b\u4e9a\u773c\u624b\u811a]/.test(t)) return "\u5065\u5eb7\u8b66\u793a";
+  if(/[\u670b\u53cb\u540c\u4e8b\u540c\u5b66\u90bb\u5c45\u5bb6\u4eba\u7236\u6bcd\u4eb2\u621a\u964c\u751f\u4eba\u5e08]/.test(t)) return "\u4eba\u9645\u53c2\u8003";
   return "\u7efc\u5408\u53c2\u8003";
 }
 
@@ -650,6 +651,42 @@ function renderDreamDeepReportFromSearch(){
   if(!q){ alert('请先输入梦境关键词'); return; }
   renderDreamDeepReport(q);
 }
+
+function getDreamDimensions(q){
+  var core=q||'';
+  if(core.indexOf('梦见')===0)core=core.substring(2);
+  var items=DREAM_DATA.filter(function(it){ var t=(it.t||'')+(it.d||''); return t.indexOf(core)>=0; }).slice(0,8);
+  function hit(re){ var t=core+(items.length?items.map(function(x){return x.t+x.d;}).join(''):''); return re.test(t); }
+  var res=[
+    {name:'财运', level: hit(/[钱财金银鱼水富宝赚生意股票投资]/) ? '高' : '中', text:'与资源、机会、收入或安全感有关。'},
+    {name:'感情', level: hit(/[爱婚恋情怀玫瑰鸳鸯桃花伴侣情人约会]/) ? '高' : '中', text:'与亲密关系、情绪表达或陪伴渴望有关。'},
+    {name:'事业', level: hit(/[工作事业升职官龙马飞考试开会老板同事创业签约]/) ? '高' : '中', text:'与目标、压力、竞争或自我期待有关。'},
+    {name:'健康', level: hit(/[病伤血死鬼痛医牙眼手脚肚肺心肝肾]/) ? '高' : '中', text:'与身体状态、休息或近期压力有关。'},
+    {name:'人际', level: hit(/[朋友同事同学邻居家人父母亲戚陌生人老师聚会吵架]/) ? '高' : '中', text:'与社交、关系平衡或沟通方式有关。'}
+  ];
+  var low=['高','中'].indexOf(res[0].level)>=0?2:3;
+  for(var i=0;i<res.length;i++){ if(res[i].level==='高') res[i].level='高'; else if(res[i].level==='中') res[i].level='中'; else res[i].level='低'; }
+  return res;
+}
+
+
+var CLASSIC_DREAMS = {
+  '怒': ['肝气盛则梦怒', '《灵枢·淫邪发梦》'],
+  '哭': ['肺气盛则梦哭', '《灵枢·淫邪发梦》'],
+  '喜': ['心气盛则梦喜', '《灵枢·淫邪发梦》'],
+  '歌': ['脾气盛则梦歌', '《灵枢·淫邪发梦》'],
+  '腰': ['肾气盛则梦腰脊两解不属', '《灵枢·淫邪发梦》'],
+  '水': ['阴气盛则梦涉大水而恐惧', '《灵枢·淫邪发梦》'],
+  '海': ['阴气盛则梦涉大水而恐惧', '《灵枢·淫邪发梦》'],
+  '火': ['阳气盛则梦大火而燔焫', '《灵枢·淫邪发梦》'],
+  '飞': ['上盛则梦飞', '《灵枢·淫邪发梦》'],
+  '堕': ['下盛则梦堕', '《灵枢·淫邪发梦》'],
+  '掉': ['下盛则梦堕', '《灵枢·淫邪发梦》'],
+  '饿': ['甚饥则梦取', '《灵枢·淫邪发梦》'],
+  '饱': ['甚饱则梦予', '《灵枢·淫邪发梦》'],
+  '蝴蝶': ['昔者庄周梦为胡蝶，栩栩然胡蝶也', '《庄子·齐物论》']
+};
+
 function renderDreamDeepReport(q){
   try{
     var core=q;
@@ -678,6 +715,10 @@ function renderDreamDeepReport(q){
     html+='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem"><div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">梦境主题</div>';
     html+='<div style="font-size:0.85rem;color:#555;line-height:1.9">本次梦境归类为：<b>'+cat+'</b>。梦象通常与近期心境、现实事务和个人处境相关，需结合具体细节综合理解。</div></div>';
 
+    var dims=getDreamDimensions(q);
+    html+='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem"><div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">多维度参考</div>';
+    dims.forEach(function(dm){ html+='<div style="display:flex;gap:0.6rem;align-items:flex-start;padding:0.35rem 0;border-bottom:1px dashed #EAD9BE;"><span style="width:3.2rem;font-size:0.82rem;font-weight:700;color:#6B4B1F">'+dm.name+'</span><span style="width:2rem;font-size:0.75rem;color:#fff;background:'+(dm.level==='高'?'#AF2020':dm.level==='中'?'#D4A030':'#B0A898')+';border-radius:10px;text-align:center;padding:0.1rem 0">'+dm.level+'</span><span style="font-size:0.78rem;color:#777;line-height:1.6">'+dm.text+'</span></div>'; });
+    html+='</div>';
     html+='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem"><div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">传统象征</div>';
     if(list.length){
       list.forEach(function(r){
@@ -689,6 +730,13 @@ function renderDreamDeepReport(q){
     }
     html+='</div>';
 
+    var classic=[], seenC={};
+    for(var ck in CLASSIC_DREAMS){ if((core+'').indexOf(ck)>=0 && !seenC[ck]){ classic.push(CLASSIC_DREAMS[ck]); seenC[ck]=1; } }
+    if(classic.length){
+      html+='<div style="padding:1rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:12px;margin-bottom:0.8rem"><div style="font-size:1rem;font-weight:800;color:#AF2020;margin-bottom:0.5rem">古典参考</div>';
+      classic.slice(0,3).forEach(function(qt){ html+='<div style="font-size:0.85rem;color:#555;line-height:1.9;margin-top:0.4rem">「'+qt[0]+'」<span style="font-size:0.72rem;color:#999">——'+qt[1]+'</span></div>'; });
+      html+='<div style="font-size:0.7rem;color:#aaa;margin-top:0.4rem">以上仅作文化参考，不构成预测或依据。</div></div>';
+    }
     var psych='';
     if(cat.indexOf('财运')>=0)psych='潜意识中可能与财富、机会、资源或自我价值有关；梦境中的得与失，常反映现实中对安全感与成就感的关注。';
     else if(cat.indexOf('感情')>=0)psych='可能与亲密关系、情绪表达或对陪伴的渴望有关；梦中的互动方式，常反映现实中的情感模式。';
