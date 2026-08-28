@@ -543,7 +543,7 @@ function searchDream(){try{
 
   var html='';
   var paid=false;
-  try{ paid = typeof isPaid === 'function' ? isPaid() : (localStorage.getItem('js_paid') === 'true' || localStorage.getItem('js_dream_paid') === 'true'); }catch(err){}
+  try{ paid = (typeof isPaid === 'function' && isPaid()) || localStorage.getItem('js_paid') === 'true' || localStorage.getItem('js_dream_paid') === 'true'; }catch(err){}
   var preview = results.slice(0, 8);
   preview.forEach(function(item){
     var desc = item.d || '';
@@ -3918,6 +3918,8 @@ document.addEventListener('DOMContentLoaded',function(){
 
 
       document.getElementById(this.dataset.tab).classList.add('active');
+      var _rp = document.getElementById('reportPage');
+      if(_rp) _rp.className = 'rp';
 
 
 
@@ -12832,26 +12834,11 @@ function setReportCount(n){
 
 
 
+function isOwnerMode(){
+  try{ return new URLSearchParams(window.location.search).get('owner')==='1'; }catch(e){ return false; }
+}
 function isPaid(){
-
-
-
-
-
-
-
-
-
-  try{return localStorage.getItem('js_paid')==='true'}catch(e){return false}
-
-
-
-
-
-
-
-
-
+  try{ if(isOwnerMode()) return true; return localStorage.getItem('js_paid')==='true'; }catch(e){ return false; }
 }
 
 

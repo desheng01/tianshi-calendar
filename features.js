@@ -643,10 +643,10 @@ var _VARIANTS = [{keyword:'抓鱼',t:'梦见抓鱼',d:'抓鱼预示好运将至�
 (function(){var k={};for(var i=0;i<DREAM_DATA.length;i++){if(DREAM_DATA[i]&&DREAM_DATA[i].keyword)k[DREAM_DATA[i].keyword]=1;}for(var j=0;j<_VARIANTS.length;j++){if(!k[_VARIANTS[j].keyword]){DREAM_DATA.push(_VARIANTS[j]);k[_VARIANTS[j].keyword]=1;}}})();
 function updateDreamPayBar(){
   try{
-    var paid = (typeof isPaid === 'function' && isPaid()) || localStorage.getItem('js_dream_paid') === 'true';
+    var paid = (typeof isPaid === 'function' && isPaid()) || localStorage.getItem('js_dream_paid') === 'true' || (typeof isOwnerMode === 'function' && isOwnerMode());
     var bar = document.getElementById('dreamPayBar');
     if(!bar) return;
-    if(paid){ bar.innerHTML = '<span style="color:#2A7A3A;font-size:0.85rem;font-weight:600">已解锁完整解梦</span> <button onclick="renderDreamDeepReportFromSearch()" style="margin-left:0.6rem;padding:0.4rem 1rem;background:#AF2020;color:#fff;border:none;border-radius:6px;font-size:0.8rem;font-weight:600;cursor:pointer">查看完整解梦报告</button> <a href="javascript:resetDreamUnlock()" style="font-size:0.72rem;color:#999;margin-left:0.5rem">清除本机解锁状态</a>'; }
+    if(paid){ bar.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap"><span style="color:#2A7A3A;font-size:0.85rem;font-weight:600">已解锁完整解梦</span> <button onclick="renderDreamDeepReportFromSearch()" style="padding:0.4rem 1rem;background:#AF2020;color:#fff;border:none;border-radius:6px;font-size:0.8rem;font-weight:600;cursor:pointer">查看完整解梦报告</button> <button onclick="resetDreamUnlock()" style="padding:0.4rem 0.8rem;background:#fff;color:#AF2020;border:1px solid #AF2020;border-radius:6px;font-size:0.75rem;font-weight:600;cursor:pointer">清除本机解锁状态</button></div>'; }
     else { bar.innerHTML = '<button onclick="showDreamPaywall()" style="padding:0.55rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer">付费解锁完整解梦 $2.00</button>'; }
   }catch(err){}
 }
@@ -866,5 +866,4 @@ function renderDreamDeepReport(q){
   }catch(e){ alert('生成解梦报告失败，请稍后重试'); }
 }
 
-// Owner unlock: ?owner=1 unlocks all paid content on this browser
-(function(){ try{ var _p=new URLSearchParams(window.location.search); if(_p.get('owner')==='1'){ localStorage.setItem('js_paid','true'); localStorage.setItem('js_dream_paid','true'); } }catch(e){} })();
+// Owner preview is URL-only: isOwnerMode()/isPaid() reads ?owner=1 without persisting it.
