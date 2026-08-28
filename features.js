@@ -611,6 +611,14 @@ function renderNameFreePreview(result){
 }
 
 
+function resetNameUnlock(){
+  try{ localStorage.removeItem('js_paid'); localStorage.removeItem('js_dream_paid'); }catch(err){}
+  var hint = document.getElementById('nameUnlockHint');
+  if(hint){ hint.style.display = 'none'; hint.innerHTML = ''; }
+  try{ generateNames(); }catch(err){}
+}
+
+
 function generateNames(){
   var surname = document.getElementById("nSurname").value.trim();
   if(!surname){ alert("请输入姓氏"); return; }
@@ -625,6 +633,21 @@ function generateNames(){
   try{ localStorage.setItem("name_draft", JSON.stringify(params)); }catch(err){}
   var paid = false;
   try{ paid = typeof isPaid === "function" ? isPaid() : (localStorage.getItem("js_paid") === "true"); }catch(err){}
+  var hint = document.getElementById('nameUnlockHint');
+  if(hint){
+    if(paid){
+      var ownerMode = (typeof isOwnerMode === 'function' && isOwnerMode());
+      hint.style.display = 'block';
+      if(ownerMode){
+        hint.innerHTML = '当前为 owner 预览模式。把网址末尾的 ?owner=1 去掉后，即可看到付费前只显示名字的免费预览。';
+      }else{
+        hint.innerHTML = '当前浏览器已解锁完整起名报告。若想看付费前只显示名字的免费预览，请点击 <button onclick="resetNameUnlock()" style="margin-left:0.4rem;padding:0.3rem 0.7rem;background:#AF2020;color:#fff;border:none;border-radius:6px;font-size:0.72rem;font-weight:600;cursor:pointer">清除本机解锁状态</button>';
+      }
+    }else{
+      hint.style.display = 'none';
+      hint.innerHTML = '';
+    }
+  }
   if(!paid){
     var preview = buildNameCandidates(params);
     renderNameFreePreview(preview);
