@@ -140,6 +140,12 @@ var ZODIAC_ELEM = {鼠:"水",牛:"土",虎:"木",兔:"木",龙:"土",蛇:"火",�
 var ZODIAC_LIKE = {鼠:["金","水"],牛:["火","土"],虎:["水","木"],兔:["水","木"],龙:["火","土"],蛇:["木","火"],马:["木","火"],羊:["火","土"],猴:["金","水"],鸡:["金","土"],狗:["火","土"],猪:["金","水"]};
 var ZODIAC_AVOID = {鼠:["土"],牛:["木"],虎:["金"],兔:["金"],龙:["木"],蛇:["水"],马:["水"],羊:["木"],猴:["火"],鸡:["木"],狗:["木"],猪:["土"]};
 var LUCKY_STROKES = [1,3,5,7,8,11,13,15,16,17,18,21,23,24,25,29,31,32,33,35,37,39,41,45,47,48,52,57,61,63,65,67,68,81];
+var COMMON_NAME_CHAR_LIST = "安昂奥邦柏彬斌博才彩灿昌晨成诚澄驰崇川春纯淳达德东恩方芳菲芬丰风枫峰锋福刚高歌光广国海涵浩和河恒弘宏洪鸿华辉惠慧佳嘉健江杰洁捷锦进京晶精景静敬靖俊凯康珂可坤兰朗磊蕾礼丽立良亮林霖琳麟灵玲凌柳龙隆璐曼美梦明铭慕牧楠宁诺培平琪启谦强清晴庆秋然荣容瑞睿珊善韶诗书舒思松苏泰涛腾天桐婉文曦熙霞夏贤香祥翔晓欣新馨信星兴修秀旭轩学雪雅妍彦艳阳瑶耀怡艺毅英莹颖永勇优悠宇雨玉郁昱钰渊元源远悦越云韵泽展珍真振震正之知志智中忠竹卓梓祖尊鑫锐";
+var COMMON_NAME_SET = {};
+for(var _cn = 0; _cn < COMMON_NAME_CHAR_LIST.length; _cn++){
+  var _ch = COMMON_NAME_CHAR_LIST[_cn];
+  if(NAME_CHARS[_ch]) COMMON_NAME_SET[_ch] = 1;
+}
 
 function getZodiacInfo(year){
   var z = ZODIAC_LIST[((year - 4) % 12 + 12) % 12];
@@ -176,6 +182,8 @@ function getCharStrokes(ch){
 function scoreChar(ch, desired, zodiacInfo){
   var info = NAME_CHARS[ch] || {w:"", s:0};
   var score = 0;
+  if(COMMON_NAME_SET[ch]) score += 20;
+  else score -= 6;
   if(desired.indexOf(info.w) >= 0) score += 12;
   if(zodiacInfo.like.indexOf(info.w) >= 0) score += 6;
   if(zodiacInfo.avoid.indexOf(info.w) >= 0) score -= 4;
@@ -251,13 +259,26 @@ function buildNameCandidates(params){
   var dayMasterElem = '木';
   try{ if(typeof computeBazi === 'function'){ var br = computeBazi(params.year, params.month, params.day, params.hour < 0 ? 12 : params.hour, params.gender === 'f' ? 'F' : 'M'); if(br && br.dayMaster && br.dayMaster.el) dayMasterElem = br.dayMaster.el; } }catch(err){}
   var yongShen = getYongShen(dayMasterElem, params.month);
-  var chars = [];
-  for(var k in NAME_CHARS){ chars.push(k); if(chars.length >= 20000) break; }
+  var commonChars = [];
+  var fallbackChars = [];
+  for(var k in NAME_CHARS){
+    if(COMMON_NAME_SET[k]) commonChars.push(k); else fallbackChars.push(k);
+    if(commonChars.length + fallbackChars.length >= 20000) break;
+  }
+  var chars = commonChars.slice();
   chars.sort(function(){ return Math.random() - 0.5; });
   var scored = [];
   for(var i = 0; i < chars.length; i++){
     var sc = scoreChar(chars[i], desired, zodiacInfo);
     if(sc > 0) scored.push({ch:chars[i], score:sc});
+  }
+  if(scored.length < 60){
+    var fb = fallbackChars.slice();
+    fb.sort(function(){ return Math.random() - 0.5; });
+    for(var fi = 0; fi < fb.length && scored.length < 120; fi++){
+      var fsc = scoreChar(fb[fi], desired, zodiacInfo);
+      if(fsc > 0) scored.push({ch:fb[fi], score:fsc});
+    }
   }
   scored.sort(function(a,b){ return b.score - a.score; });
   var top = scored.slice(0, 60);
@@ -570,6 +591,26 @@ function appendHeartToReport(){
 })();
 
 
+function renderNameFreePreview(result){
+  var h = '<div style="margin-bottom:1rem;padding:1rem;background:linear-gradient(135deg,#FFF8EC,#FDEBD2);border:1.5px solid #D4A030;border-radius:12px;box-shadow:0 4px 16px rgba(175,32,32,0.08)">';
+  h += '<h2 style="font-size:1.1rem;color:#AF2020;margin-bottom:0.5rem">免费预览 6 个常用名</h2>';
+  h += '<p style="font-size:0.82rem;color:#555;line-height:1.8">付费后查看完整周易起名报告：12 个推荐名、八字五行、生肖宜忌、三才五格、数理与文化贵气字原文。</p>';
+  h += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.7rem;margin-top:0.7rem">';
+  var cap = Math.min(6, result.candidates.length);
+  for(var i = 0; i < cap; i++){
+    var c = result.candidates[i];
+    h += '<div style="padding:0.9rem;background:#FFFDF8;border:1px solid #E3C58A;border-radius:10px;text-align:center">';
+    h += '<div style="font-size:1.25rem;font-weight:800;color:#AF2020">' + c.name + '</div>';
+    h += '<div style="font-size:0.7rem;color:#8A6D3B;margin-top:0.3rem">常用字推荐</div>';
+    h += '</div>';
+  }
+  h += '</div>';
+  h += '<button onclick="showPaywall()" style="margin-top:1rem;width:100%;padding:0.7rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer">付费查看完整起名报告</button>';
+  h += '</div>';
+  document.getElementById("nameResults").innerHTML = h;
+}
+
+
 function generateNames(){
   var surname = document.getElementById("nSurname").value.trim();
   if(!surname){ alert("请输入姓氏"); return; }
@@ -584,7 +625,11 @@ function generateNames(){
   try{ localStorage.setItem("name_draft", JSON.stringify(params)); }catch(err){}
   var paid = false;
   try{ paid = typeof isPaid === "function" ? isPaid() : (localStorage.getItem("js_paid") === "true"); }catch(err){}
-  if(!paid){ showPaywall(); return; }
+  if(!paid){
+    var preview = buildNameCandidates(params);
+    renderNameFreePreview(preview);
+    return;
+  }
   renderNameReportFromParams(params);
 }
 
