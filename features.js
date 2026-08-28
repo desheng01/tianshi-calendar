@@ -706,3 +706,6 @@ function renderDreamDeepReport(q){
     var rp=document.getElementById('reportPage'); if(rp){ rp.className='rp op'; rp.scrollIntoView({behavior:'smooth',block:'start'}); }
   }catch(e){ alert('生成解梦报告失败，请稍后重试'); }
 }
+
+// Owner unlock: ?owner=1 unlocks all paid content on this browser
+(function(){ try{ var _p=new URLSearchParams(window.location.search); if(_p.get('owner')==='1'){ localStorage.setItem('js_paid','true'); localStorage.setItem('js_dream_paid','true'); } }catch(e){} })();
