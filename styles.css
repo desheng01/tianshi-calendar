@@ -253,7 +253,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Pin
 .pc .pc-btn-wrap{display:flex;gap:0.3rem;margin-top:auto}
 .pc .pc-btn-wrap .pc-btn{flex:1}
 .pc .pc-btn-wrap a.pc-btn{text-decoration:none;margin-left:0!important}
-@media print{.h,.tabs,.disc,.pc-btn,.rp-close{display:none!important}.rp{box-shadow:none;border:none;padding:0}.rp.op+.disc{display:none!important}}
+@page{size:A4 portrait;margin:12mm 14mm 14mm 14mm}
+@media print{
+  html,body{background:#fff!important;color:#000!important}
+  .h,.tabs,.tab-content,.disc,.print-hide,.pc-btn,.pc-btn-wrap,.rp-close,.db,.cpf,.cpf-result{display:none!important}
+  .rp{display:block!important;max-width:100%;width:auto;margin:0;padding:0;border:none;box-shadow:none;border-radius:0}
+  .rp .rp-h h1{font-size:20pt}
+  .rp .rp-h p{font-size:10pt}
+  .rp-sec h2{font-size:12pt;border-left-width:3px;padding-left:0.5rem}
+  .rp-sec p,.rp-sec table,.rp table,.rp .dr-item p{font-size:10pt;line-height:1.6}
+  .rp table td,.rp table th{padding:0.18rem 0.3rem;font-size:9.5pt}
+  .rp .dr-item{border:1px solid #ddd;border-radius:0;background:#fff;padding:0.6rem;page-break-inside:avoid}
+  .rp .rp-sec,.rp .rp-h,.rp .dr-item{page-break-inside:avoid}
+  .rp a{color:#AF2020;text-decoration:underline}
+}
 @media(max-width:640px){.pt{grid-template-columns:1fr 1fr}}
 
 
