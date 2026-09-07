@@ -507,7 +507,7 @@ function searchDream(){try{
     var seenRel = {};
     for(var ri = 0; ri < DREAM_DATA.length; ri++){
       var rk = DREAM_DATA[ri].keyword || '';
-      if(!rk || rk.indexOf('与') >= 0 || rk.length < 2 || seenRel[rk] || core.indexOf(rk) < 0) continue;
+      if(!rk || rk.indexOf('与') >= 0 || seenRel[rk] || core.indexOf(rk) < 0) continue;
       seenRel[rk] = 1;
       related.push(DREAM_DATA[ri]);
       if(related.length >= 5) break;
