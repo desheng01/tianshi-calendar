@@ -502,35 +502,23 @@ function searchDream(){try{
 
 
   if(results.length===0){
-
-
-
-
-
-
-
-
-
-    document.getElementById('dreamResults').innerHTML='<p style="color:#999;font-size:0.82rem">未找到相关梦境。</p>';
-
-
-
-
-
-
-
-
-
-    return;
-
-
-
-
-
-
-
-
-
+    var relatedNote = '';
+    var related = [];
+    var seenRel = {};
+    for(var ri = 0; ri < DREAM_DATA.length; ri++){
+      var rk = DREAM_DATA[ri].keyword || '';
+      if(!rk || rk.indexOf('与') >= 0 || rk.length < 2 || seenRel[rk] || core.indexOf(rk) < 0) continue;
+      seenRel[rk] = 1;
+      related.push(DREAM_DATA[ri]);
+      if(related.length >= 5) break;
+    }
+    if(related.length){
+      results = related;
+      relatedNote = '<div style="margin-bottom:0.6rem;padding:0.6rem;background:#FBF5EC;border:1px solid #EAD9BE;border-radius:8px;font-size:0.75rem;color:#6B4B1F">未找到与“'+q+'”完全一致的词条，已显示包含其中的常见梦象。</div>';
+    }else{
+      document.getElementById('dreamResults').innerHTML='<div style="padding:0.8rem;background:#FFF8F0;border:1px solid #EAD9BE;border-radius:8px;font-size:0.82rem;color:#6B4B1F;line-height:1.8">未找到完全一致的“'+q+'”词条。可尝试搜索更常见的梦境物象，如：水、火、蛇、亲人、考试、房子。</div>';
+      return;
+    }
   }
 
 
@@ -554,6 +542,7 @@ function searchDream(){try{
     html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><p style="font-size:0.8rem;color:#888;margin-bottom:0.5rem;">以上为部分预览，付费后显示完整梦境解读</p><button onclick="showDreamPaywall()" style="display:inline-block;padding:0.45rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:600;">付费查看完整解梦 $2.00</button></div>';
   }
   if(paid){ html+='<div style="text-align:center;margin-top:1rem;padding-top:0.8rem;border-top:1px solid #eee;"><button onclick="renderDreamDeepReportFromSearch()" style="padding:0.55rem 1.5rem;background:#AF2020;color:#fff;border:none;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer">生成完整解梦报告</button></div>'; }
+  if(relatedNote) html = relatedNote + html;
   document.getElementById('dreamResults').innerHTML=html;}catch(e){console.error('Dream search error:',e)}
 
 
